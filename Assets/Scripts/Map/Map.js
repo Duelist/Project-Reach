@@ -11,6 +11,9 @@ class Map extends MonoBehaviour
 	
 	public var tilesetPast : Texture2D;
 	public var tilesetFuture : Texture2D;
+	
+	public var startZones : Rect[];
+	public var endZones : Rect[];
 
 	function Awake()
 	{
