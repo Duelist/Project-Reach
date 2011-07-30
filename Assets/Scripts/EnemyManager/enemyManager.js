@@ -1,5 +1,5 @@
 // Stores the waypoint information for each enemy
-/*var waypointCounterArray = new Array ();
+var waypointCounterArray = new Array ();
 // Stores a list of enemy references
 var enemyArray = new Array ();
 // wayPointArray object
@@ -23,7 +23,8 @@ private function mobMovement (wayPointArray){
 	for (i = 0; i < waypointCounterArray.length; i++){
 		// i know ian said the waypoints are an area, but this will have to do for now...
 		// TODO: will have to write a comparison operation
-		if (enemyArray[i].getPosition() == waypointArray[waypointCounterArray[i]].getPosition()){
+		/*enemyArray[i].getPosition() == waypointArray[waypointCounterArray[i]].getPosition()*/
+		if (true){
 			//waypointCounterArray[i] = waypointCounterArray[i] + 1;
 			if (waypointCounterArray[i] >= waypointArray.length){
 				playerDamage();
@@ -32,7 +33,7 @@ private function mobMovement (wayPointArray){
 		else {
 			var xAdd = 0;
 			var yAdd = 0;
-			if (waypointArray[waypointCounterArray[i]].getDirection().equals("up")){
+			/*if (waypointArray[waypointCounterArray[i]].getDirection().equals("up")){
 				yAdd = -(enemyArray[i].getMoveSpeed());
 			}
 			else if (waypointArray[waypointCounterArray[i]].getDirection().equals("down")){
@@ -47,9 +48,10 @@ private function mobMovement (wayPointArray){
 			else{
 			}
 			enemyArray[i].setPosition(enemyArray[i].getPositionX + xAdd, enemyArray[i].getPositionY + yAdd);
+			*/
 		}
 	}
 }
 
 private function playerDamage(){
-}*/
+}
