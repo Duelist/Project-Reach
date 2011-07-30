@@ -1,9 +1,10 @@
-// Stores the waypoint information for each enemy
-var waypointCounterArray = new Array ();
+#pragma strict
 // Stores a list of enemy references
 var enemyArray = new Array ();
 // wayPointArray object
-var waypointArray;
+var waypointArray : Array;
+// Stores the waypoint information for each enemy
+var waypointCounterArray : int[];
 // need spawn to append an extra element to the wayPointCounterArray when an enemy is spawned
 
 function Update () {
@@ -20,10 +21,10 @@ private function mobMovement (wayPointArray){
 	// if they are at the last way point, player loses life.
 	// if they are at the waypoint, increase the waypoint counter array at i.
 	// if they are not at the waypoint, move towards the waypoint at its speed.
-	for (i = 0; i < waypointCounterArray.length; i++){
+	for (var i = 0; i < waypointCounterArray.length; i++){
 		// i know ian said the waypoints are an area, but this will have to do for now...
 		// TODO: will have to write a comparison operation
-		/*enemyArray[i].getPosition() == waypointArray[waypointCounterArray[i]].getPosition()*/
+		/*if (enemyArray[i].getPosition() == waypointArray[waypointCounterArray[i]].getPosition())*/
 		if (true){
 			//waypointCounterArray[i] = waypointCounterArray[i] + 1;
 			if (waypointCounterArray[i] >= waypointArray.length){
