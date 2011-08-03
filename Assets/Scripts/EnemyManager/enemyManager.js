@@ -7,12 +7,31 @@ var waypointArray : Array;
 var waypointCounterArray : int[];
 // need spawn to append an extra element to the wayPointCounterArray when an enemy is spawned
 
+//Spawn timers and stuff
+var spawnTimer:float = 0.0f;
+var spawnInterval:float = 5.0f;
+var numEnemies:int = 10;
+var enemiesOnDeck:int = 0;
+var numWaves:int = 3;
+var offset:Vector3;
+
+var enemy:GameObject;
+
+function start() {
+
+}
+
 function Update () {
 	spawn();
 	mobMovement(waypointArray);
 }
 
 private function spawn (){
+	if (Time.time > spawnTimer && enemiesOnDeck < numEnemies) {
+	spawnTimer = Time.time + spawnInterval;
+	Instantiate(enemy,transform.position + offset,Quaternion.identity);
+	enemiesOnDeck++;
+	}
 }
 
 // Waypoint array is a list of Waypoints that contain the position of waypoints and the direction to move.
