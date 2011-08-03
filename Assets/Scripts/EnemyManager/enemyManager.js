@@ -1,10 +1,25 @@
-// Stores the waypoint information for each enemy
-/*var waypointCounterArray = new Array ();
+#pragma strict
 // Stores a list of enemy references
 var enemyArray = new Array ();
 // wayPointArray object
-var waypointArray;
+var waypointArray : Array;
+// Stores the waypoint information for each enemy
+var waypointCounterArray : int[];
 // need spawn to append an extra element to the wayPointCounterArray when an enemy is spawned
+
+//Spawn timers and stuff
+var spawnTimer:float = 0.0f;
+var spawnInterval:float = 5.0f;
+var numEnemies:int = 10;
+var enemiesOnDeck:int = 0;
+var numWaves:int = 3;
+var offset:Vector3;
+
+var enemy:GameObject;
+
+function start() {
+
+}
 
 function Update () {
 	spawn();
@@ -12,6 +27,11 @@ function Update () {
 }
 
 private function spawn (){
+	if (Time.time > spawnTimer && enemiesOnDeck < numEnemies) {
+	spawnTimer = Time.time + spawnInterval;
+	Instantiate(enemy,transform.position + offset,Quaternion.identity);
+	enemiesOnDeck++;
+	}
 }
 
 // Waypoint array is a list of Waypoints that contain the position of waypoints and the direction to move.
@@ -20,10 +40,11 @@ private function mobMovement (wayPointArray){
 	// if they are at the last way point, player loses life.
 	// if they are at the waypoint, increase the waypoint counter array at i.
 	// if they are not at the waypoint, move towards the waypoint at its speed.
-	for (i = 0; i < waypointCounterArray.length; i++){
+	for (var i = 0; i < waypointCounterArray.length; i++){
 		// i know ian said the waypoints are an area, but this will have to do for now...
 		// TODO: will have to write a comparison operation
-		if (enemyArray[i].getPosition() == waypointArray[waypointCounterArray[i]].getPosition()){
+		/*if (enemyArray[i].getPosition() == waypointArray[waypointCounterArray[i]].getPosition())*/
+		if (true){
 			//waypointCounterArray[i] = waypointCounterArray[i] + 1;
 			if (waypointCounterArray[i] >= waypointArray.length){
 				playerDamage();
@@ -32,7 +53,7 @@ private function mobMovement (wayPointArray){
 		else {
 			var xAdd = 0;
 			var yAdd = 0;
-			if (waypointArray[waypointCounterArray[i]].getDirection().equals("up")){
+			/*if (waypointArray[waypointCounterArray[i]].getDirection().equals("up")){
 				yAdd = -(enemyArray[i].getMoveSpeed());
 			}
 			else if (waypointArray[waypointCounterArray[i]].getDirection().equals("down")){
@@ -47,9 +68,10 @@ private function mobMovement (wayPointArray){
 			else{
 			}
 			enemyArray[i].setPosition(enemyArray[i].getPositionX + xAdd, enemyArray[i].getPositionY + yAdd);
+			*/
 		}
 	}
 }
 
 private function playerDamage(){
-}*/
+}
