@@ -1,6 +1,6 @@
 #pragma strict
 	
-function Wall( xS : int, zS : int, xE : int, zE : int, ele : Array, dur : int) 
+function Wall( xS : int, zS : int, xE : int, zE : int, ele : String[], dur : int) 
 {
 
 	var xStart : int;
