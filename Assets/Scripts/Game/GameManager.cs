@@ -1,19 +1,17 @@
-#pragma strict
-class GameManager extends MonoBehaviour
+using UnityEngine;
+using System.Collections;
+
+public class GameManager : MonoBehaviour
 {
 	private enum GameState {Menu, Playing, Paused, GameOver};
-	private var gameState : GameState;
-	
-	function Awake()
-	{
-	}
-	
-	function Start()
+	private GameState gameState;
+
+	void Start ()
 	{
 		this.gameState = GameState.Menu;
 	}
 	
-	function Update()
+	void Update ()
 	{
 		/*
 			State code and state switching goes here
@@ -25,7 +23,7 @@ class GameManager extends MonoBehaviour
 		*/
 	}
 	
-	function PauseGame()
+	void PauseGame()
 	{
 		if (this.gameState == GameState.Playing)
 		{
