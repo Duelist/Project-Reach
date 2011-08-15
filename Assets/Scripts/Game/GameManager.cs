@@ -28,20 +28,17 @@ public class GameManager : MonoBehaviour
 		*/
 		
 		// When the game is started:
-		if (gameState = GameState.Playing){
+		if (gameState == GameState.Playing){
 			// Call enemy manager to do an enemy count. 
 			// enemyCount = enemyManager.countEnemy();
 			// if there are no enemies, start the next building phase.
 			if (enemyCount == 0){
 				gameState = GameState.Building;
 				// if this is the last wave, end the level.
-				if (lvl == waveLimit){
+				if (level == waveLimit){
 					gameState = GameState.GameOver;
 				}
 			}
-			// Call enemy manager to handle hp of enemies. (which includes death)
-			// Call enemy manager to handle enemyMovement.
-			enemyManager.mobMovement();
 			
 		}
 	}
@@ -58,17 +55,20 @@ public class GameManager : MonoBehaviour
 	void startBuilding (){
 		// The game goes into building phase
 		gameState = GameState.Building;
+		enemyManager.setSleep(true);
 	}
 	
 	// When the wave begins, set the wave number, spawn the monsters, 
 	// and change the gamestate to Playing.
-	void startWave (int wave, int limit){
+	void startWave (int wave){
 		waveNum = wave;
+		enemyManager.setSleep(false);
 		enemyManager.spawn();
 		gameState = GameState.Playing;
 	}
 	
 	void endGame(int lvl) {
+		enemyManager.setSleep(true);
 		//TODO: Game ending code goes here
 		gameState = GameState.GameOver;
 		// Show menu screen / Level selection screen (check level)
