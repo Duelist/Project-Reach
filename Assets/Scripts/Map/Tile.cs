@@ -8,4 +8,6 @@ public class Tile : MonoBehaviour
 	public bool pastState;
 	public bool hasSelector;
 	public bool collision;
+	public float costSoFar;
+	public float estimatedTotalCost;
 }
