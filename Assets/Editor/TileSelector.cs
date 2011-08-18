@@ -8,15 +8,13 @@ public class TileSelector : EditorWindow
 	Vector2 scrollview;
 	
 	int tileSize;
-	bool pastState;
 	Texture2D tileset;
 	Vector2 selectionPosition;
 	
-	public void Init(Texture2D selectionBox, bool pastState, Texture2D tileset, int tileSize)
+	public void Init(Texture2D selectionBox, Texture2D tileset, int tileSize)
 	{
 		this.selectionBox = selectionBox;
 		this.tileSize = tileSize;
-		this.pastState = pastState;
 		this.tileset = tileset;
 	}
 	
@@ -26,7 +24,7 @@ public class TileSelector : EditorWindow
 		
 		if (GUI.Button(new Rect(0,tileset.height,100,50),"Set Sprite"))
     	{
-      		SetTile((int) selectionPosition.x, (int) selectionPosition.y);
+      		SetTile((int)selectionPosition.x, (int)selectionPosition.y);
     	}
 		
 		Event e = Event.current;
@@ -62,8 +60,6 @@ public class TileSelector : EditorWindow
 		foreach (GameObject obj in Selection.gameObjects)
 		{
 			obj.renderer.material.mainTexture = newTexture;
-			Tile tileComp = obj.GetComponent<Tile>();
-			tileComp.pastState = this.pastState;
 		}
 	}
 }

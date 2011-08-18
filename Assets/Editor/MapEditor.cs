@@ -5,7 +5,7 @@ using System.Collections;
 [CustomEditor(typeof(Map))]
 public class MapEditor : Editor
 {
-	bool mapObjects = false;
+	bool mapTiles = false;
 	Texture2D selectionBox;
 	
 	public override void OnInspectorGUI()
@@ -14,11 +14,22 @@ public class MapEditor : Editor
 		
 		map.mapName = EditorGUILayout.TextField("Map Name", map.mapName);
 		map.mapSize = EditorGUILayout.Vector2Field("Map Size", map.mapSize);
-		map.pastState = EditorGUILayout.Toggle("Past State", map.pastState);
+		map.pastState = EditorGUILayout.Toggle("Past", map.pastState);
 		
-		mapObjects = EditorGUILayout.Foldout(mapObjects,"Map Objects");
-		if (mapObjects)
+		mapTiles = EditorGUILayout.Foldout(mapTiles,"Map Tiles");
+		if (mapTiles)
 		{
+			if (map.tiles != null)
+			{
+				foreach (Tile tile in map.tiles)
+				{
+					EditorGUILayout.BeginHorizontal();
+					EditorGUILayout.LabelField("Tile",tile.tileObject.name);
+					tile.pastState = EditorGUILayout.Toggle("Past",tile.pastState);
+					tile.collision = EditorGUILayout.Toggle("Collision",tile.collision);
+					EditorGUILayout.EndHorizontal();
+				}
+			}
 		}
 		
 		map.tileSize = EditorGUILayout.IntField("Tile Size",map.tileSize);
@@ -33,7 +44,7 @@ public class MapEditor : Editor
 			if (GUILayout.Button("Open Selector (Past)"))
 			{
 				TileSelector windowPast = (TileSelector) EditorWindow.GetWindow(typeof(TileSelector));
-				windowPast.Init(selectionBox,true,map.tilesetPast,map.tileSize);
+				windowPast.Init(selectionBox,map.tilesetPast,map.tileSize);
 			}
 		}
 		EditorGUILayout.EndVertical();
@@ -45,7 +56,7 @@ public class MapEditor : Editor
 			if (GUILayout.Button("Open Selector (Future)"))
 			{
 				TileSelector windowFuture = (TileSelector) EditorWindow.GetWindow(typeof(TileSelector));
-				windowFuture.Init(selectionBox,false,map.tilesetFuture,map.tileSize);
+				windowFuture.Init(selectionBox,map.tilesetFuture,map.tileSize);
 			}
 		}
 		EditorGUILayout.EndVertical();

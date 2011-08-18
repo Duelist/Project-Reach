@@ -8,20 +8,15 @@ public class Map : MonoBehaviour
 	public int tileSize;
 	public bool pastState;
 	
-	public GameObject[] tiles;
+	public Tile[] tiles;
 	
 	public Texture2D tilesetPast;
 	public Texture2D tilesetFuture;
 	
-	public Rect[] startZones;
-	public Rect[] endZones;
+	public ArrayList startZones;
+	public ArrayList endZones;
 	
-	void Awake ()
-	{
-		
-	}
-	
-	void Start ()
+	void Awake()
 	{
 		mapName = "Default";
 		mapSize = new Vector2(2,2);
@@ -29,52 +24,84 @@ public class Map : MonoBehaviour
 		tileSize = 32;
 		tilesetPast = null;
 		tilesetFuture = null;
-	}
-	
-	void Update ()
-	{
-	
+		tiles = new Tile[(int)mapSize.x*(int)mapSize.y];
 	}
 	
 	public void CleanUp()
 	{
-		foreach (GameObject tile in tiles)
+		if (tiles != null)
 		{
-			DestroyImmediate(tile);
+			foreach (Tile tile in tiles)
+			{
+				Debug.Log("DESTROY!");
+				DestroyImmediate(tile.tileObject);
+			}
 		}
 	}
 	
-	GameObject GetTile(int x, int y)
+	Tile GetTile(int x, int y)
 	{
 		int coord = y*(int)mapSize.x + x;
 		return tiles[coord];
 	}
 	
+	Tile GetTile(float x, float y)
+	{
+		int coord = (int)y*(int)mapSize.x + (int)x;
+		return tiles[coord];
+	}
+	
+	public ArrayList GetNeighbours(Tile curr, Tile goal)
+	{
+		ArrayList neighbours = new ArrayList();
+		
+		// Left
+		if ((curr.position.x - 1 >= 0) && (GetTile(curr.position.x - 1,curr.position.y).collision == false))
+		{
+			neighbours.Add(GetTile(curr.position.x - 1,curr.position.y));
+		}
+		
+		// Top
+		if ((curr.position.y - 1 >= 0) && (GetTile(curr.position.x,curr.position.y - 1).collision == false))
+		{
+			neighbours.Add(GetTile(curr.position.x,curr.position.y - 1));
+		}
+		
+		// Right
+		if ((curr.position.x + 1 < mapSize.x) && (GetTile(curr.position.x + 1,curr.position.y).collision == false))
+		{
+			neighbours.Add(GetTile(curr.position.x + 1,curr.position.y));
+		}
+		
+		// Bottom
+		if ((curr.position.y + 1 < mapSize.y) && (GetTile(curr.position.x,curr.position.y + 1).collision == false))
+		{
+			neighbours.Add(GetTile(curr.position.x,curr.position.y + 1));
+		}
+		
+		return neighbours;
+	}
+	
 	public void GenerateMap()
 	{
-		tiles = new GameObject[(int)mapSize.x*(int)mapSize.y];
+		tiles = new Tile[(int)mapSize.x*(int)mapSize.y];
 		
-		int count = 0;
 		for (int i = 0; i < mapSize.y; i++)
 		{
 			for (int j = 0; j < mapSize.x; j++)
 			{
-				GameObject tile = GameObject.CreatePrimitive(PrimitiveType.Cube);
-				
-				tile.name = "Tile " + (j*mapSize.x + i + 1).ToString();
-				tile.transform.parent = this.transform;
-				tile.transform.position = new Vector3(i,0,j);
-				tile.transform.localScale = this.transform.localScale;
-				
-				tile.AddComponent<Tile>();
-				Tile tileComponent = tile.GetComponent<Tile>();
-				
-				tileComponent.position.x = j;
-				tileComponent.position.x = i;
-				tileComponent.pastState = pastState;
-				
-				tiles[count] = tile;
-				count += 1;
+				Tile tile = new Tile();
+				GameObject tileObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+
+				tileObject.name = "Tile " + (j*mapSize.x + i + 1).ToString();
+				tileObject.transform.parent = this.transform;
+				tileObject.transform.position = new Vector3(i,0,j);
+				tileObject.transform.localScale = this.transform.localScale;
+
+				tile.pastState = pastState;
+				tile.tileObject = tileObject;
+
+				tiles[j*(int)mapSize.x + i] = tile;
 			}
 		}
 	}
