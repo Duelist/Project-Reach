@@ -16,10 +16,11 @@ public class EnemyManager : MonoBehaviour {
 	Vector3 offset;
 	
 	GameObject enemy;
+	private enum GameState {Building = 1, Playing, Paused, Stopped};
+	private GameState gameState;
 	
 	// Enables everything in update when this variable is set to true
 	private bool sleep;
-	
 	
 	// Use this for initialization
 	void Start () {
@@ -40,8 +41,16 @@ public class EnemyManager : MonoBehaviour {
 		}
 	}
 	
-	public void setSleep(bool s){
-		sleep = s;
+	public void Sleep(){
+		sleep = true;
+	}
+
+	public void Awake(){
+		sleep = false;
+	}
+	
+	public int getGameState (){
+		return (int) gameState;
 	}
 	
 	public void spawn (){
