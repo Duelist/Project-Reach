@@ -31,14 +31,14 @@ public class Wall : MonoBehaviour {
 		}*/
 		
 		// Physically/visually make the wall.
-		createWall(xStart, zStart, xEnd, zEnd);
+		//createWall(xStart, zStart, xEnd, zEnd);
 		
 	}
 	
 	
 	
 	// Physically/visually create a wall
-	public void createWall(int xs, int zs, int xe, int ze) {
+/*	public void createWall(int xs, int zs, int xe, int ze) {
 		int xDiff = Mathf.Abs(xs - xe);
 		int zDiff = Mathf.Abs(zs - ze);
 		
@@ -58,7 +58,7 @@ public class Wall : MonoBehaviour {
 			}
 		}
 	}
-	
+	*/
 	// Setters and getters
 	
 	// Sets the x coordinate starting position of the wall, as an int

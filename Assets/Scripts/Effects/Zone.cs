@@ -16,18 +16,6 @@ public class Zone : MonoBehaviour {
 		time = t;
 	}
 	
-	// Creates a zone for the effect.
-	public void createZone(Effect ele, int xPos, int zPos, int rows, int cols) {
-		for (int i = -1; i < rows - 1; i++) {
-			for (int j = 1; j < cols + 1; j++) {
-				// This is just for visual test purposes, will need to replace with actual ingame animation/models
-				GameObject cubex = GameObject.CreatePrimitive(PrimitiveType.Cube);
-				cubex.transform.position = new Vector3(xPos + i, 0, zPos + j);
-				cubex.transform.localScale = new Vector3(1,1,1);
-			}
-		}
-	}
-	
 	/* Setters and Getters */
 	public void setTime(string t) {
 		this.time = t;
