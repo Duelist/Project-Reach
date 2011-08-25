@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class GameManager : MonoBehaviour
+public class MainManager : MonoBehaviour
 {
 	private enum MainState {Menu, InGame, Paused, GameOver};
 	private MainState mainState;
@@ -11,11 +11,22 @@ public class GameManager : MonoBehaviour
 	private int enemyCount;
 
 	void Start (){
+		Effect eff = new Effect("fire");
+		Zone zone = new Zone(eff, 3, 3, "present");
+		Tower tower = new Tower(4, 3, zone);
+		Tower tower2 = new Tower(4,7,zone);
+		Wall wall = new Wall(tower, tower2);
+		tower.createUpperZone(eff, 4, 3 , 3, 3);
+		tower.createWall(wall);
+		
+		Debug.Log("Tower Created");
 		// The menu state of the game
 		// This is set from the beginning of the game
 		mainState = MainState.Menu;
 		//menuManager.start()
+		Debug.Log("Main Manager Start");
 		enemyManager.Sleep();
+		
 	}
 	
 	// When the menu calls the Game Manager to start:
