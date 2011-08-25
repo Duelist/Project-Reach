@@ -7,11 +7,13 @@ public class Zone : MonoBehaviour {
 	private int length;
 	// private ArrayList effectList;
 	private Effect effect;
+	private string time;
 	
-	public Zone (Effect eff, int x, int y) {
+	public Zone (Effect eff, int x, int y, string t) {
 		width  = x;
 		length = y;
 		effect = eff;
+		time = t;
 	}
 	
 	// Creates a zone for the effect.
@@ -27,12 +29,32 @@ public class Zone : MonoBehaviour {
 	}
 	
 	/* Setters and Getters */
+	public void setTime(string t) {
+		this.time = t;
+	}
+	
+	public void setEffect(Effect eff) {
+		this.effect = eff;
+	}
+	
 	public void setWidth(int w) {
 		this.width = w;
 	}
 	
 	public void setLength(int l) {
 		this.length = l;
+	}
+	
+	public Effect getEffect() {
+		return this.effect;
+	}
+	
+	public string getTime() {
+		return this.time;
+	}
+	
+	public Zone getZone() {
+		return this;
 	}
 	
 	public int getZoneWidth() {

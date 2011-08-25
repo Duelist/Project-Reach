@@ -1,25 +1,34 @@
 using UnityEngine;
-using System.Collections.Generic;
+using System.Collections;
 
 
-public class wall : MonoBehaviour {
+public class Wall : MonoBehaviour {
 	private int xStart;
 	private int zStart;
 	private int xEnd; 
 	private int zEnd;
-	private List <string> elementList = new List<string> ();
-	private Vector3 Position;
 	
-	public wall(int xs, int zs, int xe, int ze, List<string> ele) {
-		xStart = xs;
-		zStart = zs;
-		xEnd = xe;
-		zEnd = ze;
+	private ArrayList elementList;
+	private Vector3 Direction;
+	
+	private Tower towerOne;
+	private Tower towerTwo;
+	
+	public Wall(Tower One, Tower Two) {
+		towerOne = One;
+		towerTwo = Two;
 		
+		xStart = towerOne.getXPos();
+		zStart = towerOne.getZPos();
+		xEnd = towerTwo.getXPos();
+		zEnd = towerTwo.getZPos();
 		
-		if (ele != null) {
+		elementList = new ArrayList();
+		elementList.Add(towerOne.getZone().getEffect());
+		elementList.Add(towerTwo.getZone().getEffect());
+		/*if (ele != null) {
 			elementList = ele;
-		}
+		}*/
 		
 		// Physically/visually make the wall.
 		createWall(xStart, zStart, xEnd, zEnd);
@@ -95,25 +104,28 @@ public class wall : MonoBehaviour {
 	
 	// Methods for the elementList field.
 	// Returns the element list that the wall is effected by
-	public List<string> getElementList() {
-		return this.elementList;
+	public ArrayList getElementList() {
+		return elementList;
 	}
 	
 	// Adds an element to the list, must change this so it can take "effect" objects
-	public List<string> addElement(string ele) {
-		if (!this.elementList.Contains(ele)) {
-			this.elementList.Add(ele);
+	public ArrayList addEffect(Effect eff) {
+		if (!this.elementList.Contains(eff)) {
+			this.elementList.Add(eff);
 		}
 		return this.elementList;
 	}
 	
-	public List<string> removeElement(string ele) {
-		if (this.elementList.Contains(ele)) {
-			this.elementList.Remove(ele);
+	public ArrayList removeEffect(Effect eff) {
+		if (this.elementList.Contains(eff)) {
+			this.elementList.Remove(eff);
 		}
 		return this.elementList;
 	}
 	
-	
-	
+	public ArrayList changeEffect(Effect oldEffect, Effect newEffect) {
+		this.removeEffect(oldEffect);
+		this.addEffect(newEffect);
+		return this.elementList;
+	}
 }
