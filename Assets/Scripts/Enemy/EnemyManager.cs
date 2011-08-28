@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class EnemyManager : MonoBehaviour {
+public class EnemyManager{
 	// Stores a list of enemy references
 	private ArrayList enemyArray;
 	// wayPointArray object
@@ -23,7 +23,7 @@ public class EnemyManager : MonoBehaviour {
 	private bool sleep;
 	
 	// Use this for initialization
-	void Start () {
+	public EnemyManager () {
 		sleep = true;
 		enemyArray = new ArrayList ();
 		
@@ -32,10 +32,13 @@ public class EnemyManager : MonoBehaviour {
 		numEnemies = 10;
 		enemiesOnDeck = 0;
 		numWaves = 3;
+		
+		// For Testing
+		gameState = GameState.Building;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public void DrawEnemy () {
 		if (!(sleep)){
 			mobMovement();
 		}
@@ -56,7 +59,7 @@ public class EnemyManager : MonoBehaviour {
 	public void spawn (){
 		if (Time.time > spawnTimer && enemiesOnDeck < numEnemies) {
 			spawnTimer = Time.time + spawnInterval;
-			Instantiate(enemy,transform.position + offset,Quaternion.identity);
+			//Instantiate(enemy,transform.position + offset,Quaternion.identity);
 			enemiesOnDeck++;
 		}
 	}

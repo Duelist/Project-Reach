@@ -7,6 +7,7 @@ public class MainManager : MonoBehaviour
 	private MainState mainState;
 	//private MenuManager menuManager;
 	private EnemyManager enemyManager;
+	private GUIManager guiManager;
 	private Map map;
 	private int enemyCount;
 
@@ -18,14 +19,21 @@ public class MainManager : MonoBehaviour
 		Wall wall = new Wall(tower, tower2);
 		tower.createUpperZone(eff, 4, 3 , 3, 3);
 		tower.createWall(wall);
-		
 		Debug.Log("Tower Created");
+
+		
+		guiManager = new GUIManager ();
+		enemyManager = new EnemyManager();
+		
 		// The menu state of the game
 		// This is set from the beginning of the game
 		mainState = MainState.Menu;
 		//menuManager.start()
 		Debug.Log("Main Manager Start");
-		enemyManager.Sleep();
+		//enemyManager.Sleep();
+		
+		// For testing
+		mainState = MainState.InGame;
 		
 	}
 	
@@ -35,7 +43,7 @@ public class MainManager : MonoBehaviour
 		//Application.LoadLevel(levelName);
 		//TODO: make calls to enemy manager to set the level to lvl as well.
 		mainState = MainState.InGame;
-		enemyManager.Awake();
+		//enemyManager.Awake();
 	}
 	
 	void Update (){
@@ -54,8 +62,17 @@ public class MainManager : MonoBehaviour
 			if (gameState == 3){ // paused
 				PauseGame();
 			}
-			if (gameState == 4){ // stopped
+			else if (gameState == 4){ // stopped
 				EndGame();
+			}
+		}
+	}
+	
+	void OnGUI(){
+		if (mainState == MainState.InGame){
+			int gameState = enemyManager.getGameState();
+			if (gameState == 1 || gameState == 2) { // Building or Playing
+				guiManager.DrawGUI();
 			}
 		}
 	}

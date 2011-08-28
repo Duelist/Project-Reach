@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class ManaInvasion : MonoBehaviour {
+public class ManaInvasion {
 
 	public Texture invIcon;
 	public Texture manaOrb;
@@ -16,19 +16,28 @@ public class ManaInvasion : MonoBehaviour {
 	private int y;
 	
 	// Use this for initialization
-	void Start () {
-		maxMana = 100;
-		manaCount = 0;
-		invCount = 0;
+	public ManaInvasion (int mMana, int mCount, int iCount, int iSize, int w, int h, int xx, int yy) {
+		maxMana = mMana;
+		manaCount = mCount;
+		invCount = iCount;
+		iconSize = iSize;
+		width = w;
+		height = h;
+		x = xx;
+		y = yy;
 		
-		iconSize = 30;
-		width = 100;
-		height = 50;
-		x = Screen.width - width * 2 - 10;
-		y = Screen.height - 233;
+		invIcon = Resources.Load ("Inv-Icon") as Texture;
+		if (invIcon == null){
+			Debug.Log("Load invIcon failed");
+		}
+		manaOrb = Resources.Load ("Mana-Orb") as Texture;
+		if (manaOrb == null){
+			Debug.Log("Load manaOrb failed");
+		}
+		textStyle = new GUIStyle();
 	}
 	
-	void OnGUI(){
+	public void DrawGUI(){
 		manaCount = (int) Mathf.Floor(Time.time);
 		if (manaCount > maxMana){
 			manaCount = maxMana;
@@ -36,9 +45,15 @@ public class ManaInvasion : MonoBehaviour {
 		
 		invCount = (int) Mathf.Floor(Time.time/10);
 		
-		GUI.DrawTexture (new Rect (x, y, iconSize, iconSize), manaOrb);
+		
+		if (manaOrb != null){
+			GUI.DrawTexture (new Rect (x, y, iconSize, iconSize), manaOrb);
+		}
+		
 		GUI.Label (new Rect (x + iconSize, y + iconSize / 6, width, height), manaCount + " Mana", textStyle);
-		GUI.DrawTexture (new Rect (x + width, y, iconSize, iconSize), invIcon);
+		if (invIcon != null){
+			GUI.DrawTexture (new Rect (x + width, y, iconSize, iconSize), invIcon);
+		}
 		GUI.Label (new Rect (x + width + iconSize, y + iconSize / 6, width - iconSize, height), invCount + " Invasion", textStyle);
 	}
 }
