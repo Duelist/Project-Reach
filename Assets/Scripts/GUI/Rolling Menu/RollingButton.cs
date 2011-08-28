@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class RollingButton : MonoBehaviour {
+public class RollingButton{
 
+	public GUISkin emptySkin;
 	public Texture gearSkin;
 	public Texture templateSkin;
 	public GUISkin fireSkin;
@@ -45,21 +46,16 @@ public class RollingButton : MonoBehaviour {
 	private int gear2Size;
 
 	// Use this for initialization
-	void Start () {
-		infoSkin = infoSkinWind;
-		mouseInfo = false;
-		towerInfo = "none";
-		infoMsg = "";
-		animateX = 0;
-		animateSpeed = 2;
-
-		width = 100;
-		height = 90;
+	public RollingButton (int w, int h, int s) {
+		
+		width = w;
+		height = h;
+		spacing = s;
+		
 		// Note that animation time depends on the width of the info box
 		winfo = height * 2;
 		hinfo = height * 2;
-
-		spacing = 10;
+		
 		x = Screen.width-width*2-spacing*2;
 		y = Screen.height-height*2-spacing*2;
 
@@ -72,9 +68,33 @@ public class RollingButton : MonoBehaviour {
 		gear2X = x - spacing-width/4;
 		gear2Y = y + menuHeight - width/4 - spacing;
 		gear2Size = width/2;
+		
+		emptySkin = Resources.Load("GUI/Rolling Menu Textures/EmptyButonSkin") as GUISkin;
+		gearSkin = Resources.Load("GUI/Rolling Menu Textures/Gear") as Texture;
+		templateSkin = Resources.Load("GUI/Rolling Menu Textures/RollingMenuFrame") as Texture;
+		fireSkin = Resources.Load("GUI/Rolling Menu Textures/FireButtonSkin") as GUISkin;
+		fireDecal = Resources.Load("GUI/Decals/Fire-Decal") as Texture;
+		iceSkin = Resources.Load("GUI/Rolling Menu Textures/IceButtonSkin") as GUISkin;
+		iceDecal = Resources.Load("GUI/Decals/Ice-Decal") as Texture;
+		earthSkin = Resources.Load("GUI/Rolling Menu Textures/EarthButtonSkin") as GUISkin;
+		earthDecal = Resources.Load("GUI/Decals/Earth-Decal") as Texture;
+		windSkin = Resources.Load("GUI/Rolling Menu Textures/WindButtonSkin") as GUISkin;
+		windDecal = Resources.Load("GUI/Decals/Wind-Decal") as Texture;
+		infoSkinFire = Resources.Load("GUI/Rolling Menu Textures/InfoWindow_Fire") as Texture;
+		infoSkinIce = Resources.Load("GUI/Rolling Menu Textures/InfoWindow_Ice") as Texture;
+		infoSkinEarth = Resources.Load("GUI/Rolling Menu Textures/InfoWindow_Earth") as Texture;
+		infoSkinWind = Resources.Load("GUI/Rolling Menu Textures/InfoWindow_Air") as Texture;
+		infoTextStyle = new GUIStyle ();
+		
+		infoSkin = infoSkinWind;
+		mouseInfo = false;
+		towerInfo = "none";
+		infoMsg = "";
+		animateX = 0;
+		animateSpeed = 2;
 	}
 
-	void OnGUI (){
+	public void DrawGUI (){
 		if (animateX > 0){
 			if (animateX - animateSpeed < 0){
 				animateX = 0;
@@ -90,6 +110,7 @@ public class RollingButton : MonoBehaviour {
 			infoMsg = "Build "+towerInfo+" Construct! \n Cost: 5 Mana";
 			GUI.Label(new Rect(x-(winfo-animateX)+spacing,y+spacing*2,winfo-spacing*2,hinfo/2),infoMsg,infoTextStyle);
 			// Create Tower Button
+			GUI.skin = emptySkin;
 			if (GUI.Button (new Rect(x-(winfo-animateX)+spacing,y+spacing*2+hinfo/2,winfo-spacing*2,hinfo/2-spacing*3),"Create!")){
 				// Create Tower of type x here
 			}

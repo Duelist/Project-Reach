@@ -26,11 +26,11 @@ public class ManaInvasion {
 		x = xx;
 		y = yy;
 		
-		invIcon = Resources.Load ("Inv-Icon") as Texture;
+		invIcon = Resources.Load ("GUI/Mana-Invasion Icons/Inv-Icon") as Texture;
 		if (invIcon == null){
 			Debug.Log("Load invIcon failed");
 		}
-		manaOrb = Resources.Load ("Mana-Orb") as Texture;
+		manaOrb = Resources.Load ("GUI/Mana-Invasion Icons/Mana-Orb") as Texture;
 		if (manaOrb == null){
 			Debug.Log("Load manaOrb failed");
 		}

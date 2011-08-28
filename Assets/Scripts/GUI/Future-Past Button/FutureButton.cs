@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class FutureButton : MonoBehaviour {
+public class FutureButton {
 
 	public GUISkin futureSkin;
 	public Texture futureLoadSkin;
@@ -19,19 +19,23 @@ public class FutureButton : MonoBehaviour {
 	private Vector2 pivotPoint;
 	
 	// Use this for initialization
-	void Start () {
-		timeZone = "Future";
-		loadCount = 0;
+	public FutureButton (string tz, int lc, int w, int h, int lt, int xx, int yy) {
+		timeZone = tz;
+		loadCount = lc;
+		width = w;
+		height = h;
+		loadTime =lt;
+		x = xx;
+		y = yy;
 		
-		width = 300;
-		height = 120;
-		loadTime = 5;
-		x = 0;
-		y = Screen.height-height;
+		futureSkin = Resources.Load("GUI/Future-Past Button Textures/Future Button Skin") as GUISkin;
+		futureLoadSkin = Resources.Load ("GUI/Future-Past Button Textures/Future-Over") as Texture;
+		pastSkin = Resources.Load("GUI/Future-Past Button Textures/Past Button Skin") as GUISkin;
+		pastLoadSkin = Resources.Load ("GUI/Future-Past Button Textures/Past-Over") as Texture;
 	}
 	
-	// Update is called once per frame
-	void OnGUI () {
+	public void DrawGUI () {
+		bool anti = false;
 		if (timeZone == "Future"){
 			GUI.skin = futureSkin;
 			if (GUI.Button (new Rect(x,y,width,height),"")){
@@ -51,12 +55,20 @@ public class FutureButton : MonoBehaviour {
 			if (Time.time - loadCount < loadTime){
 				pivotPoint = new Vector2(x + width/2,y + height/2);
 				if (Mathf.Floor((Time.time - loadCount) % 2) == 1){
-					GUIUtility.RotateAroundPivot (5, pivotPoint); 
+					GUIUtility.RotateAroundPivot (5, pivotPoint);
+					anti = true;
 				}
 				else{
 					GUIUtility.RotateAroundPivot (-5, pivotPoint); 
+					anti = false;
 				}
 				GUI.DrawTexture(new Rect(x,y,width,height),futureLoadSkin);
+				if (anti){
+					GUIUtility.RotateAroundPivot (-5, pivotPoint); 
+				}
+				else {
+					GUIUtility.RotateAroundPivot (5, pivotPoint);
+				}
 			}
 			else {
 				timeZone = "Past";
@@ -66,12 +78,20 @@ public class FutureButton : MonoBehaviour {
 			if (Time.time - loadCount < loadTime){
 				pivotPoint = new Vector2(x + width/2,y + height/2);
 				if (Mathf.Floor((Time.time - loadCount) % 2) == 1){
-					GUIUtility.RotateAroundPivot (5, pivotPoint); 
+					GUIUtility.RotateAroundPivot (5, pivotPoint);
+					anti = true;
 				}
 				else{
-					GUIUtility.RotateAroundPivot (-5, pivotPoint); 
+					GUIUtility.RotateAroundPivot (-5, pivotPoint);
+					anti = false;
 				}
 				GUI.DrawTexture(new Rect(x, y, width, height), pastLoadSkin);
+				if (anti){
+					GUIUtility.RotateAroundPivot (-5, pivotPoint); 
+				}
+				else {
+					GUIUtility.RotateAroundPivot (5, pivotPoint);
+				}
 			}
 			else {
 				timeZone = "Future";
