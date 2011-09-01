@@ -16,15 +16,22 @@ public class EnemyManager{
 	Vector3 offset;
 	
 	GameObject enemy;
-	private enum GameState {Building = 1, Playing, Paused, Stopped};
+	private enum GameState {Building = 1, Playing = 2, Paused, Stopped};
 	private GameState gameState;
 	
-	// Enables everything in update when this variable is set to true
-	private bool sleep;
+	float animHelper;
+	float animationSpeed;
+	
+	float moveHelper;
+	int move;
+	
+	// Enemy 1: Blue Jelly
+	private Texture [] blueJellyTex;
+	private Enemy blueJelly;
+	GameObject blueJellyCube;
 	
 	// Use this for initialization
 	public EnemyManager () {
-		sleep = true;
 		enemyArray = new ArrayList ();
 		
 		spawnTimer = 0.0f;
@@ -33,23 +40,45 @@ public class EnemyManager{
 		enemiesOnDeck = 0;
 		numWaves = 3;
 		
+		animHelper = Time.time;
+		animationSpeed = 0.20f; // change texture once per (animationSpeed) second;
+		
+		moveHelper = Time.time;
+		move = 1;
+		
+		// Enemy 1: Blue Jelly Initialization
+		ArrayList imList = new ArrayList ();
+		ArrayList tZone = new ArrayList ();
+		tZone.Add("past");
+		// Texture Settings
+		int maxTex = 5;
+		blueJellyTex = new Texture [maxTex];
+		for (int i = 0; i < maxTex; i++){
+			blueJellyTex[i] = Resources.Load ("Enemy/Blue Jelly/Blue Jelly "+i) as Texture;
+		}
+		
+		// Initialization parameters:
+		// string n, int x, int z, int hp, int ms, int arm, ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT
+		blueJelly = new Enemy ("Blue Jelly", 1, 1, 10, 1, 0, imList, tZone, blueJellyTex, 50, maxTex);
+		// Using gameobjects for now, gonna have to discuss wtf is going on here.
+		blueJellyCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		blueJellyCube.transform.Rotate(0,0,180);
+		blueJellyCube.transform.position = new Vector3(blueJelly.GetPositionX(), 0, blueJelly.GetPositionZ());
+		blueJellyCube.transform.localScale = new Vector3(1f,0.01f,1f);
+		
+		
 		// For Testing
-		gameState = GameState.Building;
+		//gameState = GameState.Building;
+		gameState = GameState.Playing;
+		// gameState = GameState.Paused;
+		// gameState = GameState.Stopped;
 	}
 	
 	// Update is called once per frame
 	public void DrawEnemy () {
-		if (!(sleep)){
+		if (gameState == GameState.Playing){
 			mobMovement();
 		}
-	}
-	
-	public void Sleep(){
-		sleep = true;
-	}
-
-	public void Awake(){
-		sleep = false;
 	}
 	
 	public int getGameState (){
@@ -66,6 +95,23 @@ public class EnemyManager{
 	
 	// Waypoint array is a list of Waypoints that contain the position of waypoints and the direction to move.
 	public void mobMovement (){
+		blueJellyCube.renderer.material.mainTexture = blueJelly.GetAnimate(blueJelly.GetCurTex());
+		blueJellyCube.transform.position = new Vector3(blueJelly.GetPositionX(), 0, blueJelly.GetPositionZ());
+		if (animHelper + animationSpeed < Time.time){
+			blueJelly.IncCurTex();
+			animHelper = Time.time;
+		}
+		if (moveHelper + (1/blueJelly.GetMoveSpeed()) < Time.time){
+			blueJelly.SetPosition(blueJelly.GetPositionX() + move, blueJelly.GetPositionZ() + move);
+			moveHelper = Time.time;
+			if (blueJelly.GetPositionX() == 6){
+				move *= -1;
+			}
+			else if (blueJelly.GetPositionX() == 1){
+				move *= -1;
+			}
+		}
+		
 		// each enemy's position is compared to their next waypoint's position.
 		// if they are at the last way point, player loses life.
 		// if they are at the waypoint, increase the waypoint counter array at i.

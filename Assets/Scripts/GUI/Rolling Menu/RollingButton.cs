@@ -107,7 +107,7 @@ public class RollingButton{
 		if (mouseInfo){
 			GUI.DrawTexture(new Rect(x-(winfo-animateX),y,winfo+spacing,hinfo+spacing),infoSkin);
 			// Text Label
-			infoMsg = "Build "+towerInfo+" Construct! \n Cost: 5 Mana";
+			infoMsg = "Build "+towerInfo+" Construct! \nCost: 5 Mana";
 			GUI.Label(new Rect(x-(winfo-animateX)+spacing,y+spacing*2,winfo-spacing*2,hinfo/2),infoMsg,infoTextStyle);
 			// Create Tower Button
 			GUI.skin = emptySkin;

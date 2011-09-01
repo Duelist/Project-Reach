@@ -16,7 +16,10 @@ public class Enemy : MonoBehaviour {
 	private ArrayList timeZoneList;
 	private ArrayList debuffList;
 	
-	public Enemy (string n, int x, int z, int hp, int ms, int arm, ArrayList imList, ArrayList tZone){
+	private Texture [] animate;
+	private int eSize, maxTex, curTex;
+	
+	public Enemy (string n, int x, int z, int hp, int ms, int arm, ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT){
 		ename = n;
 		position = new Vector3 (x,0,z);
 		maxHP = hp;
@@ -41,6 +44,14 @@ public class Enemy : MonoBehaviour {
 		}
 		
 		debuffList = new ArrayList ();
+
+		animate = anim;
+		if (animate == null){
+			animate = new Texture [1];
+		}
+		eSize = s;
+		maxTex = maxT;
+		curTex = 0;
 	}
 	
 	// Getters and Setters
@@ -189,5 +200,48 @@ public class Enemy : MonoBehaviour {
 			return false;
 		}
 		return true;
+	}
+	
+	// Animation, eSize, MaxTex, and CurTex get/set
+	public Texture [] GetAnimate(){
+		return animate;
+	}
+	
+	public Texture GetAnimate(int i){
+		return animate[i];
+	}
+	
+	public void SetAnimate(Texture [] anim){
+		animate = anim;
+	}
+	
+	public int GetESize(){
+		return eSize;
+	}
+	public void SetESize(int s){
+		eSize = s;
+	}
+	
+	public int GetMaxTex(){
+		return maxTex;
+	}
+	
+	public void SetMaxTex(int maxT){
+		maxTex = maxT;
+	}
+	
+	public int GetCurTex (){
+		return curTex;
+	}
+	
+	public void setCurTex (int curT){
+		curTex = curT;
+	}
+	
+	public void IncCurTex(){
+		curTex++;
+		if (curTex == maxTex){
+			curTex = 0;
+		}
 	}
 }

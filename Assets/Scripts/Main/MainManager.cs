@@ -33,7 +33,11 @@ public class MainManager : MonoBehaviour
 		//enemyManager.Sleep();
 		
 		// For testing
+		// mainState = MainState.Menu;
 		mainState = MainState.InGame;
+		// mainState = MainState.Paused;
+		// mainState = MainState.GameOver;
+		
 		
 	}
 	
@@ -59,6 +63,9 @@ public class MainManager : MonoBehaviour
 		// When the game is started:
 		if (mainState == MainState.InGame){
 			int gameState = enemyManager.getGameState();
+			if (gameState == 1 || gameState == 2) { // Building or Playing
+				enemyManager.DrawEnemy();
+			}
 			if (gameState == 3){ // paused
 				PauseGame();
 			}
@@ -73,6 +80,7 @@ public class MainManager : MonoBehaviour
 			int gameState = enemyManager.getGameState();
 			if (gameState == 1 || gameState == 2) { // Building or Playing
 				guiManager.DrawGUI();
+				enemyManager.DrawEnemy();
 			}
 		}
 	}
@@ -90,7 +98,6 @@ public class MainManager : MonoBehaviour
 	}
 	
 	void EndGame() {
-		enemyManager.Sleep();
 		//TODO: Game ending code goes here
 		mainState = MainState.GameOver;
 		// Show menu screen / Level selection screen (check level)
