@@ -80,7 +80,7 @@ public class MainManager : MonoBehaviour
 			int gameState = enemyManager.getGameState();
 			if (gameState == 1 || gameState == 2) { // Building or Playing
 				guiManager.DrawGUI();
-				enemyManager.DrawEnemy();
+				//enemyManager.DrawEnemy();
 			}
 		}
 	}
