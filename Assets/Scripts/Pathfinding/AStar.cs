@@ -25,7 +25,7 @@ public class AStar
 				break;
 			
 			ArrayList neighbours = new ArrayList();
-			neighbours = map.GetNeighbours(currentTile, goal);
+			neighbours = map.GetNeighbours(currentTile);
 			
 			for (int n = 0; n != neighbours.Count; n++)
 			{
@@ -72,12 +72,12 @@ public class AStar
 	
 	private static float HeuristicEstimate(Tile currentTile, Tile goal, float heuristicWeight)
 	{
-		return EuclideanDistance(currentTile.position, goal.position) * heuristicWeight;
+		return EuclideanDistance(currentTile.tileObject.transform.position, goal.tileObject.transform.position) * heuristicWeight;
 	}
 	
 	private static float GetCost(Tile currentTile, Tile goal)
 	{
-		return EuclideanDistance(currentTile.position, goal.position);
+		return EuclideanDistance(currentTile.tileObject.transform.position, goal.tileObject.transform.position);
 	}
 	
 	private static ArrayList GetPath(Tile tile)

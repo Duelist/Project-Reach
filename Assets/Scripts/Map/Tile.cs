@@ -1,9 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class Tile 
+public class Tile
 {
-	public Vector2 position;
 	public bool pastState;
 	public bool hasSelector;
 	public bool collision;
@@ -20,8 +19,13 @@ public class Tile
 		tileObject = null;
 	}
 	
-	public void MakeCollision()
+	public void SetCollision(bool collision)
 	{
-		collision = true;
+		this.collision = collision;
 	}
+	
+	public bool GetCollision(){
+		return collision;
+	}
+	//public bool get
 }

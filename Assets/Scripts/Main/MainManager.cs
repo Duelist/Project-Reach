@@ -5,7 +5,7 @@ public class MainManager : MonoBehaviour
 {
 	private enum MainState {Menu, InGame, Paused, GameOver};
 	private MainState mainState;
-	//private MenuManager menuManager;
+	private MenuManager menuManager;
 	private EnemyManager enemyManager;
 	private GUIManager guiManager;
 	private Map map;
@@ -24,6 +24,7 @@ public class MainManager : MonoBehaviour
 		
 		guiManager = new GUIManager ();
 		enemyManager = new EnemyManager();
+		menuManager = new MenuManager();
 		
 		// The menu state of the game
 		// This is set from the beginning of the game
@@ -33,12 +34,18 @@ public class MainManager : MonoBehaviour
 		//enemyManager.Sleep();
 		
 		// For testing
-		// mainState = MainState.Menu;
-		mainState = MainState.InGame;
-		// mainState = MainState.Paused;
-		// mainState = MainState.GameOver;
-		
-		
+		mainState = MainState.Menu;
+		Application.LoadLevel(0);
+		map = new Map();
+		map.GenerateMap();
+		map.tiles[11].SetCollision(true);
+		Debug.Log(map.tiles[11].tileObject.transform.position);
+		Debug.Log(map.tiles[11].GetCollision());
+		ArrayList n = map.GetNeighbours(map.tiles[12]);
+		for (int i=0; i<n.Count; i++)
+		{
+			Debug.Log(((Tile)n[i]).tileObject.transform.position);
+		}
 	}
 	
 	// When the menu calls the Game Manager to start:
@@ -51,14 +58,14 @@ public class MainManager : MonoBehaviour
 	}
 	
 	void Update (){
-		/*
-			State code and state switching goes here
-			Example:
-			if (gameState == GameState.mainMenu)
+		
+		//	State code and state switching goes here
+			//Example:
+			/*if (mainState == MainState.Menu)
 			{
-				Call Menu Stuff
-			}
-		*/
+				menuManager.DrawMain();
+			}*/
+		
 		
 		// When the game is started:
 		if (mainState == MainState.InGame){
@@ -76,6 +83,10 @@ public class MainManager : MonoBehaviour
 	}
 	
 	void OnGUI(){
+		if (mainState == MainState.Menu)
+		{
+			menuManager.DrawMain();
+		}
 		if (mainState == MainState.InGame){
 			int gameState = enemyManager.getGameState();
 			if (gameState == 1 || gameState == 2) { // Building or Playing

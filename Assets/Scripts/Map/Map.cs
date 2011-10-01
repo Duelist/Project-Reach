@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Map : MonoBehaviour
+public class Map
 {
 	public string mapName;
 	public Vector2 mapSize;
@@ -16,15 +16,16 @@ public class Map : MonoBehaviour
 	public ArrayList startZones;
 	public ArrayList endZones;
 	
-	void Awake()
+	public Map()
 	{
 		mapName = "Default";
-		mapSize = new Vector2(2,2);
+		mapSize = new Vector2(10,10);
 		pastState = true;
 		tileSize = 32;
 		tilesetPast = null;
 		tilesetFuture = null;
-		tiles = new Tile[(int)mapSize.x*(int)mapSize.y];
+		//Debug.Log(tiles);
+		//tiles = new Tile[(int)mapSize.x*(int)mapSize.y];
 	}
 	
 	public void CleanUp()
@@ -34,7 +35,7 @@ public class Map : MonoBehaviour
 			foreach (Tile tile in tiles)
 			{
 				Debug.Log("DESTROY!");
-				DestroyImmediate(tile.tileObject);
+				//DestroyImmediate(tile.tileObject);
 			}
 		}
 	}
@@ -51,32 +52,32 @@ public class Map : MonoBehaviour
 		return tiles[coord];
 	}
 	
-	public ArrayList GetNeighbours(Tile curr, Tile goal)
+	public ArrayList GetNeighbours(Tile curr)
 	{
 		ArrayList neighbours = new ArrayList();
 		
 		// Left
-		if ((curr.position.x - 1 >= 0) && (GetTile(curr.position.x - 1,curr.position.y).collision == false))
+		if ((curr.tileObject.transform.position.x - 1 >= 0) && (GetTile(curr.tileObject.transform.position.x - 1,curr.tileObject.transform.position.y).collision == false))
 		{
-			neighbours.Add(GetTile(curr.position.x - 1,curr.position.y));
+			neighbours.Add(GetTile(curr.tileObject.transform.position.x - 1,curr.tileObject.transform.position.y));
 		}
 		
 		// Top
-		if ((curr.position.y - 1 >= 0) && (GetTile(curr.position.x,curr.position.y - 1).collision == false))
+		if ((curr.tileObject.transform.position.y - 1 >= 0) && (GetTile(curr.tileObject.transform.position.x,curr.tileObject.transform.position.y - 1).collision == false))
 		{
-			neighbours.Add(GetTile(curr.position.x,curr.position.y - 1));
+			neighbours.Add(GetTile(curr.tileObject.transform.position.x,curr.tileObject.transform.position.y - 1));
 		}
 		
 		// Right
-		if ((curr.position.x + 1 < mapSize.x) && (GetTile(curr.position.x + 1,curr.position.y).collision == false))
+		if ((curr.tileObject.transform.position.x + 1 < mapSize.x) && (GetTile(curr.tileObject.transform.position.x + 1,curr.tileObject.transform.position.y).collision == false))
 		{
-			neighbours.Add(GetTile(curr.position.x + 1,curr.position.y));
+			neighbours.Add(GetTile(curr.tileObject.transform.position.x + 1,curr.tileObject.transform.position.y));
 		}
 		
 		// Bottom
-		if ((curr.position.y + 1 < mapSize.y) && (GetTile(curr.position.x,curr.position.y + 1).collision == false))
+		if ((curr.tileObject.transform.position.y + 1 < mapSize.y) && (GetTile(curr.tileObject.transform.position.x,curr.tileObject.transform.position.y + 1).collision == false))
 		{
-			neighbours.Add(GetTile(curr.position.x,curr.position.y + 1));
+			neighbours.Add(GetTile(curr.tileObject.transform.position.x,curr.tileObject.transform.position.y + 1));
 		}
 		
 		return neighbours;
@@ -94,14 +95,14 @@ public class Map : MonoBehaviour
 				GameObject tileObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
 
 				tileObject.name = "Tile " + (j*mapSize.x + i + 1).ToString();
-				tileObject.transform.parent = this.transform;
 				tileObject.transform.position = new Vector3(i,0,j);
-				tileObject.transform.localScale = this.transform.localScale;
+				tileObject.transform.localScale = new Vector3(1,0,1);
 
 				tile.pastState = pastState;
 				tile.tileObject = tileObject;
 
 				tiles[j*(int)mapSize.x + i] = tile;
+				Debug.Log("Making tile at " + tileObject.transform.position);
 			}
 		}
 	}

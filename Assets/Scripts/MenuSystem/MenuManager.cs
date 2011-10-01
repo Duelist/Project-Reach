@@ -12,9 +12,7 @@ public class MenuManager {
 	//AboutMenu aboutmen;
 	//NewMenu newmenu;
 		
-	public MenuManager (string menu,bool ispaused) {
-		currmenu = menu;
-		paused = ispaused;
+	public MenuManager () {
 	}	
 	
 	public void SetPaused(bool ispaused) {

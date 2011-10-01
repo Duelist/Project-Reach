@@ -5,6 +5,7 @@ using System.Collections;
 [CustomEditor(typeof(Map))]
 public class MapEditor : Editor
 {
+	/*
 	bool mapTiles = false;
 	Texture2D selectionBox;
 	
@@ -83,4 +84,5 @@ public class MapEditor : Editor
 		if (GUI.changed)
 			EditorUtility.SetDirty(map);
 	}
+	*/
 }
