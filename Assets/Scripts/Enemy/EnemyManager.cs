@@ -31,7 +31,7 @@ public class EnemyManager{
 	GameObject blueJellyCube;
 	
 	// Use this for initialization
-	public EnemyManager () {
+	public EnemyManager (Map map) {
 		enemyArray = new ArrayList ();
 		
 		spawnTimer = 0.0f;
@@ -59,7 +59,10 @@ public class EnemyManager{
 		
 		// Initialization parameters:
 		// string n, int x, int z, int hp, int ms, int arm, ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT
-		blueJelly = new Enemy ("Blue Jelly", 1, 1, 10, 1, 0, imList, tZone, blueJellyTex, 50, maxTex);
+		int startX = 1;
+		int startZ = 0;
+		ArrayList path = AStar.Search (map.tiles[startX + (startZ*(int)map.mapSize.x)], map.tiles[98], map, 1.0f);
+		blueJelly = new Enemy ("Blue Jelly", startX, startZ, 10, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path);
 		// Using gameobjects for now, gonna have to discuss wtf is going on here.
 		blueJellyCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		blueJellyCube.transform.Rotate(0,0,180);
@@ -102,14 +105,21 @@ public class EnemyManager{
 			animHelper = Time.time;
 		}
 		if (moveHelper + (1/blueJelly.GetMoveSpeed()) < Time.time){
-			blueJelly.SetPosition(blueJelly.GetPositionX() + move, blueJelly.GetPositionZ() + move);
+			Vector3 newPosition = blueJelly.PopPath();
+			int x = (int)newPosition.x;
+			int z = (int)newPosition.z;
+			if (x != -1 && z != -1){
+				blueJelly.SetPosition(x, z);
+			}
+			else{
+			}
 			moveHelper = Time.time;
-			if (blueJelly.GetPositionX() == 6){
+			/*if (blueJelly.GetPositionX() == 6){
 				move *= -1;
 			}
 			else if (blueJelly.GetPositionX() == 1){
 				move *= -1;
-			}
+			}*/
 		}
 		
 		// each enemy's position is compared to their next waypoint's position.

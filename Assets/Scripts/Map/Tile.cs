@@ -1,7 +1,8 @@
 using UnityEngine;
+using System;
 using System.Collections;
 
-public class Tile
+public class Tile : IComparable
 {
 	public bool pastState;
 	public bool hasSelector;
@@ -26,6 +27,21 @@ public class Tile
 	
 	public bool GetCollision(){
 		return collision;
+	}
+	
+	public void SetTexture(Texture tex){
+		tileObject.renderer.material.mainTexture = tex;
+	}
+	
+	public Texture GetTexture(){
+		return tileObject.renderer.material.mainTexture;
+	}
+
+	public int CompareTo(object other)
+	{
+		if (this.estimatedTotalCost < ((Tile) other).estimatedTotalCost) return -1;
+		else if (this.estimatedTotalCost > ((Tile) other).estimatedTotalCost) return 1;
+		else return 0;
 	}
 	//public bool get
 }

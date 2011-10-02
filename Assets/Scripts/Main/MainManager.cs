@@ -12,19 +12,9 @@ public class MainManager : MonoBehaviour
 	private int enemyCount;
 
 	void Start (){
-		Effect eff = new Effect("fire");
-		Zone zone = new Zone(eff, 3, 3, "present");
-		Tower tower = new Tower(4, 3, zone);
-		Tower tower2 = new Tower(4,7,zone);
-		Wall wall = new Wall(tower, tower2);
-		tower.createUpperZone(eff, 4, 3 , 3, 3);
-		tower.createWall(wall);
-		Debug.Log("Tower Created");
-
-		
-		guiManager = new GUIManager ();
+		/*guiManager = new GUIManager ();
 		enemyManager = new EnemyManager();
-		menuManager = new MenuManager();
+		menuManager = new MenuManager();*/
 		
 		// The menu state of the game
 		// This is set from the beginning of the game
@@ -33,11 +23,24 @@ public class MainManager : MonoBehaviour
 		Debug.Log("Main Manager Start");
 		//enemyManager.Sleep();
 		
-		// For testing
-		mainState = MainState.Menu;
-		Application.LoadLevel(0);
+		// ---------------------- For Testing Purposes ------------------------//
+		//mainState = MainState.Menu;
+		mainState = MainState.InGame;
+		//mainState = MainState.Paused;
+		//mainState = MainState.GameOver;
+		
 		map = new Map();
-		map.GenerateMap();
+		map.GenerateLevel1();
+		/*Debug.Log("Start :"+map.tiles[1].tileObject.transform.position + "Goal :"+map.tiles[98].tileObject.transform.position);
+		Debug.Log(map.GetNeighbours(map.tiles[65]).Count);
+		ArrayList path = AStar.Search (map.tiles[1], map.tiles[98], map, 1.0f);
+		*/
+		
+		guiManager = new GUIManager ();
+		enemyManager = new EnemyManager(map);
+		menuManager = new MenuManager();
+		//Debug.Log(map.tiles[11].GetTexture());
+		/*
 		map.tiles[11].SetCollision(true);
 		Debug.Log(map.tiles[11].tileObject.transform.position);
 		Debug.Log(map.tiles[11].GetCollision());
@@ -45,7 +48,16 @@ public class MainManager : MonoBehaviour
 		for (int i=0; i<n.Count; i++)
 		{
 			Debug.Log(((Tile)n[i]).tileObject.transform.position);
-		}
+		}*/
+		
+		/*Effect eff = new Effect("fire");
+		Zone zone = new Zone(eff, 3, 3, "present");
+		Tower tower = new Tower(4, 3, zone);
+		Tower tower2 = new Tower(4,7,zone);
+		Wall wall = new Wall(tower, tower2);
+		tower.createUpperZone(eff, 4, 3 , 3, 3);
+		tower.createWall(wall);
+		Debug.Log("Tower Created");*/
 	}
 	
 	// When the menu calls the Game Manager to start:
@@ -68,7 +80,7 @@ public class MainManager : MonoBehaviour
 		
 		
 		// When the game is started:
-		if (mainState == MainState.InGame){
+		/*if (mainState == MainState.InGame){
 			int gameState = enemyManager.getGameState();
 			if (gameState == 1 || gameState == 2) { // Building or Playing
 				enemyManager.DrawEnemy();
@@ -79,7 +91,7 @@ public class MainManager : MonoBehaviour
 			else if (gameState == 4){ // stopped
 				EndGame();
 			}
-		}
+		}*/
 	}
 	
 	void OnGUI(){
@@ -91,7 +103,7 @@ public class MainManager : MonoBehaviour
 			int gameState = enemyManager.getGameState();
 			if (gameState == 1 || gameState == 2) { // Building or Playing
 				guiManager.DrawGUI();
-				//enemyManager.DrawEnemy();
+				enemyManager.DrawEnemy();
 			}
 		}
 	}

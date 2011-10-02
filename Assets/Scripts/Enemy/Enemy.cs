@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Enemy : MonoBehaviour {
+public class Enemy{
 	
 	private string ename;
 	private Vector3 position;
@@ -19,7 +19,9 @@ public class Enemy : MonoBehaviour {
 	private Texture [] animate;
 	private int eSize, maxTex, curTex;
 	
-	public Enemy (string n, int x, int z, int hp, int ms, int arm, ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT){
+	private ArrayList path;
+	
+	public Enemy (string n, int x, int z, int hp, int ms, int arm, ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList pa){
 		ename = n;
 		position = new Vector3 (x,0,z);
 		maxHP = hp;
@@ -52,6 +54,8 @@ public class Enemy : MonoBehaviour {
 		eSize = s;
 		maxTex = maxT;
 		curTex = 0;
+		
+		path = pa;
 	}
 	
 	// Getters and Setters
@@ -243,5 +247,14 @@ public class Enemy : MonoBehaviour {
 		if (curTex == maxTex){
 			curTex = 0;
 		}
+	}
+	
+	public Vector3 PopPath() {
+		if (path != null && path.Count > 0){
+			Vector3 head = ((Tile)path[0]).tileObject.transform.position;
+			path.RemoveAt(0);
+			return head;
+		}
+		return new Vector3 (-1,-1,-1);
 	}
 }

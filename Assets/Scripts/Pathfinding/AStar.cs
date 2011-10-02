@@ -12,62 +12,40 @@ public class AStar
 		open.Push(start);
 		start.costSoFar = 0;
 		start.estimatedTotalCost = HeuristicEstimate(start,goal,heuristicWeight);
-		
 		closed = new PriorityQueue();
 		
 		Tile currentTile = null;
 		
+		
 		while (open.GetLength() != 0)
 		{
 			currentTile = open.Front();
-			
 			if (currentTile == goal)
-				break;
+				return GetPath(currentTile);
 			
-			ArrayList neighbours = new ArrayList();
-			neighbours = map.GetNeighbours(currentTile);
-			
-			for (int n = 0; n != neighbours.Count; n++)
+			open.Remove(currentTile);
+			closed.Push(currentTile);
+			ArrayList neighbours = map.GetNeighbours(currentTile);
+			for (int i = 0; i < neighbours.Count; i++)
 			{
-				Tile endTile = (Tile) neighbours[n];
-				float incCost = GetCost(currentTile, endTile);
-				float endTileCost = currentTile.costSoFar + incCost;
-				
+				Tile endTile = (Tile) neighbours[i];
 				if (closed.Contains(endTile))
-				{
-					if (endTile.costSoFar <= endTileCost)
-						continue;
-					
-					closed.Remove(endTile);
-				}
-				else if(open.Contains(endTile))
-				{
-					if(endTile.costSoFar <= endTileCost)
-						continue;
-				}
+					continue;
+				
+				float endTileCost = endTile.costSoFar + GetCost(currentTile, endTile);
+				
+				if (!open.Contains(endTile))
+					open.Push(endTile);
+				else if (endTileCost >= endTile.costSoFar)
+					continue;
 				
 				float endTileHeuristic = HeuristicEstimate(endTile, goal, heuristicWeight);
 				endTile.costSoFar = endTileCost;
 				endTile.parentTile = currentTile;
 				endTile.estimatedTotalCost = endTileCost + endTileHeuristic;
-				
-				if (!open.Contains(endTile))
-				{
-					open.Push(endTile);
-				}
 			}
-			
-			closed.Push(currentTile);
-			open.Remove(currentTile);
 		}
-		if (!currentTile.Equals(goal))
-		{
-			return new ArrayList();
-		}
-		else
-		{
-			return GetPath(currentTile);
-		}
+		return new ArrayList();
 	}
 	
 	private static float HeuristicEstimate(Tile currentTile, Tile goal, float heuristicWeight)

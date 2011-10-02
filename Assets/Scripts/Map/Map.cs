@@ -57,28 +57,29 @@ public class Map
 		ArrayList neighbours = new ArrayList();
 		
 		// Left
-		if ((curr.tileObject.transform.position.x - 1 >= 0) && (GetTile(curr.tileObject.transform.position.x - 1,curr.tileObject.transform.position.y).collision == false))
+		if ((curr.tileObject.transform.position.x - 1 >= 0) && (GetTile(curr.tileObject.transform.position.x - 1,curr.tileObject.transform.position.z).collision == false))
 		{
-			neighbours.Add(GetTile(curr.tileObject.transform.position.x - 1,curr.tileObject.transform.position.y));
-		}
-		
-		// Top
-		if ((curr.tileObject.transform.position.y - 1 >= 0) && (GetTile(curr.tileObject.transform.position.x,curr.tileObject.transform.position.y - 1).collision == false))
-		{
-			neighbours.Add(GetTile(curr.tileObject.transform.position.x,curr.tileObject.transform.position.y - 1));
-		}
-		
-		// Right
-		if ((curr.tileObject.transform.position.x + 1 < mapSize.x) && (GetTile(curr.tileObject.transform.position.x + 1,curr.tileObject.transform.position.y).collision == false))
-		{
-			neighbours.Add(GetTile(curr.tileObject.transform.position.x + 1,curr.tileObject.transform.position.y));
+			neighbours.Add(GetTile(curr.tileObject.transform.position.x - 1,curr.tileObject.transform.position.z));
 		}
 		
 		// Bottom
-		if ((curr.tileObject.transform.position.y + 1 < mapSize.y) && (GetTile(curr.tileObject.transform.position.x,curr.tileObject.transform.position.y + 1).collision == false))
+		if ((curr.tileObject.transform.position.z - 1 >= 0) && (GetTile(curr.tileObject.transform.position.x,curr.tileObject.transform.position.z - 1).collision == false))
 		{
-			neighbours.Add(GetTile(curr.tileObject.transform.position.x,curr.tileObject.transform.position.y + 1));
+			neighbours.Add(GetTile(curr.tileObject.transform.position.x,curr.tileObject.transform.position.z - 1));
 		}
+		
+		// Right
+		if ((curr.tileObject.transform.position.x + 1 < mapSize.x) && (GetTile(curr.tileObject.transform.position.x + 1,curr.tileObject.transform.position.z).collision == false))
+		{
+			neighbours.Add(GetTile(curr.tileObject.transform.position.x + 1,curr.tileObject.transform.position.z));
+		}
+		
+		// Top
+		if ((curr.tileObject.transform.position.z + 1 < mapSize.y) && (GetTile(curr.tileObject.transform.position.x,curr.tileObject.transform.position.z + 1).collision == false))
+		{
+			neighbours.Add(GetTile(curr.tileObject.transform.position.x,curr.tileObject.transform.position.z + 1));
+		}
+
 		
 		return neighbours;
 	}
@@ -102,7 +103,60 @@ public class Map
 				tile.tileObject = tileObject;
 
 				tiles[j*(int)mapSize.x + i] = tile;
-				Debug.Log("Making tile at " + tileObject.transform.position);
+				//Debug.Log("Making tile at " + tileObject.transform.position);
+			}
+		}
+	}
+	
+	// Test function -jtai
+	public void GenerateLevel1(){
+		GenerateMap();
+		
+		// ---------------------- Setting Collisions ------------------------- //
+		// 4 walls surrounding the map
+		for (int i=0; i < 10; i++){
+			tiles[i].SetCollision(true);
+		}
+		for (int i=0; i < 10; i++){
+			tiles[i*10].SetCollision(true);
+		}
+		for (int i=0; i < 10; i++){
+			tiles[9+(i*10)].SetCollision(true);
+		}
+		for (int i=0; i < 10; i++){
+			tiles[90+(i)].SetCollision(true);
+		}
+		
+		// 2 inner walls
+		for (int i = 0; i < 7; i++){
+			tiles[3+(i*10)].SetCollision(true);
+		}
+		for (int i = 0; i < 7; i++){
+			tiles[96-(i * 10)].SetCollision(true);
+		}
+		
+		// Openings
+		tiles [1].SetCollision(false);
+		tiles [2].SetCollision(false);
+		tiles [97].SetCollision(false);
+		tiles [98].SetCollision(false);
+		
+		GenerateTestTextures(tiles);
+	}// Test Map Class
+	
+	private void GenerateTestTextures(Tile[] tiles){
+		// ---------------------- Setting Textures ------------------------- //
+		Texture collisionTex = Resources.Load ("GUI/Rolling Menu Textures/Gear") as Texture;
+		Texture pathTex = Resources.Load ("GUI/Rolling Menu Textures/IceButton") as Texture;
+		
+		for (int i = 0; i < 100; i++){
+			if (tiles[i].GetCollision()){
+				// Collision Texture
+				tiles[i].SetTexture(collisionTex);
+			}
+			else {
+				// Path Texture
+				tiles[i].SetTexture(pathTex);
 			}
 		}
 	}
