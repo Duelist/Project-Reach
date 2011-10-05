@@ -55,31 +55,29 @@ public class Map
 	public ArrayList GetNeighbours(Tile curr)
 	{
 		ArrayList neighbours = new ArrayList();
+		float x = curr.tileObject.transform.position.x;
+		float y = curr.tileObject.transform.position.z;
 		
 		// Left
-		if ((curr.tileObject.transform.position.x - 1 >= 0) && (GetTile(curr.tileObject.transform.position.x - 1,curr.tileObject.transform.position.z).collision == false))
-		{
-			neighbours.Add(GetTile(curr.tileObject.transform.position.x - 1,curr.tileObject.transform.position.z));
-		}
-		
+		if ((x-1 >= 0) && (GetTile(x-1,y).GetCollision() == false))	neighbours.Add(GetTile(x-1,y));
 		// Bottom
-		if ((curr.tileObject.transform.position.z - 1 >= 0) && (GetTile(curr.tileObject.transform.position.x,curr.tileObject.transform.position.z - 1).collision == false))
-		{
-			neighbours.Add(GetTile(curr.tileObject.transform.position.x,curr.tileObject.transform.position.z - 1));
-		}
-		
+		if ((y-1 >= 0) && (GetTile(x,y-1).GetCollision() == false))	neighbours.Add(GetTile(x,y-1));
 		// Right
-		if ((curr.tileObject.transform.position.x + 1 < mapSize.x) && (GetTile(curr.tileObject.transform.position.x + 1,curr.tileObject.transform.position.z).collision == false))
-		{
-			neighbours.Add(GetTile(curr.tileObject.transform.position.x + 1,curr.tileObject.transform.position.z));
-		}
-		
+		if ((x+1 < mapSize.x) && (GetTile(x+1,y).GetCollision() == false))	neighbours.Add(GetTile(x+1,y));
 		// Top
-		if ((curr.tileObject.transform.position.z + 1 < mapSize.y) && (GetTile(curr.tileObject.transform.position.x,curr.tileObject.transform.position.z + 1).collision == false))
-		{
-			neighbours.Add(GetTile(curr.tileObject.transform.position.x,curr.tileObject.transform.position.z + 1));
-		}
-
+		if ((y+1 < mapSize.y) && (GetTile(x,y+1).GetCollision() == false))	neighbours.Add(GetTile(x,y+1));
+		
+		// Comment/Uncomment the following to remove/add diagonal movements
+		/*
+		// Top-Left
+		if ((x-1 >= 0) && (y+1 < mapSize.y) && (GetTile(x-1,y+1).GetCollision() == false))	neighbours.Add(GetTile(curr.tileObject.transform.position.x - 1,curr.tileObject.transform.position.z + 1));
+		// Bottom-Left
+		if ((x-1 >= 0) && (y-1 >= 0) && (GetTile(x-1,y-1).GetCollision() == false))	neighbours.Add(GetTile(x-1,y-1));
+		// Top-Right
+		if ((x+1 < mapSize.x) && (y+1 < mapSize.y) && (GetTile(x+1,y+1).GetCollision() == false))	neighbours.Add(GetTile(x+1,y+1));
+		// Bottom-Right
+		if ((x+1 < mapSize.x) && (y-1 >= 0) && (GetTile(x+1,y-1).GetCollision() == false))	neighbours.Add(GetTile(x+1,y-1));
+		*/
 		
 		return neighbours;
 	}
