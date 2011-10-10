@@ -2,8 +2,6 @@ using UnityEngine;
 using System.Collections;
 
 public class EnemyManager{
-	// Stores a list of enemy references
-	private ArrayList enemyArray;
 	// wayPointArray object
 	private ArrayList waypointArray;
 	
@@ -19,7 +17,6 @@ public class EnemyManager{
 	private enum GameState {Building = 1, Playing = 2, Paused, Stopped};
 	private GameState gameState;
 	
-	float animHelper;
 	float animationSpeed;
 	
 	float moveHelper;
@@ -27,24 +24,20 @@ public class EnemyManager{
 	
 	// Enemy 1: Blue Jelly
 	private Texture [] blueJellyTex;
-	private Enemy blueJelly;
-	GameObject blueJellyCube;
+	// Stores a list of enemy references
+	private ArrayList enemyArray;
+	private Enemy blueJelly, blueJelly2;
+	//GameObject blueJellyCube;
 	
 	// Use this for initialization
-	public EnemyManager (Map map) {
-		enemyArray = new ArrayList ();
-		
+	public EnemyManager (Map map) {		
 		spawnTimer = 0.0f;
 		spawnInterval = 5.0f;
 		numEnemies = 10;
 		enemiesOnDeck = 0;
 		numWaves = 3;
 		
-		animHelper = Time.time;
-		animationSpeed = 0.20f; // change texture once per (animationSpeed) second;
-		
-		moveHelper = Time.time;
-		move = 1;
+		animationSpeed = 0.2f; // change texture once per (animationSpeed) second;
 		
 		// Enemy 1: Blue Jelly Initialization
 		ArrayList imList = new ArrayList ();
@@ -62,12 +55,18 @@ public class EnemyManager{
 		int startX = 1;
 		int startZ = 0;
 		ArrayList path = AStar.Search (map.tiles[startX + (startZ*(int)map.mapSize.x)], map.tiles[98], map, 1.0f);
+		//ArrayList path2 = AStar.Search (map.tiles[11], map.tiles[97], map, 1.0f);
+		ArrayList path3 = AStar.Search (map.tiles[1], map.tiles[97], map, 1.0f);
 		blueJelly = new Enemy ("Blue Jelly", startX, startZ, 10, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path);
+		blueJelly2 = new Enemy ("Blue Jelly", startX+1, startZ, 10, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path3);
+		enemyArray = new ArrayList ();
+		enemyArray.Add(blueJelly);
+		enemyArray.Add(blueJelly2);
 		// Using gameobjects for now, gonna have to discuss wtf is going on here.
-		blueJellyCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		/*blueJellyCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		blueJellyCube.transform.Rotate(0,0,180);
 		blueJellyCube.transform.position = new Vector3(blueJelly.GetPositionX(), 0, blueJelly.GetPositionZ());
-		blueJellyCube.transform.localScale = new Vector3(1f,0.01f,1f);
+		blueJellyCube.transform.localScale = new Vector3(1f,0.01f,1f);*/
 		
 		
 		// For Testing
@@ -98,28 +97,67 @@ public class EnemyManager{
 	
 	// Waypoint array is a list of Waypoints that contain the position of waypoints and the direction to move.
 	public void mobMovement (){
-		blueJellyCube.renderer.material.mainTexture = blueJelly.GetAnimate(blueJelly.GetCurTex());
-		blueJellyCube.transform.position = new Vector3(blueJelly.GetPositionX(), 0, blueJelly.GetPositionZ());
-		if (animHelper + animationSpeed < Time.time){
-			blueJelly.IncCurTex();
-			animHelper = Time.time;
-		}
-		if (moveHelper + (1/blueJelly.GetMoveSpeed()) < Time.time){
-			Vector3 newPosition = blueJelly.PopPath();
-			int x = (int)newPosition.x;
-			int z = (int)newPosition.z;
-			if (x != -1 && z != -1){
-				blueJelly.SetPosition(x, z);
+		for (int i = 0; i < enemyArray.Count; i++){
+			Enemy newEnemy = ((Enemy)enemyArray[i]);
+			newEnemy.GetGameObject().renderer.material.mainTexture = newEnemy.GetAnimate(newEnemy.GetCurTex());
+			if (newEnemy.GetAnimHelper() + animationSpeed < Time.time){
+				newEnemy.IncCurTex();
+				newEnemy.SetAnimHelper(Time.time);
+
+				if (newEnemy.IsAnimating()){
+					// Implimenting smooth movement
+					Vector3 nextPosition = newEnemy.GetPathHead();
+					float maxFrame = newEnemy.GetMaxTex();
+					float curFrame = newEnemy.GetCurTex();
+					float nextX = (float) nextPosition.x;
+					float nextZ = (float) nextPosition.z;
+					float curX = newEnemy.GetPositionX();
+					float curZ = newEnemy.GetPositionZ();
+					// If not at the end...
+					if (nextX != -1 && nextZ != -1){
+						// For smooth x
+						float switcher = 1.0f;
+						
+						if (curX == nextX){
+							switcher = 0.0f;
+						}
+						else if (curX > nextX){
+							switcher = -1.0f;
+						}// else switcher = 1;
+						curX += ((curFrame+1)/maxFrame) * switcher;
+						
+						// For smooth z
+						switcher = 1.0f;
+						if (curZ == nextZ){
+							switcher = 0.0f;
+						}
+						else if (curZ > nextZ){
+							switcher = -1.0f;
+						}// else switcher = 1;
+						curZ += ((curFrame+1)/maxFrame) * switcher;
+
+						newEnemy.GetGameObject().transform.position = new Vector3(curX, 0, curZ);
+					}
+				}
+				//if (moveHelper + (1/blueJelly.GetMoveSpeed()) < Time.time){
+				else{
+					Vector3 newPosition = newEnemy.PopPath();
+					int x = (int)newPosition.x;
+					int z = (int)newPosition.z;
+					if (x != -1 || z != -1){
+						newEnemy.SetPosition(x, z);
+						newEnemy.GetGameObject().transform.position = new Vector3(x, 0, z);
+					}
+					Debug.Log(i + " " + x + " " + z);
+					/*if (blueJelly.GetPositionX() == 6){
+						move *= -1;
+					}
+					else if (blueJelly.GetPositionX() == 1){
+						move *= -1;
+					}*/
+				}
+				
 			}
-			else{
-			}
-			moveHelper = Time.time;
-			/*if (blueJelly.GetPositionX() == 6){
-				move *= -1;
-			}
-			else if (blueJelly.GetPositionX() == 1){
-				move *= -1;
-			}*/
 		}
 		
 		// each enemy's position is compared to their next waypoint's position.

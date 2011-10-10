@@ -21,7 +21,12 @@ public class Enemy{
 	
 	private ArrayList path;
 	
-	public Enemy (string n, int x, int z, int hp, int ms, int arm, ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList pa){
+	private float animHelper;
+	
+	// Object to be drawn on screen
+	GameObject cubeObject;
+	
+	public Enemy (string n, float x, float z, int hp, int ms, int arm, ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList pa){
 		ename = n;
 		position = new Vector3 (x,0,z);
 		maxHP = hp;
@@ -55,7 +60,14 @@ public class Enemy{
 		maxTex = maxT;
 		curTex = 0;
 		
-		path = pa;
+		path = new ArrayList(pa);
+		
+		cubeObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		cubeObject.transform.Rotate(0,0,180);
+		cubeObject.transform.position = new Vector3(x, 0, z);
+		cubeObject.transform.localScale = new Vector3(1f,0.01f,1f);
+		
+		animHelper = Time.time;
 	}
 	
 	// Getters and Setters
@@ -68,16 +80,16 @@ public class Enemy{
 	public Vector3 GetPosition (){
 		return position;
 	}
-	public int GetPositionX (){
-		return (int) position.x;
+	public float GetPositionX (){
+		return (float) position.x;
 	}
-	public int GetPositionZ (){
-		return (int) position.z;
+	public float GetPositionZ (){
+		return (float) position.z;
 	}
 	public void SetPositionVec (Vector3 p){
 		position = p;
 	}
-	public void SetPosition (int x, int z){
+	public void SetPosition (float x, float z){
 		position.x = x;
 		position.z = z;
 	}
@@ -206,15 +218,13 @@ public class Enemy{
 		return true;
 	}
 	
-	// Animation, eSize, MaxTex, and CurTex get/set
+	// Animation, eSize, MaxTex, and CurTex Getters/Setters
 	public Texture [] GetAnimate(){
 		return animate;
 	}
-	
 	public Texture GetAnimate(int i){
 		return animate[i];
 	}
-	
 	public void SetAnimate(Texture [] anim){
 		animate = anim;
 	}
@@ -229,7 +239,6 @@ public class Enemy{
 	public int GetMaxTex(){
 		return maxTex;
 	}
-	
 	public void SetMaxTex(int maxT){
 		maxTex = maxT;
 	}
@@ -237,18 +246,35 @@ public class Enemy{
 	public int GetCurTex (){
 		return curTex;
 	}
-	
-	public void setCurTex (int curT){
+	public void SetCurTex (int curT){
 		curTex = curT;
 	}
 	
+	public GameObject GetGameObject(){
+		return cubeObject;
+	}
+	public void SetGameObject (GameObject go){
+		cubeObject = go;
+	}
+	
+	public float GetAnimHelper(){
+		return animHelper;
+	}
+	public void SetAnimHelper(float animH){
+		animHelper = animH;
+	}
+	
+	// Increment Current Texture by 1
 	public void IncCurTex(){
-		curTex++;
-		if (curTex == maxTex){
+		if (curTex == maxTex-1){
 			curTex = 0;
+		}
+		else {
+			curTex++;
 		}
 	}
 	
+	// Pop a vector in the current Path and return the vector popped
 	public Vector3 PopPath() {
 		if (path != null && path.Count > 0){
 			Vector3 head = ((Tile)path[0]).tileObject.transform.position;
@@ -257,4 +283,19 @@ public class Enemy{
 		}
 		return new Vector3 (-1,-1,-1);
 	}
+	
+	// Grab the head of the current Path
+	public Vector3 GetPathHead(){
+		if (path != null && path.Count > 0){
+			Vector3 head = ((Tile)path[0]).tileObject.transform.position;
+			return head;
+		}
+		return new Vector3 (-1, -1, -1);
+	}
+	
+	// Check whether the next frame is animating or a Position Frame
+	public bool IsAnimating(){
+		return !(curTex == maxTex-1);
+	}
+	
 }
