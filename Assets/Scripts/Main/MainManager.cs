@@ -6,9 +6,7 @@ public class MainManager : MonoBehaviour
 	private enum MainState {Menu, InGame, Paused, GameOver};
 	private MainState mainState;
 	private MenuManager menuManager;
-	private EnemyManager enemyManager;
-	private GUIManager guiManager;
-	private Map map;
+	private GameManager gameManager;
 	private int enemyCount;
 
 	void Start (){
@@ -29,26 +27,8 @@ public class MainManager : MonoBehaviour
 		//mainState = MainState.Paused;
 		//mainState = MainState.GameOver;
 		
-		map = new Map();
-		map.GenerateLevel1();
-		/*Debug.Log("Start :"+map.tiles[1].tileObject.transform.position + "Goal :"+map.tiles[98].tileObject.transform.position);
-		Debug.Log(map.GetNeighbours(map.tiles[65]).Count);
-		ArrayList path = AStar.Search (map.tiles[1], map.tiles[98], map, 1.0f);
-		*/
-		
-		guiManager = new GUIManager ();
-		enemyManager = new EnemyManager(map);
+		gameManager = new GameManager();
 		menuManager = new MenuManager();
-		//Debug.Log(map.tiles[11].GetTexture());
-		/*
-		map.tiles[11].SetCollision(true);
-		Debug.Log(map.tiles[11].tileObject.transform.position);
-		Debug.Log(map.tiles[11].GetCollision());
-		ArrayList n = map.GetNeighbours(map.tiles[12]);
-		for (int i=0; i<n.Count; i++)
-		{
-			Debug.Log(((Tile)n[i]).tileObject.transform.position);
-		}*/
 		
 		/*Effect eff = new Effect("fire");
 		Zone zone = new Zone(eff, 3, 3, "present");
@@ -100,11 +80,7 @@ public class MainManager : MonoBehaviour
 			menuManager.DrawMain();
 		}
 		if (mainState == MainState.InGame){
-			int gameState = enemyManager.getGameState();
-			if (gameState == 1 || gameState == 2) { // Building or Playing
-				guiManager.DrawGUI();
-				enemyManager.DrawEnemy();
-			}
+			gameManager.DrawScene();
 		}
 	}
 	

@@ -14,9 +14,6 @@ public class EnemyManager{
 	Vector3 offset;
 	
 	GameObject enemy;
-	private enum GameState {Building = 1, Playing = 2, Paused, Stopped};
-	private GameState gameState;
-	
 	float animationSpeed;
 	
 	float moveHelper;
@@ -67,32 +64,19 @@ public class EnemyManager{
 		blueJellyCube.transform.Rotate(0,0,180);
 		blueJellyCube.transform.position = new Vector3(blueJelly.GetPositionX(), 0, blueJelly.GetPositionZ());
 		blueJellyCube.transform.localScale = new Vector3(1f,0.01f,1f);*/
-		
-		
-		// For Testing
-		//gameState = GameState.Building;
-		gameState = GameState.Playing;
-		// gameState = GameState.Paused;
-		// gameState = GameState.Stopped;
 	}
 	
 	// Update is called once per frame
 	public void DrawEnemy () {
-		if (gameState == GameState.Playing){
-			mobMovement();
-		}
-	}
-	
-	public int getGameState (){
-		return (int) gameState;
+		mobMovement();
 	}
 	
 	public void spawn (){
-		if (Time.time > spawnTimer && enemiesOnDeck < numEnemies) {
+		/*if (Time.time > spawnTimer && enemiesOnDeck < numEnemies) {
 			spawnTimer = Time.time + spawnInterval;
 			//Instantiate(enemy,transform.position + offset,Quaternion.identity);
 			enemiesOnDeck++;
-		}
+		}*/
 	}
 	
 	// Waypoint array is a list of Waypoints that contain the position of waypoints and the direction to move.
@@ -195,8 +179,5 @@ public class EnemyManager{
 				
 			}
 		}*/
-	}
-	
-	public void playerDamage(){
 	}
 }
