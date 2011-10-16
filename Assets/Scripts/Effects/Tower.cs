@@ -23,19 +23,23 @@ public class Tower : MonoBehaviour {
 		GameObject spherex = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 		spherex.transform.position = new Vector3(towerXPos, 0, towerZPos);
 		spherex.transform.localScale = new Vector3(1,1,1);
-		
+		spherex.transform.tag = "tower";
 		
 	}
 	
 	// Creates a zone for the effect.
-	public void createLowerZone(Effect ele, int xPos, int zPos, int rows, int cols) {
+	public void createLowerZone(Effect ele, int xPos, int zPos) {
+		int rows = this.zone.getZoneWidth();
+		int cols = this.zone.getZoneLength();
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
 		GameObject cubex = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		cubex.transform.position = new Vector3(xPos, 0, zPos-2);
 		cubex.transform.localScale = new Vector3(rows,1,cols);
 	}
 	
-	public void createUpperZone(Effect ele, int xPos, int zPos, int rows, int cols) {
+	public void createUpperZone(Effect ele, int xPos, int zPos) {
+		int rows = this.zone.getZoneWidth();
+		int cols = this.zone.getZoneLength();
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
 		GameObject cubex = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		cubex.transform.position = new Vector3(xPos, 0, zPos+2);
