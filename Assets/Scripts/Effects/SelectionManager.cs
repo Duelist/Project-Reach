@@ -18,10 +18,11 @@ public class SelectionManager : MonoBehaviour
 				//float distanceToGround = hit.distance;
 				//Debug.DrawLine(ray.origin, hit.point);
 				//Debug.DrawRay(ray.origin, hit.point, Color.green, 2);
-				if (hit.transform.tag == "tile") {
-					Tile tile = hit.transform.gameObject.GetComponent("Tile");
-					Debug.Log(tile.GetSelector());
-				} else if (hit.transform.tag== "tower") {
+				//if (hit.transform.tag == "tile") {
+					//Tile tile = hit.transform.gameObject.GetComponent("Tile");
+					//Debug.Log(tile.GetSelector());
+				//} else 
+				if (hit.transform.tag== "tower") {
 					Debug.Log("Tower Hit!");
 					//Tower tw = hit.transform.gameObject.GetComponent("Tower");
 					//tw.selected = true;
