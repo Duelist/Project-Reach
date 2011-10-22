@@ -8,7 +8,7 @@ public class Map
 	public int tileSize;
 	public bool pastState;
 	
-	public Tile[] tiles;
+	public Tile[,] tiles;
 	
 	public Texture2D tilesetPast;
 	public Texture2D tilesetFuture;
@@ -19,7 +19,7 @@ public class Map
 	public Map()
 	{
 		mapName = "Default";
-		mapSize = new Vector2(10,10);
+		mapSize = new Vector2(15,15);
 		pastState = true;
 		tileSize = 32;
 		tilesetPast = null;
@@ -32,24 +32,26 @@ public class Map
 	{
 		if (tiles != null)
 		{
-			foreach (Tile tile in tiles)
+			for (int i = 0; i < mapSize.x; i++)
 			{
-				Debug.Log("DESTROY!");
-				//DestroyImmediate(tile.tileObject);
+				for(int j = 0; j < mapSize.y; j++){
+					Debug.Log("DESTROY!");
+					//DestroyImmediate(tile.tileObject);
+				}
 			}
 		}
 	}
 	
 	Tile GetTile(int x, int y)
 	{
-		int coord = y*(int)mapSize.x + x;
-		return tiles[coord];
+		//int coord = y*(int)mapSize.x + x;
+		return tiles[x, y];
 	}
 	
 	Tile GetTile(float x, float y)
 	{
-		int coord = (int)y*(int)mapSize.x + (int)x;
-		return tiles[coord];
+		//int coord = (int)y*(int)mapSize.x + (int)x;
+		return tiles[(int)x, (int)y];
 	}
 	
 	public ArrayList GetNeighbours(Tile curr)
@@ -84,23 +86,23 @@ public class Map
 	
 	public void GenerateMap()
 	{
-		tiles = new Tile[(int)mapSize.x*(int)mapSize.y];
+		tiles = new Tile[(int)mapSize.x, (int)mapSize.y];
 		
-		for (int i = 0; i < mapSize.y; i++)
+		for (int i = 0; i < mapSize.x; i++)
 		{
-			for (int j = 0; j < mapSize.x; j++)
+			for (int j = 0; j < mapSize.y; j++)
 			{
 				Tile tile = new Tile();
 				GameObject tileObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
 
-				tileObject.name = "Tile " + (j*mapSize.x + i + 1).ToString();
+				tileObject.name = "Tile " + i + "," + j;
 				tileObject.transform.position = new Vector3(i,0,j);
 				tileObject.transform.localScale = new Vector3(1,0,1);
 
 				tile.pastState = pastState;
 				tile.tileObject = tileObject;
 
-				tiles[j*(int)mapSize.x + i] = tile;
+				tiles[i, j] = tile;
 				//Debug.Log("Making tile at " + tileObject.transform.position);
 			}
 		}
@@ -112,49 +114,93 @@ public class Map
 		
 		// ---------------------- Setting Collisions ------------------------- //
 		// 4 walls surrounding the map
-		for (int i=0; i < 10; i++){
-			tiles[i].SetCollision(true);
+		for (int i=0; i < (int)mapSize.x; i++){
+			tiles[i,0].SetCollision(true);
+			// Set selectors for every other tile.
+			if (i % 2 == 0){
+				tiles[i,0].SetSelector(true);
+			}
 		}
-		for (int i=0; i < 10; i++){
-			tiles[i*10].SetCollision(true);
+		for (int i=0; i < (int)mapSize.y; i++){
+			tiles[0,i].SetCollision(true);
+			if (i % 2 == 0){
+				tiles[0,i].SetSelector(true);
+			}
 		}
-		for (int i=0; i < 10; i++){
-			tiles[9+(i*10)].SetCollision(true);
+		for (int i=0; i < (int)mapSize.x; i++){
+			tiles[i,(int)mapSize.y-1].SetCollision(true);
+			
+			if (i % 2 == 0){
+				tiles[i,(int)mapSize.y-1].SetSelector(true);
+			}
 		}
-		for (int i=0; i < 10; i++){
-			tiles[90+(i)].SetCollision(true);
+		for (int i=0; i < (int)mapSize.y; i++){
+			tiles[(int)mapSize.x-1, i].SetCollision(true);
+			
+			if (i % 2 == 0){
+				tiles[(int)mapSize.x-1,i].SetSelector(true);
+			}
 		}
 		
 		// 2 inner walls
-		for (int i = 0; i < 7; i++){
-			tiles[3+(i*10)].SetCollision(true);
+		for (int i = 0; i < 11; i++){
+			tiles[4, i].SetCollision(true);
+			tiles[5, i].SetCollision(true);
+			
+			if (i % 2 == 0){
+				tiles[4,i].SetSelector(true);
+				tiles[5,i].SetSelector(true);
+			}
 		}
-		for (int i = 0; i < 7; i++){
-			tiles[96-(i * 10)].SetCollision(true);
+		for (int i = 0; i < 11; i++){
+			tiles[9, 14-i].SetCollision(true);
+			tiles[10, 14-i].SetCollision(true);
+			
+			
+			if (i % 2 == 0){
+				tiles[9, 14-i].SetSelector(true);
+				tiles[10, 14-i].SetSelector(true);
+			}
 		}
 		
 		// Openings
-		tiles [1].SetCollision(false);
-		tiles [2].SetCollision(false);
-		tiles [97].SetCollision(false);
-		tiles [98].SetCollision(false);
+		tiles [1,0].SetCollision(false);
+		tiles [2,0].SetCollision(false);
+		tiles [3,0].SetCollision(false);
+		tiles [1,0].SetSelector(false);
+		tiles [2,0].SetSelector(false);
+		tiles [3,0].SetSelector(false);
+		tiles [11,14].SetCollision(false);
+		tiles [12,14].SetCollision(false);
+		tiles [13,14].SetCollision(false);
+		tiles [11,14].SetSelector(false);
+		tiles [12,14].SetSelector(false);
+		tiles [13,14].SetSelector(false);
 		
 		GenerateTestTextures(tiles);
 	}// Test Map Class
 	
-	private void GenerateTestTextures(Tile[] tiles){
+	private void GenerateTestTextures(Tile[,] tiles){
 		// ---------------------- Setting Textures ------------------------- //
-		Texture collisionTex = Resources.Load ("GUI/Rolling Menu Textures/Gear") as Texture;
-		Texture pathTex = Resources.Load ("GUI/Rolling Menu Textures/IceButton") as Texture;
+		Texture selectorTex = Resources.Load ("GUI/Rolling Menu Textures/Gear") as Texture;
+		Texture collisionTex = Resources.Load ("GUI/Rolling Menu Textures/EarthButton") as Texture;
+		Texture pathTex = Resources.Load ("GUI/Rolling Menu Textures/IceButtonOver") as Texture;
 		
-		for (int i = 0; i < 100; i++){
-			if (tiles[i].GetCollision()){
-				// Collision Texture
-				tiles[i].SetTexture(collisionTex);
-			}
-			else {
-				// Path Texture
-				tiles[i].SetTexture(pathTex);
+		for (int i = 0; i < mapSize.x; i++){
+			for (int j = 0; j < mapSize.y; j++){
+				if (tiles[i,j].GetCollision()){
+					// Collision Texture
+					if (tiles[i,j].GetSelector()){
+						tiles[i,j].SetTexture(selectorTex);
+					}
+					else{
+						tiles[i,j].SetTexture(collisionTex);
+					}
+				}
+				else {
+					// Path Texture
+					tiles[i,j].SetTexture(pathTex);
+				}
 			}
 		}
 	}

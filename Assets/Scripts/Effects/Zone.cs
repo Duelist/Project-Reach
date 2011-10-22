@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Zone : MonoBehaviour {
+public class Zone {
 
 	private int width;
 	private int length;

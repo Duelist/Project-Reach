@@ -12,8 +12,7 @@ public class EnemyManager{
 	int enemiesOnDeck;
 	int numWaves;
 	Vector3 offset;
-	
-	GameObject enemy;
+
 	float animationSpeed;
 	
 	float moveHelper;
@@ -22,8 +21,8 @@ public class EnemyManager{
 	// Enemy 1: Blue Jelly
 	private Texture [] blueJellyTex;
 	// Stores a list of enemy references
-	private ArrayList enemyArray;
-	private Enemy blueJelly, blueJelly2;
+	private Enemy [] enemy;
+	int enemyNum = 3;
 	//GameObject blueJellyCube;
 	
 	// Use this for initialization
@@ -47,18 +46,18 @@ public class EnemyManager{
 			blueJellyTex[i] = Resources.Load ("Enemy/Blue Jelly/Blue Jelly "+i) as Texture;
 		}
 		
+		enemy = new Enemy[enemyNum];
 		// Initialization parameters:
-		// string n, int x, int z, int hp, int ms, int arm, ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT
+		// string n, int x, int z, int hp, int ms, int arm, ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList path
 		int startX = 1;
 		int startZ = 0;
-		ArrayList path = AStar.Search (map.tiles[startX + (startZ*(int)map.mapSize.x)], map.tiles[98], map, 1.0f);
-		//ArrayList path2 = AStar.Search (map.tiles[11], map.tiles[97], map, 1.0f);
-		ArrayList path3 = AStar.Search (map.tiles[1], map.tiles[97], map, 1.0f);
-		blueJelly = new Enemy ("Blue Jelly", startX, startZ, 10, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path);
-		blueJelly2 = new Enemy ("Blue Jelly", startX+1, startZ, 10, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path3);
-		enemyArray = new ArrayList ();
-		enemyArray.Add(blueJelly);
-		enemyArray.Add(blueJelly2);
+		ArrayList path = AStar.Search (map.tiles[2,0], map.tiles[11,14], map, 1.0f);
+		ArrayList path2 = AStar.Search (map.tiles[2,0], map.tiles[12,14], map, 1.0f);
+		ArrayList path3 = AStar.Search (map.tiles[2,0], map.tiles[13,14], map, 1.0f);
+		enemy[0] = new Enemy ("Blue Jelly", startX, startZ, 10, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path);
+		enemy[1] = new Enemy ("Blue Jelly", startX+1, startZ, 10, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path2);
+		enemy[2] = new Enemy ("Blue Jelly", startX+2, startZ, 10, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path3);
+	
 		// Using gameobjects for now, gonna have to discuss wtf is going on here.
 		/*blueJellyCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		blueJellyCube.transform.Rotate(0,0,180);
@@ -81,8 +80,8 @@ public class EnemyManager{
 	
 	// Waypoint array is a list of Waypoints that contain the position of waypoints and the direction to move.
 	public void mobMovement (){
-		for (int i = 0; i < enemyArray.Count; i++){
-			Enemy newEnemy = ((Enemy)enemyArray[i]);
+		for (int i = 0; i < enemyNum; i++){
+			Enemy newEnemy = enemy[i];
 			newEnemy.GetGameObject().renderer.material.mainTexture = newEnemy.GetAnimate(newEnemy.GetCurTex());
 			if (newEnemy.GetAnimHelper() + animationSpeed < Time.time){
 				newEnemy.IncCurTex();
@@ -132,7 +131,6 @@ public class EnemyManager{
 						newEnemy.SetPosition(x, z);
 						newEnemy.GetGameObject().transform.position = new Vector3(x, 0, z);
 					}
-					Debug.Log(i + " " + x + " " + z);
 					/*if (blueJelly.GetPositionX() == 6){
 						move *= -1;
 					}

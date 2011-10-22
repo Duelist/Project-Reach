@@ -23,6 +23,7 @@ public class Tower : MonoBehaviour {
 		GameObject spherex = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 		spherex.transform.position = new Vector3(towerXPos, 0, towerZPos);
 		spherex.transform.localScale = new Vector3(1,1,1);
+		spherex.transform.tag = "tower";
 		
 		
 	}

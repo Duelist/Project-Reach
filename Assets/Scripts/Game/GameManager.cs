@@ -28,5 +28,14 @@ public class GameManager {
 		if (gameState == GameState.Playing){
 			enemyManager.DrawEnemy();
 		}
+		
+		/*Effect eff = new Effect("fire");
+		Zone zone = new Zone(eff, 3, 3, "present");
+		Tower tower = new Tower(4, 3, zone);
+		Tower tower2 = new Tower(4,6,zone);
+		Wall wall = new Wall(tower, tower2);
+		tower.createUpperZone(eff, 4, 3 , 2, 2);
+		tower.createWall(wall);
+		Debug.Log("Tower Created");*/
 	}
 }

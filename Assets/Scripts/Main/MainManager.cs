@@ -29,15 +29,6 @@ public class MainManager : MonoBehaviour
 		
 		gameManager = new GameManager();
 		menuManager = new MenuManager();
-		
-		/*Effect eff = new Effect("fire");
-		Zone zone = new Zone(eff, 3, 3, "present");
-		Tower tower = new Tower(4, 3, zone);
-		Tower tower2 = new Tower(4,7,zone);
-		Wall wall = new Wall(tower, tower2);
-		tower.createUpperZone(eff, 4, 3 , 3, 3);
-		tower.createWall(wall);
-		Debug.Log("Tower Created");*/
 	}
 	
 	// When the menu calls the Game Manager to start:
@@ -75,8 +66,7 @@ public class MainManager : MonoBehaviour
 	}
 	
 	void OnGUI(){
-		if (mainState == MainState.Menu)
-		{
+		if (mainState == MainState.Menu){
 			menuManager.DrawMain();
 		}
 		if (mainState == MainState.InGame){

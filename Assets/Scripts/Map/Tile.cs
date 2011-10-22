@@ -18,15 +18,23 @@ public class Tile : IComparable
 		costSoFar = 1.0f;
 		parentTile = null;
 		tileObject = null;
+		collision = false;
+		hasSelector = false;
 	}
 	
+	public bool GetCollision(){
+		return collision;
+	}
 	public void SetCollision(bool collision)
 	{
 		this.collision = collision;
 	}
 	
-	public bool GetCollision(){
-		return collision;
+	public bool GetSelector(){
+		return this.hasSelector;
+	}
+	public void SetSelector(bool select){
+		hasSelector = select;
 	}
 	
 	public void SetTexture(Texture tex){
