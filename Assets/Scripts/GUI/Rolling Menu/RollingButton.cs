@@ -69,7 +69,7 @@ public class RollingButton{
 		gear2Y = y + menuHeight - width/4 - spacing;
 		gear2Size = width/2;
 		
-		emptySkin = Resources.Load("GUI/Rolling Menu Textures/EmptyButonSkin") as GUISkin;
+		emptySkin = Resources.Load("GUI/Rolling Menu Textures/EmptyButtonSkin") as GUISkin;
 		gearSkin = Resources.Load("GUI/Rolling Menu Textures/Gear") as Texture;
 		templateSkin = Resources.Load("GUI/Rolling Menu Textures/RollingMenuFrame") as Texture;
 		fireSkin = Resources.Load("GUI/Rolling Menu Textures/FireButtonSkin") as GUISkin;
@@ -156,6 +156,8 @@ public class RollingButton{
 		GUIUtility.RotateAroundPivot (animateX*2, pivotPoint); 
 		GUI.DrawTexture(new Rect(gear2X, gear2Y,gear2Size,gear2Size),gearSkin);
 		GUIUtility.RotateAroundPivot (-animateX*2, pivotPoint);
+		
+		GUI.skin = emptySkin;
 	}
 
 	// Helper function to set the info window in motion

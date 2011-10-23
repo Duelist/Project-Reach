@@ -8,14 +8,24 @@ public class GameManager {
 	private EnemyManager enemyManager;
 	private GUIManager guiManager;
 	private Map map;
+	private Camera camera;
+	private Effect fireEffect;
+	private Zone fireZone;
+	private Tower [] towerList;
 	
 	public GameManager (){
 		map = new Map();
 		map.GenerateLevel1();
-		
-		guiManager = new GUIManager ();
+		guiManager = new GUIManager (map);
 		enemyManager = new EnemyManager(map);
-		
+		// Testing Tower stuff
+		fireEffect = new Effect ("fire");
+		fireZone = new Zone (fireEffect, 3, 3, "present");
+		towerList = new Tower [map.selectorNum];
+		Vector2 [] selectList = map.GetSelectorPositionList();
+		for (int i = 0; i < map.selectorNum; i++){
+			towerList[i] = new Tower ((int)selectList[i].x, (int)selectList[i].y, fireZone);
+		}
 		// For Testing
 		//gameState = GameState.Building;
 		gameState = GameState.Playing;
@@ -24,7 +34,7 @@ public class GameManager {
 	}
 	
 	public void DrawScene (){
-		guiManager.DrawGUI();
+		guiManager.DrawGUI(towerList);
 		if (gameState == GameState.Playing){
 			enemyManager.DrawEnemy();
 		}

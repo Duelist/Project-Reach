@@ -5,13 +5,14 @@ using System.Collections;
 * You can have a tower without a zone, but a zone cannot exist without a tower.
 */
 
-public class Tower : MonoBehaviour {
+public class Tower {
 
 	private int towerXPos;
 	private int towerZPos;
 	private Zone zone;
 	//private Zone wall;
 	//private Effect effect;
+	private GameObject towerObj;
 	
 	//Constructor
 	public Tower (int x, int z, Zone zOne) {
@@ -20,10 +21,20 @@ public class Tower : MonoBehaviour {
 		//effect = eff;
 		zone = zOne;
 	
-		GameObject spherex = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-		spherex.transform.position = new Vector3(towerXPos, 0, towerZPos);
-		spherex.transform.localScale = new Vector3(1,1,1);
-		spherex.transform.tag = "tower";
+		towerObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		towerObj.renderer.enabled = false;
+		towerObj.transform.position = new Vector3(towerXPos, 0, towerZPos);
+		towerObj.transform.localScale = new Vector3(1f,0.1f,1f);
+		towerObj.transform.Rotate(0,0,180);
+		towerObj.transform.tag = "tower";
+	}
+	
+	public void SetTextureTower(Texture tex){
+		towerObj.renderer.material.mainTexture = tex;
+	}
+	
+	public GameObject getTowerObj(){
+		return towerObj;
 	}
 	
 	// Creates a zone for the effect.

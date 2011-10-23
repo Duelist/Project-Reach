@@ -7,8 +7,9 @@ public class GUIManager {
 	ManaInvasion manaInvasion;
 	FutureButton futureButton;
 	RollingButton rollingButton;
+	SelectorOverlay selectorOverlay;
 	// Use this for initialization
-	public GUIManager () {
+	public GUIManager (Map map) {
 		/*maxMana = 100;
 		manaCount = 0;
 		invCount = 0;
@@ -38,11 +39,14 @@ public class GUIManager {
 		height = 90;
 		spacing = 10;*/
 		rollingButton = new RollingButton (100,90,10);
+		
+		selectorOverlay = new SelectorOverlay(map);
 	}
 	
-	public void DrawGUI () {
+	public void DrawGUI (Tower [] towerList) {
 		manaInvasion.DrawGUI();
 		futureButton.DrawGUI();
 		rollingButton.DrawGUI();
+		selectorOverlay.DrawGUI(towerList);
 	}
 }
