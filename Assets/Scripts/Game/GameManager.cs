@@ -24,7 +24,15 @@ public class GameManager {
 		towerList = new Tower [map.selectorNum];
 		Vector2 [] selectList = map.GetSelectorPositionList();
 		for (int i = 0; i < map.selectorNum; i++){
-			towerList[i] = new Tower ((int)selectList[i].x, (int)selectList[i].y, fireZone);
+			string dir = "";
+			if (selectList[i].x == 0 || selectList[i].x == 6 || selectList[i].x == 11){
+				dir = "right";
+			}
+			if (selectList[i].x == 5 || selectList[i].x == 10 || selectList[i].x == 15){
+				dir = "left";
+			}
+			towerList[i] = new Tower ((int)selectList[i].x, (int)selectList[i].y, fireZone, dir);
+
 		}
 		// For Testing
 		//gameState = GameState.Building;

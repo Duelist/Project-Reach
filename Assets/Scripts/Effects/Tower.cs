@@ -10,16 +10,18 @@ public class Tower {
 	private int towerXPos;
 	private int towerZPos;
 	private Zone zone;
+	private string direct; 
 	//private Zone wall;
 	//private Effect effect;
 	private GameObject towerObj;
 	
 	//Constructor
-	public Tower (int x, int z, Zone zOne) {
+	public Tower (int x, int z, Zone zOne, string dir) {
 		towerXPos = x;
 		towerZPos = z;
 		//effect = eff;
 		zone = zOne;
+		direct = dir;
 	
 		towerObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		towerObj.renderer.enabled = false;
@@ -33,7 +35,7 @@ public class Tower {
 		towerObj.renderer.material.mainTexture = tex;
 	}
 	
-	public GameObject getTowerObj(){
+	public GameObject GetTowerObj(){
 		return towerObj;
 	}
 	

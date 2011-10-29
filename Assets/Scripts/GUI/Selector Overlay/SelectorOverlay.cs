@@ -43,7 +43,7 @@ public class SelectorOverlay {
 			if (selectorActive[i]){
 				if (GUI.Button (new Rect(selectorButtonList[i].x,selectorButtonList[i].y,buttonSize,buttonSize), i+"")){
 					towerList[i].SetTextureTower(fireTex);
-					towerList[i].getTowerObj().renderer.enabled = true;
+					towerList[i].GetTowerObj().renderer.enabled = true;
 					selectorActive[i] = false;
 				}
 			}
