@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MainManager : MonoBehaviour
 {
-	private enum MainState {Menu, InGame, Paused, GameOver};
+	private enum MainState {Menu, InGame, GameOver};
 	private MainState mainState;
 	private MenuManager menuManager;
 	private GameManager gameManager;
@@ -71,18 +71,6 @@ public class MainManager : MonoBehaviour
 		}
 		if (mainState == MainState.InGame){
 			gameManager.DrawScene();
-		}
-	}
-	
-	void PauseGame() {
-		if (mainState == MainState.InGame)
-		{
-			// Pause code goes here
-			mainState = MainState.Paused;
-		}
-		else
-		{
-			mainState = MainState.InGame;
 		}
 	}
 	

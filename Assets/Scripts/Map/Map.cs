@@ -32,20 +32,6 @@ public class Map
 		//tiles = new Tile[(int)mapSize.x*(int)mapSize.y];
 	}
 	
-	public void CleanUp()
-	{
-		if (tiles != null)
-		{
-			for (int i = 0; i < mapSize.x; i++)
-			{
-				for(int j = 0; j < mapSize.y; j++){
-					Debug.Log("DESTROY!");
-					//DestroyImmediate(tile.tileObject);
-				}
-			}
-		}
-	}
-	
 	Tile GetTile(int x, int y)
 	{
 		//int coord = y*(int)mapSize.x + x;
@@ -98,14 +84,14 @@ public class Map
 			{
 				Tile tile = new Tile();
 				GameObject tileObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
-
 				tileObject.name = "Tile " + i + "," + j;
 				tileObject.transform.position = new Vector3(i,0,j);
 				tileObject.transform.localScale = new Vector3(1,0,1);
-
+				
+				tile.id = i + j*(int)mapSize.y;
 				tile.pastState = pastState;
 				tile.tileObject = tileObject;
-
+				
 				tiles[i, j] = tile;
 				//Debug.Log("Making tile at " + tileObject.transform.position);
 			}
@@ -183,6 +169,20 @@ public class Map
 		
 		GenerateTestTextures(tiles);
 	}// Test Map Class
+	
+	private void GenerateLevel(string textureMap, string collisionMap)
+	{
+		for (int i = 0; i < mapSize.x; i++)
+		{
+			for (int j = 0; j < mapSize.y; j++)
+			{
+				if (collisionMap[i+j*((int)mapSize.y)] == '0')
+					tiles[i,j].SetCollision(false);
+				else
+					tiles[i,j].SetCollision(true);
+			}
+		}
+	}
 	
 	private void GenerateTestTextures(Tile[,] tiles){
 		// ---------------------- Setting Textures ------------------------- //

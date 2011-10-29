@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameManager {
 
-	private enum GameState {Building = 1, Playing = 2, Paused, Stopped};
+	private enum GameState {Building, Playing, Paused, Stopped};
 	private GameState gameState;
 	private EnemyManager enemyManager;
 	private GUIManager guiManager;

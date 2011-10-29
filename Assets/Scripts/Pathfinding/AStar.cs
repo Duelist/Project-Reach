@@ -30,7 +30,6 @@ public class AStar
 		
 		while (open.Count != 0)
 		{
-			//Tile currentTile;
 			if (open.Count > 0)
 				currentTile = (Tile)open[0];
 			else

@@ -51,9 +51,12 @@ public class EnemyManager{
 		// string n, int x, int z, int hp, int ms, int arm, ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList path
 		int startX = 1;
 		int startZ = 0;
-		ArrayList path = AStar.Search (map.tiles[2,0], map.tiles[11,14], map, 1.0f);
+		Debug.Log("Path 1");
+		ArrayList path = AStar.Search (map.tiles[1,0], map.tiles[11,14], map, 1.0f);
+		Debug.Log("Path 2");
 		ArrayList path2 = AStar.Search (map.tiles[2,0], map.tiles[12,14], map, 1.0f);
-		ArrayList path3 = AStar.Search (map.tiles[2,0], map.tiles[13,14], map, 1.0f);
+		Debug.Log("Path 3");
+		ArrayList path3 = AStar.Search (map.tiles[3,0], map.tiles[13,14], map, 1.0f);
 		enemy[0] = new Enemy ("Blue Jelly", startX, startZ, 10, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path);
 		enemy[1] = new Enemy ("Blue Jelly", startX+1, startZ, 10, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path2);
 		enemy[2] = new Enemy ("Blue Jelly", startX+2, startZ, 10, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path3);
