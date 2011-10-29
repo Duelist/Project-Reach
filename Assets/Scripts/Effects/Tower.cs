@@ -5,40 +5,87 @@ using System.Collections;
 * You can have a tower without a zone, but a zone cannot exist without a tower.
 */
 
-public class Tower : MonoBehaviour {
+public class Tower {
 
 	private int towerXPos;
 	private int towerZPos;
 	private Zone zone;
+	private string direct; 
 	//private Zone wall;
 	//private Effect effect;
+	private GameObject towerObj;
 	
 	//Constructor
-	public Tower (int x, int z, Zone zOne) {
+	public Tower (int x, int z, Zone zOne, string dir) {
 		towerXPos = x;
 		towerZPos = z;
 		//effect = eff;
 		zone = zOne;
+		direct = dir;
 	
-		GameObject spherex = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-		spherex.transform.position = new Vector3(towerXPos, 0, towerZPos);
-		spherex.transform.localScale = new Vector3(1,1,1);
-		spherex.transform.tag = "tower";
+		towerObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		towerObj.renderer.enabled = false;
+		towerObj.transform.position = new Vector3(towerXPos, 0, towerZPos);
+		towerObj.transform.localScale = new Vector3(1f,0.1f,1f);
+		towerObj.transform.Rotate(0,0,180);
+		towerObj.transform.tag = "tower";
+	}
+	
+	public void SetTextureTower(Texture tex){
+		towerObj.renderer.material.mainTexture = tex;
+	}
+	
+	public GameObject GetTowerObj(){
+		return towerObj;
 	}
 	
 	// Creates a zone for the effect.
-	public void createLowerZone(Effect ele, int xPos, int zPos) {
+	public void createLowerZone() {
 		int rows = this.zone.getZoneWidth();
 		int cols = this.zone.getZoneLength();
+		int xPos = this.towerXPos;
+		int zPos = this.towerZPos;
+		
+		Effect eff = this.zone.getEffect();
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
 		GameObject cubex = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		cubex.transform.position = new Vector3(xPos, 0, zPos-2);
 		cubex.transform.localScale = new Vector3(rows,1,cols);
 	}
 	
-	public void createUpperZone(Effect ele, int xPos, int zPos) {
+	public void createUpperZone() {
 		int rows = this.zone.getZoneWidth();
 		int cols = this.zone.getZoneLength();
+		int xPos = this.towerXPos;
+		int zPos = this.towerZPos;
+		
+		Effect eff = this.zone.getEffect();
+		// This is just for visual test purposes, will need to replace with actual ingame animation/models
+		GameObject cubex = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		cubex.transform.position = new Vector3(xPos, 0, zPos+2);
+		cubex.transform.localScale = new Vector3(rows,1,cols);
+	}
+	
+	public void createLeftZone() {
+		int rows = this.zone.getZoneWidth();
+		int cols = this.zone.getZoneLength();
+		int xPos = this.towerXPos;
+		int zPos = this.towerZPos;
+		
+		Effect eff = this.zone.getEffect();
+		// This is just for visual test purposes, will need to replace with actual ingame animation/models
+		GameObject cubex = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		cubex.transform.position = new Vector3(xPos - 2, 0, zPos);
+		cubex.transform.localScale = new Vector3(rows,1,cols);
+	}
+	
+	public void createRightZone() {
+		int rows = this.zone.getZoneWidth();
+		int cols = this.zone.getZoneLength();
+		int xPos = this.towerXPos;
+		int zPos = this.towerZPos;
+		
+		Effect eff = this.zone.getEffect();
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
 		GameObject cubex = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		cubex.transform.position = new Vector3(xPos, 0, zPos+2);

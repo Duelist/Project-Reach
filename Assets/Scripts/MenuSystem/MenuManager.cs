@@ -13,7 +13,9 @@ public class MenuManager {
 	//NewMenu newmenu;
 		
 	public MenuManager () {
-	}	
+			mainmen = new MainMenu ();
+
+		}	
 	
 	public void SetPaused(bool ispaused) {
 		paused = ispaused;
@@ -23,9 +25,9 @@ public class MenuManager {
 	// Need to know if the get mehods will be persistently checked like in Update or OnGui.
 	
 	public void DrawMain() {
-		mainmen = new MainMenu ();
+//		mainmen = new MainMenu ();
 //		mainmen.DrawMainGUI(settingmen,loadmen,aboutmen,newmenu);
-		mainmen.DrawMainGUI();
+		mainmen.Types();
 
 	}
 	

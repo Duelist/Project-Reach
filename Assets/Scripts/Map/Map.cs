@@ -16,6 +16,9 @@ public class Map
 	public ArrayList startZones;
 	public ArrayList endZones;
 	
+	public int selectorNum;
+	private Vector2 [] selectorPositionList;
+	
 	public Map()
 	{
 		mapName = "Default";
@@ -24,6 +27,7 @@ public class Map
 		tileSize = 32;
 		tilesetPast = null;
 		tilesetFuture = null;
+		selectorNum = 0;
 		//Debug.Log(tiles);
 		//tiles = new Tile[(int)mapSize.x*(int)mapSize.y];
 	}
@@ -184,7 +188,7 @@ public class Map
 		// ---------------------- Setting Textures ------------------------- //
 		Texture selectorTex = Resources.Load ("GUI/Rolling Menu Textures/Gear") as Texture;
 		Texture collisionTex = Resources.Load ("GUI/Rolling Menu Textures/EarthButton") as Texture;
-		Texture pathTex = Resources.Load ("GUI/Rolling Menu Textures/IceButtonOver") as Texture;
+		Texture pathTex = Resources.Load ("GUI/Rolling Menu Textures/InfoWindow") as Texture;
 		
 		for (int i = 0; i < mapSize.x; i++){
 			for (int j = 0; j < mapSize.y; j++){
@@ -192,6 +196,7 @@ public class Map
 					// Collision Texture
 					if (tiles[i,j].GetSelector()){
 						tiles[i,j].SetTexture(selectorTex);
+						selectorNum++;
 					}
 					else{
 						tiles[i,j].SetTexture(collisionTex);
@@ -203,5 +208,24 @@ public class Map
 				}
 			}
 		}
+		
+		// Setting selector positions for easy retrieval
+		selectorPositionList = new Vector2[selectorNum];
+		int counter = 0;
+		for (int i = 0; i < mapSize.x; i++){
+			for (int j = 0; j < mapSize.y; j++){
+				if (tiles[i,j].GetCollision()){
+					// Collision Texture
+					if (tiles[i,j].GetSelector()){
+						selectorPositionList[counter] = new Vector2(i,j);
+						counter++;
+					}
+				}
+			}
+		}
+	}
+	
+	public Vector2 [] GetSelectorPositionList (){
+		return selectorPositionList;
 	}
 }

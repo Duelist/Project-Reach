@@ -3,8 +3,16 @@ using System.Collections;
 
 public class MainMenu {
 	
+	public bool visible;
 	int buttonWidth = 200;
 	int buttonHeight = 50;
+	Rect testwin = new Rect (20,20,120,50);
+	string currentmen = "none";
+	bool mainmenu = true;
+	bool settingsmenu = false;
+	bool aboutmenu = false;
+	bool loadmenu = false;
+	bool newmenu = false;
 	
 	int selGrindInt = 0;
 	string[] levelstrings = {"Level1","Level2","Level3","Level4","Level5","Level6","Level7","Level8","Level9"};
@@ -15,17 +23,71 @@ public class MainMenu {
 	string[] aboutinfo = {"Project Reach", "Version Alpha 0.1",
 									"A Final Stand Sudios Production",
 									"Copyright (c) 2011-2012 Final Stand Studios"};
-											
+	bool ifpaused;										
+									
 	public MainMenu () {
-		
+		//ifpaused = paused;
 	}
+	
+	public string getCurrentMenu() {
+		return currentmen;
+	}
+		
+	//public void Types(string men) {
+	public void Types() {
+		/*mainmenu = false;
+		settingsmenu = false;
+		aboutmenu = false;
+		loadmenu = false;
+		newmenu = false;
+		
+		if (men == "main") {
+			mainmenu = true;
+			currentmen = "main"; 
+			}
+		if (men == "setting") {
+			settingsmenu = true;
+			currentmen = "setting"; 
+			}
+		if (men == "about") {
+			aboutmenu = true;
+			currentmen = "about"; 
+			}
+		if (men == "load") {
+			loadmenu = true;
+			currentmen = "load"; 
+			}
+			
+		if (men == "new") {
+			newmenu = true;
+			currentmen = "new"; 
+			}*/
+	
+		if (Input.GetKeyDown("a")) {
+			testwin = GUI.Window(0,new Rect(110,10,200,60),Win0,"BLAH");
+		}
+		if (mainmenu) DrawMainGUI();
+		 if (settingsmenu) DrawSettingGUI();
+		 if (aboutmenu) DrawAboutGUI();
+		 if (loadmenu) DrawLoadGUI();
+		 if (newmenu) DrawNewGUI();
+	}
+	
+	public void Win0(int winindex) {
+		if (GUI.Button(new Rect(10,20,100,20),"asd")) {
+			Debug.Log("button pressed");
+		}
+	}
+	
 	
 	//public void DrawMainGUI(SettingMenu settingmen,LoadMenu loadmen,AboutMenu aboutmen,NewMenu newmen) {
 	public void DrawMainGUI	() {
 		if ( GUI.Button(new Rect(Screen.width / 2 - buttonWidth / 2,
 			100,buttonWidth,buttonHeight),"New Game") ) 
 		{
-			DrawNewGUI();
+			newmenu = true;
+			mainmenu = false;
+			currentmen = "new";
 			//newmen.DrawGUI(this);
 			// New game or resume game
 			//Application.LoadLevel("Win")	;
@@ -33,20 +95,31 @@ public class MainMenu {
 		if (GUI.Button(new Rect(Screen.width / 2 - buttonWidth / 2,
 			150,buttonWidth,buttonHeight),"Load Level")) {
 			// Load level menu
+				loadmenu = true;
+				mainmenu = false;
+				currentmen = "load";
 			//loadmen.DrawGUI(this);
-			DrawLoadGUI();
+			//DrawLoadGUI();
 		}
 		if (GUI.Button(new Rect(Screen.width / 2 - buttonWidth / 2,
 			200,buttonWidth,buttonHeight),"Settings")) {
 			// Settings menu
 			//settingmen.DrawGUI();
-				DrawSettingGUI();
+			settingsmenu = true;
+			mainmenu = false;
+			currentmen = "setting";
+
+				//DrawSettingGUI();
 		}
 		if (GUI.Button(new Rect(Screen.width / 2 - buttonWidth / 2,
 			250,buttonWidth,buttonHeight),"About")) {
 			// Aboutmenu
+			aboutmenu = true;
+			mainmenu = false;
+			currentmen = "about";
+
 			//aboutmen.DrawGUI();
-				DrawAboutGUI();
+			//DrawAboutGUI();
 		}
 		
 		if ( GUI.Button(new Rect(Screen.width - buttonWidth ,
@@ -72,7 +145,11 @@ public class MainMenu {
 		{
 			//GUI.skin = null;
 			//Back to Main Menu
-			DrawMainGUI();
+			mainmenu = true;
+			loadmenu = false;
+			currentmen = "main";
+
+			//DrawMainGUI();
 		}
 		
 	}
@@ -81,7 +158,11 @@ public class MainMenu {
 		if ( GUI.Button(new Rect(Screen.width - buttonWidth ,
 			Screen.height - buttonHeight,buttonWidth,buttonHeight),"Back") ) 
 		{
-			DrawMainGUI();
+			mainmenu = true;
+			newmenu = false;
+			currentmen = "main";
+
+			//DrawMainGUI();
 			// Destroy current stuff and go back one level
 		}
 	}
@@ -95,7 +176,11 @@ public class MainMenu {
 		if ( GUI.Button(new Rect(Screen.width - buttonWidth ,
 			Screen.height - buttonHeight,buttonWidth,buttonHeight),"Back") ) 
 		{
-						DrawMainGUI();
+			mainmenu = true;
+			settingsmenu = false;
+			currentmen = "main";
+
+			//DrawMainGUI();
 
 //  Back button
 		}
@@ -113,6 +198,10 @@ public class MainMenu {
 			Screen.height - buttonHeight,buttonWidth,buttonHeight),"Back") ) 
 		{
 			// Go back to Main Menu
+			mainmenu = true;
+			aboutmenu = false;
+			currentmen = "main";
+			
 		}
 	}
 	
