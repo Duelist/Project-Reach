@@ -39,6 +39,18 @@ public class Tower {
 		return towerObj;
 	}
 	
+	public void createZone() {
+		if (this.direct == "right") {
+			this.createRightZone();
+		} else if (this.direct == "left") {
+			this.createLeftZone();
+		} else if (this.direct == "up") {
+			this.createUpperZone();
+		} else if (this.direct == "down") {
+			this.createLowerZone();
+		}
+	}
+	
 	// Creates a zone for the effect.
 	public void createLowerZone() {
 		int rows = this.zone.getZoneWidth();
@@ -88,7 +100,7 @@ public class Tower {
 		Effect eff = this.zone.getEffect();
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
 		GameObject cubex = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		cubex.transform.position = new Vector3(xPos, 0, zPos+2);
+		cubex.transform.position = new Vector3(xPos + 2, 0, zPos);
 		cubex.transform.localScale = new Vector3(rows,1,cols);
 	}
 	

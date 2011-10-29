@@ -25,11 +25,17 @@ public class GameManager {
 		Vector2 [] selectList = map.GetSelectorPositionList();
 		for (int i = 0; i < map.selectorNum; i++){
 			string dir = "";
-			if (selectList[i].x == 0 || selectList[i].x == 6 || selectList[i].x == 11){
+			if (selectList[i].x == 0 || selectList[i].x == 5 || selectList[i].x == 10){
 				dir = "right";
 			}
-			if (selectList[i].x == 5 || selectList[i].x == 10 || selectList[i].x == 15){
+			if (selectList[i].x == 4 || selectList[i].x == 9 || selectList[i].x == 14){
 				dir = "left";
+			}
+			if (selectList[i].y == 0){
+				dir = "up";
+			}
+			if (selectList[i].y == 14){
+				dir = "down";
 			}
 			towerList[i] = new Tower ((int)selectList[i].x, (int)selectList[i].y, fireZone, dir);
 

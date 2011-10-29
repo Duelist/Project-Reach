@@ -45,6 +45,7 @@ public class SelectorOverlay {
 					towerList[i].SetTextureTower(fireTex);
 					towerList[i].GetTowerObj().renderer.enabled = true;
 					selectorActive[i] = false;
+					towerList[i].createZone();
 				}
 			}
 		}
