@@ -1,50 +1,68 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AStar 
 {
-	public static PriorityQueue open;
-	public static PriorityQueue closed;
+	private static List<Tile> open;
+	private static List<Tile> closed;
+	private static Tile[] cameFrom;
+	private static float[] g_score;
+	private static float[] h_score;
+	private static float[] f_score;
 	
 	public static ArrayList Search(Tile start, Tile goal, Map map, float heuristicWeight)
 	{
-		open = new PriorityQueue();
-		open.Push(start);
-		start.costSoFar = 0;
-		start.estimatedTotalCost = HeuristicEstimate(start,goal,heuristicWeight);
-		closed = new PriorityQueue();
+		open = new List<Tile>();
+		closed = new List<Tile>();
+		cameFrom = new Tile[(int)map.mapSize.x * (int)map.mapSize.y];
+		
+		g_score = new float[(int)map.mapSize.x * (int)map.mapSize.y];
+		h_score = new float[(int)map.mapSize.x * (int)map.mapSize.y];
+		f_score = new float[(int)map.mapSize.x * (int)map.mapSize.y];
+		
+		open.Add(start);
+		g_score[start.id] = 0;
+		h_score[start.id] = HeuristicEstimate(start,goal,heuristicWeight);
+		f_score[start.id] = g_score[start.id] + h_score[start.id];
 		
 		Tile currentTile = null;
 		
-		
-		while (open.GetLength() != 0)
+		while (open.Count != 0)
 		{
-			currentTile = open.Front();
+			//Tile currentTile;
+			if (open.Count > 0)
+				currentTile = (Tile)open[0];
+			else
+				currentTile = null;
+			
 			if (currentTile == goal)
 				return GetPath(currentTile);
 			
 			open.Remove(currentTile);
-			closed.Push(currentTile);
+			closed.Add(currentTile);
 			ArrayList neighbours = map.GetNeighbours(currentTile);
+			Debug.Log(open.ToString());
 			for (int i = 0; i < neighbours.Count; i++)
 			{
 				Tile endTile = (Tile) neighbours[i];
 				if (closed.Contains(endTile))
 					continue;
 				
-				float endTileCost = endTile.costSoFar + GetCost(currentTile, endTile);
+				float endTileCost = g_score[endTile.id] + GetCost(currentTile, endTile);
 				
 				if (!open.Contains(endTile))
-					open.Push(endTile);
-				else if (endTileCost >= endTile.costSoFar)
+					open.Add(endTile);
+				else if (endTileCost >= g_score[endTile.id])
 					continue;
 				
 				float endTileHeuristic = HeuristicEstimate(endTile, goal, heuristicWeight);
-				endTile.costSoFar = endTileCost;
-				endTile.parentTile = currentTile;
-				endTile.estimatedTotalCost = endTileCost + endTileHeuristic;
+				g_score[endTile.id] = endTileCost;
+				cameFrom[endTile.id] = currentTile;
+				f_score[endTile.id] = endTileCost + endTileHeuristic;
 			}
 		}
+		
 		return new ArrayList();
 	}
 	
@@ -65,7 +83,7 @@ public class AStar
 		while (tile != null)
 		{
 			path.Add(tile);
-			tile = tile.parentTile;
+			tile = cameFrom[tile.id];
 		}
 		
 		path.Reverse();
