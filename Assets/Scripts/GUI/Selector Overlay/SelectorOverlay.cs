@@ -42,10 +42,8 @@ public class SelectorOverlay {
 		for (int i = 0; i < listSize; i++){
 			if (selectorActive[i]){
 				if (GUI.Button (new Rect(selectorButtonList[i].x,selectorButtonList[i].y,buttonSize,buttonSize), i+"")){
-					towerList[i].SetTextureTower(fireTex);
-					towerList[i].GetTowerObj().renderer.enabled = true;
+					towerList[i].SetActive(fireTex);
 					selectorActive[i] = false;
-					towerList[i].createZone();
 				}
 			}
 		}

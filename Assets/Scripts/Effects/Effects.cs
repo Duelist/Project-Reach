@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Effect : MonoBehaviour
+public class Effect
 {
 	// Effect variables
 	private string effectSpecial;
@@ -61,6 +61,8 @@ public class Effect : MonoBehaviour
 		return this.effectSpecial;
 	}
 	
-	
+	public int GetDamage(){
+		return damage;
+	}
 	
 }

@@ -19,8 +19,6 @@ public class GameManager {
 		guiManager = new GUIManager (map);
 		enemyManager = new EnemyManager(map);
 		// Testing Tower stuff
-		fireEffect = new Effect ("fire");
-		fireZone = new Zone (fireEffect, 3, 3, "present");
 		towerList = new Tower [map.selectorNum];
 		Vector2 [] selectList = map.GetSelectorPositionList();
 		for (int i = 0; i < map.selectorNum; i++){
@@ -37,8 +35,7 @@ public class GameManager {
 			if (selectList[i].y == 14){
 				dir = "down";
 			}
-			towerList[i] = new Tower ((int)selectList[i].x, (int)selectList[i].y, fireZone, dir);
-
+			towerList[i] = new Tower ((int)selectList[i].x, (int)selectList[i].y, dir);
 		}
 		// For Testing
 		//gameState = GameState.Building;
@@ -50,7 +47,7 @@ public class GameManager {
 	public void DrawScene (){
 		guiManager.DrawGUI(towerList);
 		if (gameState == GameState.Playing){
-			enemyManager.DrawEnemy();
+			enemyManager.DrawEnemy(towerList);
 		}
 		
 		/*Effect eff = new Effect("fire");

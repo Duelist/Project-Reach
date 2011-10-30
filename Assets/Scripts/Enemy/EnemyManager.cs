@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyManager{
 	// wayPointArray object
@@ -21,8 +22,7 @@ public class EnemyManager{
 	// Enemy 1: Blue Jelly
 	private Texture [] blueJellyTex;
 	// Stores a list of enemy references
-	private Enemy [] enemy;
-	int enemyNum = 3;
+	private List<Enemy> enemy;
 	//GameObject blueJellyCube;
 	
 	// Use this for initialization
@@ -46,7 +46,7 @@ public class EnemyManager{
 			blueJellyTex[i] = Resources.Load ("Enemy/Blue Jelly/Blue Jelly "+i) as Texture;
 		}
 		
-		enemy = new Enemy[enemyNum];
+		enemy = new List<Enemy> ();
 		// Initialization parameters:
 		// string n, int x, int z, int hp, int ms, int arm, ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList path
 		int startX = 1;
@@ -57,9 +57,10 @@ public class EnemyManager{
 		ArrayList path2 = AStar.Search (map.tiles[2,0], map.tiles[12,14], map, 1.0f);
 		Debug.Log("Path 3");
 		ArrayList path3 = AStar.Search (map.tiles[3,0], map.tiles[13,14], map, 1.0f);
-		enemy[0] = new Enemy ("Blue Jelly", startX, startZ, 10, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path);
-		enemy[1] = new Enemy ("Blue Jelly", startX+1, startZ, 10, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path2);
-		enemy[2] = new Enemy ("Blue Jelly", startX+2, startZ, 10, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path3);
+		
+		enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path));
+		enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path2));
+		enemy.Add(new Enemy ("Merupi", startX+2, startZ, 20, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path3));
 	
 		// Using gameobjects for now, gonna have to discuss wtf is going on here.
 		/*blueJellyCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -68,9 +69,9 @@ public class EnemyManager{
 		blueJellyCube.transform.localScale = new Vector3(1f,0.01f,1f);*/
 	}
 	
-	// Update is called once per frame
-	public void DrawEnemy () {
-		mobMovement();
+	// Update Method
+	public void DrawEnemy (Tower[] towerList) {
+		MobMovement(towerList);
 	}
 	
 	public void spawn (){
@@ -82,8 +83,8 @@ public class EnemyManager{
 	}
 	
 	// Waypoint array is a list of Waypoints that contain the position of waypoints and the direction to move.
-	public void mobMovement (){
-		for (int i = 0; i < enemyNum; i++){
+	private void MobMovement (Tower[] towerList){
+		for (int i = 0; i < enemy.Count; i++){
 			Enemy newEnemy = enemy[i];
 			newEnemy.GetGameObject().renderer.material.mainTexture = newEnemy.GetAnimate(newEnemy.GetCurTex());
 			if (newEnemy.GetAnimHelper() + animationSpeed < Time.time){
@@ -133,6 +134,7 @@ public class EnemyManager{
 					if (x != -1 || z != -1){
 						newEnemy.SetPosition(x, z);
 						newEnemy.GetGameObject().transform.position = new Vector3(x, 0, z);
+						MobDamage(towerList, newEnemy);
 					}
 					/*if (blueJelly.GetPositionX() == 6){
 						move *= -1;
@@ -144,41 +146,29 @@ public class EnemyManager{
 				
 			}
 		}
-		
-		// each enemy's position is compared to their next waypoint's position.
-		// if they are at the last way point, player loses life.
-		// if they are at the waypoint, increase the waypoint counter array at i.
-		// if they are not at the waypoint, move towards the waypoint at its speed.
-		/*for (var i = 0; i < waypointCounterArray.length; i++){
-			// i know ian said the waypoints are an area, but this will have to do for now...
-			// TODO: will have to write a comparison operation
-			if (enemyArray[i].getPosition() == waypointArray[waypointCounterArray[i]].getPosition())
-			if (true){
-				//waypointCounterArray[i] = waypointCounterArray[i] + 1;
-				if (waypointCounterArray[i] >= waypointArray.length){
-					playerDamage();
+	}
+	
+	// Zone detection
+	private void MobDamage(Tower[] towerList, Enemy newEnemy){
+		Vector3 enemyPos = newEnemy.GetPosition();
+		for (int j = 0; j < towerList.Length; j++){
+			if (towerList[j].GetActive()){
+				Zone newZone = towerList[j].GetZone();
+				Vector2 zonePos = newZone.GetPosition();
+				if (zonePos.x - enemyPos.x <= 1 
+					&& zonePos.x - enemyPos.x >= -1
+					&& zonePos.y - enemyPos.z <= 1
+					&& zonePos.y - enemyPos.z >= -1){
+					
+					Effect newEff = newZone.GetEffect();
+					newEnemy.SetCurHP(newEnemy.GetCurHP() - newEff.GetDamage());
+					Debug.Log(newEnemy.GetName() + " DAMAGED for " + newEff.GetDamage());
+					if (newEnemy.GetCurHP() <= 0){
+						Debug.Log(newEnemy.GetName() + " has been Destroyed!");
+						enemy.Remove(newEnemy);
+					}
 				}
 			}
-			else {
-				var xAdd = 0;
-				var yAdd = 0;
-				/*if (waypointArray[waypointCounterArray[i]].getDirection().equals("up")){
-					yAdd = -(enemyArray[i].getMoveSpeed());
-				}
-				else if (waypointArray[waypointCounterArray[i]].getDirection().equals("down")){
-					yAdd = enemyArray[i].getMoveSpeed();
-				}
-				else if (waypointArray[waypointCounterArray[i]].getDirection().equals("left")){
-					xAdd = -(enemyArray[i].getMoveSpeed());
-				}
-				else if (waypointArray[waypointCounterArray[i]].getDirection().equals("right")){
-					xAdd = enemyArray[i].getMoveSpeed();
-				}
-				else{
-				}
-				enemyArray[i].setPosition(enemyArray[i].getPositionX + xAdd, enemyArray[i].getPositionY + yAdd);
-				
-			}
-		}*/
+		}
 	}
 }

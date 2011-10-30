@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 
-public class Wall : MonoBehaviour {
+public class Wall {
 	private int xStart;
 	private int zStart;
 	private int xEnd; 
@@ -24,8 +24,8 @@ public class Wall : MonoBehaviour {
 		zEnd = towerTwo.getZPos();
 		
 		elementList = new ArrayList();
-		elementList.Add(towerOne.getZone().getEffect());
-		elementList.Add(towerTwo.getZone().getEffect());
+		elementList.Add(towerOne.GetZone().GetEffect());
+		elementList.Add(towerTwo.GetZone().GetEffect());
 		/*if (ele != null) {
 			elementList = ele;
 		}*/

@@ -14,14 +14,15 @@ public class Tower {
 	//private Zone wall;
 	//private Effect effect;
 	private GameObject towerObj;
+	private bool active;
 	
 	//Constructor
-	public Tower (int x, int z, Zone zOne, string dir) {
+	public Tower (int x, int z, string dir) {
 		towerXPos = x;
 		towerZPos = z;
 		//effect = eff;
-		zone = zOne;
 		direct = dir;
+		active = false;
 	
 		towerObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		towerObj.renderer.enabled = false;
@@ -29,6 +30,8 @@ public class Tower {
 		towerObj.transform.localScale = new Vector3(1f,0.1f,1f);
 		towerObj.transform.Rotate(0,0,180);
 		towerObj.transform.tag = "tower";
+		
+		createZone();
 	}
 	
 	public void SetTextureTower(Texture tex){
@@ -53,55 +56,31 @@ public class Tower {
 	
 	// Creates a zone for the effect.
 	public void createLowerZone() {
-		int rows = this.zone.getZoneWidth();
-		int cols = this.zone.getZoneLength();
 		int xPos = this.towerXPos;
-		int zPos = this.towerZPos;
-		
-		Effect eff = this.zone.getEffect();
+		int zPos = this.towerZPos - 2;
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		GameObject cubex = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		cubex.transform.position = new Vector3(xPos, 0, zPos-2);
-		cubex.transform.localScale = new Vector3(rows,1,cols);
+		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
 	}
 	
 	public void createUpperZone() {
-		int rows = this.zone.getZoneWidth();
-		int cols = this.zone.getZoneLength();
 		int xPos = this.towerXPos;
-		int zPos = this.towerZPos;
-		
-		Effect eff = this.zone.getEffect();
+		int zPos = this.towerZPos + 2;
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		GameObject cubex = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		cubex.transform.position = new Vector3(xPos, 0, zPos+2);
-		cubex.transform.localScale = new Vector3(rows,1,cols);
+		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
 	}
 	
 	public void createLeftZone() {
-		int rows = this.zone.getZoneWidth();
-		int cols = this.zone.getZoneLength();
-		int xPos = this.towerXPos;
+		int xPos = this.towerXPos - 2;
 		int zPos = this.towerZPos;
-		
-		Effect eff = this.zone.getEffect();
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		GameObject cubex = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		cubex.transform.position = new Vector3(xPos - 2, 0, zPos);
-		cubex.transform.localScale = new Vector3(rows,1,cols);
+		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
 	}
 	
 	public void createRightZone() {
-		int rows = this.zone.getZoneWidth();
-		int cols = this.zone.getZoneLength();
-		int xPos = this.towerXPos;
+		int xPos = this.towerXPos + 2;
 		int zPos = this.towerZPos;
-		
-		Effect eff = this.zone.getEffect();
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		GameObject cubex = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		cubex.transform.position = new Vector3(xPos + 2, 0, zPos);
-		cubex.transform.localScale = new Vector3(rows,1,cols);
+		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
 	}
 	
 		// Physically/visually create a wall
@@ -127,6 +106,13 @@ public class Tower {
 			cubeHor.transform.localScale = new Vector3(3,1,1);
 		}
 		
+	}
+	
+	public void SetActive(Texture tex){
+		SetTextureTower(tex);
+		towerObj.renderer.enabled = true;
+		zone.SetActive();
+		active = true;
 	}
 	
 	/* Setters and Getters */
@@ -158,10 +144,13 @@ public class Tower {
 		return this.towerZPos;
 	}
 	
-	public Zone getZone() {
+	public Zone GetZone() {
 		return this.zone;
 	}
 	
+	public bool GetActive(){
+		return active;
+	}
 	/* public Zone getWall() {
 		return this.wall;
 	}*/
