@@ -8,6 +8,7 @@ public class Enemy{
 	private int maxHP, curHP;
 	private int moveSpeed;
 	private int armour;
+	private int damage;
 	// Typing:
 	// immunityList : ArrayList <String>
 	// timeZone : ArrayList <String>
@@ -26,7 +27,7 @@ public class Enemy{
 	// Object to be drawn on screen
 	GameObject cubeObject;
 	
-	public Enemy (string n, float x, float z, int hp, int ms, int arm, ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList pa){
+	public Enemy (string n, float x, float z, int hp, int ms, int arm, int dam, ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList pa){
 		ename = n;
 		position = new Vector3 (x,0,z);
 		maxHP = hp;
@@ -39,6 +40,8 @@ public class Enemy{
 		else {
 			armour = arm;
 		}
+		
+		damage = dam;
 		
 		immunityList = new ArrayList ();
 		if (imList != null){
@@ -125,6 +128,13 @@ public class Enemy{
 		else {
 			armour = arm;
 		}
+	}
+	
+	public int GetDamage(){
+		return damage;
+	}
+	public void SetDamage(int dam){
+		damage = dam;
 	}
 	
 	// ArrayList getters and Modifiers

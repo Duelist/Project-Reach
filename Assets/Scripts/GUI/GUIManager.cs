@@ -9,7 +9,7 @@ public class GUIManager {
 	RollingButton rollingButton;
 	SelectorOverlay selectorOverlay;
 	// Use this for initialization
-	public GUIManager (Map map) {
+	public GUIManager (Map map, Player player) {
 		/*maxMana = 100;
 		manaCount = 0;
 		invCount = 0;
@@ -20,7 +20,7 @@ public class GUIManager {
 		x = Screen.width - width * 2 - 10;
 		y = Screen.height - 233;*/
 		int width = 100;
-		manaInvasion = new ManaInvasion (100,0,0,30,width,50,Screen.width - width * 2 - 10,Screen.height - 233);
+		manaInvasion = new ManaInvasion (0,30,width,50,Screen.width - width * 2 - 10,Screen.height - 233);
 		
 		/*
 		timeZone = "Future";
@@ -43,10 +43,10 @@ public class GUIManager {
 		selectorOverlay = new SelectorOverlay(map);
 	}
 	
-	public void DrawGUI (Tower [] towerList) {
-		manaInvasion.DrawGUI();
+	public void DrawGUI (Tower [] towerList, Player player) {
+		manaInvasion.DrawGUI(player);
 		futureButton.DrawGUI();
 		rollingButton.DrawGUI();
-		selectorOverlay.DrawGUI(towerList);
+		selectorOverlay.DrawGUI(towerList, player);
 	}
 }

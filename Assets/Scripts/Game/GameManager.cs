@@ -3,6 +3,7 @@ using System.Collections;
 
 public class GameManager {
 
+	private Player player1;
 	private enum GameState {Building, Playing, Paused, Stopped};
 	private GameState gameState;
 	private EnemyManager enemyManager;
@@ -12,11 +13,13 @@ public class GameManager {
 	private Effect fireEffect;
 	private Zone fireZone;
 	private Tower [] towerList;
+	private float timeKeeper;
 	
 	public GameManager (){
+		player1 = new Player ("Player 1");
 		map = new Map();
 		map.GenerateLevel1();
-		guiManager = new GUIManager (map);
+		guiManager = new GUIManager (map, player1);
 		enemyManager = new EnemyManager(map);
 		// Testing Tower stuff
 		towerList = new Tower [map.selectorNum];
@@ -37,6 +40,8 @@ public class GameManager {
 			}
 			towerList[i] = new Tower ((int)selectList[i].x, (int)selectList[i].y, dir);
 		}
+		timeKeeper = Time.time;
+
 		// For Testing
 		//gameState = GameState.Building;
 		gameState = GameState.Playing;
@@ -45,11 +50,14 @@ public class GameManager {
 	}
 	
 	public void DrawScene (){
-		guiManager.DrawGUI(towerList);
+		guiManager.DrawGUI(towerList, player1);
 		if (gameState == GameState.Playing){
-			enemyManager.DrawEnemy(towerList);
+			enemyManager.DrawEnemy(towerList, player1);
 		}
-		
+		if (timeKeeper + 1 < Time.time){
+			player1.IncMana(1);
+			timeKeeper = Time.time;
+		}
 		/*Effect eff = new Effect("fire");
 		Zone zone = new Zone(eff, 3, 3, "present");
 		Tower tower = new Tower(4, 3, zone);

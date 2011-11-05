@@ -21,6 +21,8 @@ public class EnemyManager{
 	
 	// Enemy 1: Blue Jelly
 	private Texture [] blueJellyTex;
+	// Enemy 2: Merupi
+	private Texture [] merupiTex;
 	// Stores a list of enemy references
 	private List<Enemy> enemy;
 	//GameObject blueJellyCube;
@@ -46,9 +48,15 @@ public class EnemyManager{
 			blueJellyTex[i] = Resources.Load ("Enemy/Blue Jelly/Blue Jelly "+i) as Texture;
 		}
 		
+		int maxTex2 = 9;
+		merupiTex = new Texture [maxTex2];
+		for (int i = 0; i < maxTex2; i++){
+			merupiTex[i] = Resources.Load ("Mascot/Merupi "+i) as Texture;
+		}
+		
 		enemy = new List<Enemy> ();
 		// Initialization parameters:
-		// string n, int x, int z, int hp, int ms, int arm, ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList path
+		// string n, int x, int z, int hp, int ms, int arm, int dam. ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList path
 		int startX = 1;
 		int startZ = 0;
 		Debug.Log("Path 1");
@@ -58,9 +66,9 @@ public class EnemyManager{
 		Debug.Log("Path 3");
 		ArrayList path3 = AStar.Search (map.tiles[3,0], map.tiles[13,14], map, 1.0f);
 		
-		enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path));
-		enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path2));
-		enemy.Add(new Enemy ("Merupi", startX+2, startZ, 20, 1, 0, imList, tZone, blueJellyTex, 50, maxTex, path3));
+		enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path));
+		enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path2));
+		enemy.Add(new Enemy ("Merupi", startX+2, startZ, 20, 1, 0, 5, imList, tZone, merupiTex, 50, maxTex2, path3));
 	
 		// Using gameobjects for now, gonna have to discuss wtf is going on here.
 		/*blueJellyCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -70,8 +78,8 @@ public class EnemyManager{
 	}
 	
 	// Update Method
-	public void DrawEnemy (Tower[] towerList) {
-		MobMovement(towerList);
+	public void DrawEnemy (Tower[] towerList, Player player) {
+		MobMovement(towerList, player);
 	}
 	
 	public void spawn (){
@@ -83,7 +91,7 @@ public class EnemyManager{
 	}
 	
 	// Waypoint array is a list of Waypoints that contain the position of waypoints and the direction to move.
-	private void MobMovement (Tower[] towerList){
+	private void MobMovement (Tower[] towerList, Player player){
 		for (int i = 0; i < enemy.Count; i++){
 			Enemy newEnemy = enemy[i];
 			newEnemy.GetGameObject().renderer.material.mainTexture = newEnemy.GetAnimate(newEnemy.GetCurTex());
@@ -136,14 +144,11 @@ public class EnemyManager{
 						newEnemy.GetGameObject().transform.position = new Vector3(x, 0, z);
 						MobDamage(towerList, newEnemy);
 					}
-					/*if (blueJelly.GetPositionX() == 6){
-						move *= -1;
+					else{ // Enemy Has reached the goal!
+						PlayerDamage(player, newEnemy);
+						enemy.Remove(newEnemy);
 					}
-					else if (blueJelly.GetPositionX() == 1){
-						move *= -1;
-					}*/
 				}
-				
 			}
 		}
 	}
@@ -170,5 +175,10 @@ public class EnemyManager{
 				}
 			}
 		}
+	}
+	
+	private void PlayerDamage (Player player, Enemy newEnemy){
+		player.DecHealth(newEnemy.GetDamage());
+		Debug.Log(player.GetName() + " has been hit for " + newEnemy.GetDamage() + " damage");
 	}
 }

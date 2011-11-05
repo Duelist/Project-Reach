@@ -38,12 +38,18 @@ public class SelectorOverlay {
 		}
 	}
 	
-	public void DrawGUI (Tower [] towerList){
+	public void DrawGUI (Tower [] towerList, Player player){
 		for (int i = 0; i < listSize; i++){
 			if (selectorActive[i]){
 				if (GUI.Button (new Rect(selectorButtonList[i].x,selectorButtonList[i].y,buttonSize,buttonSize), i+"")){
-					towerList[i].SetActive(fireTex);
-					selectorActive[i] = false;
+					if (player.GetMana() >= 10){	
+						towerList[i].SetActive(fireTex);
+						selectorActive[i] = false;
+						player.DecMana(10);
+					}
+					else {
+						Debug.Log ("Insufficient Mana to create a tower");
+					}
 				}
 			}
 		}
