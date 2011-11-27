@@ -43,20 +43,42 @@ public class Tower {
 	}
 	
 	public void createZone() {
-		if (this.direct == "right") {
+		if (this.direct == "topright") {
+			this.createTopRightZone();
+		} else if (this.direct == "right") {
 			this.createRightZone();
 		} else if (this.direct == "left") {
 			this.createLeftZone();
-		} else if (this.direct == "up") {
+		} else if (this.direct == "topleft") {
+			this.createTopLeftZone();
+		} else if (this.direct == "top") {
 			this.createUpperZone();
-		} else if (this.direct == "down") {
-			this.createLowerZone();
+		} else if (this.direct == "bottom") {
+			this.createBottomZone();
+		} else if (this.direct == "bottomleft") {
+			this.createBottomLeftZone();
+		} else if (this.direct == "bottomright") {
+			this.createBottomRightZone();
 		}
 	}
 	
 	// Creates a zone for the effect.
-	public void createLowerZone() {
+	public void createBottomZone() {
 		int xPos = this.towerXPos;
+		int zPos = this.towerZPos - 2;
+		// This is just for visual test purposes, will need to replace with actual ingame animation/models
+		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
+	}
+	
+	public void createBottomLeftZone() {
+		int xPos = this.towerXPos - 2;
+		int zPos = this.towerZPos - 2;
+		// This is just for visual test purposes, will need to replace with actual ingame animation/models
+		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
+	}
+	
+	public void createBottomRightZone() {
+		int xPos = this.towerXPos + 2;
 		int zPos = this.towerZPos - 2;
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
 		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
@@ -76,9 +98,23 @@ public class Tower {
 		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
 	}
 	
+	public void createTopLeftZone() {
+		int xPos = this.towerXPos - 2;
+		int zPos = this.towerZPos + 2;
+		// This is just for visual test purposes, will need to replace with actual ingame animation/models
+		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
+	}
+	
 	public void createRightZone() {
 		int xPos = this.towerXPos + 2;
 		int zPos = this.towerZPos;
+		// This is just for visual test purposes, will need to replace with actual ingame animation/models
+		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
+	}
+	
+	public void createTopRightZone() {
+		int xPos = this.towerXPos + 2;
+		int zPos = this.towerZPos + 2;
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
 		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
 	}

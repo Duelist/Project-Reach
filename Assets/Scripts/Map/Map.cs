@@ -32,13 +32,13 @@ public class Map
 		//tiles = new Tile[(int)mapSize.x*(int)mapSize.y];
 	}
 	
-	Tile GetTile(int x, int y)
+	public Tile GetTile(int x, int y)
 	{
 		//int coord = y*(int)mapSize.x + x;
 		return tiles[x, y];
 	}
 	
-	Tile GetTile(float x, float y)
+	public Tile GetTile(float x, float y)
 	{
 		//int coord = (int)y*(int)mapSize.x + (int)x;
 		return tiles[(int)x, (int)y];
@@ -227,5 +227,13 @@ public class Map
 	
 	public Vector2 [] GetSelectorPositionList (){
 		return selectorPositionList;
+	}
+	
+	public int GetMapSizeX() {
+		return (int) this.mapSize.x;
+	}
+	
+	public int GetMapSizeY() {
+		return (int) this.mapSize.y;
 	}
 }
