@@ -6,6 +6,13 @@ public class SelectorOverlay {
 	private bool [] selectorActive;
 	private int listSize;
 	private float buttonSize;
+	
+	private bool mouseDown;
+	private bool mouseDrag;
+	private bool mouseUp;
+	
+	private Vector3 mouseDownPos;
+	
 	Texture fireTex = Resources.Load ("Tower/FireTower") as Texture;
 	public SelectorOverlay(Map map){
 		Camera camera = Camera.main;
@@ -38,34 +45,53 @@ public class SelectorOverlay {
 				}
 			}
 		}
+		
+		mouseDown = false;
+		mouseDrag = false;
+		mouseUp = false;
+		
+		mouseDownPos = new Vector3 (-1,-1, 0);
 	}
 	
 	public void DrawGUI (Tower [] towerList, Player player){
 		// Change of button to event
 		Event e = Event.current;
-		if (e.type == EventType.MouseDrag){
-			Debug.Log("Current event detected: " + Event.current.type);
+		if (e.type == EventType.MouseDown){
+			mouseDown = true;
+			mouseDownPos.x = Input.mousePosition.x;
+			mouseDownPos.y = Input.mousePosition.y;
+			mouseDownPos.z = Input.mousePosition.z;
 		}
-		if (e.type == EventType.MouseUp){
+		else if (e.type == EventType.MouseDrag){
+			mouseDrag = true;
+			Debug.DrawLine(mouseDownPos, Input.mousePosition, Color.white);
+		}
+		else if (e.type == EventType.MouseUp){
+			mouseUp = true;
 			Debug.Log("Current event detected: " + Event.current.type);
-			Debug.Log("Input Mouse Position x:" + Input.mousePosition.x + " y:" + Input.mousePosition.y); 
-			for (int i = 0; i < listSize; i++){
-				if (selectorActive[i]){
-					if (selectorButtonList[i].x + buttonSize > Input.mousePosition.x && selectorButtonList[i].x < Input.mousePosition.x ){
-						if (selectorButtonList[i].y + buttonSize > Input.mousePosition.y && selectorButtonList[i].y < Input.mousePosition.y ){ 
-							if (player.GetMana() >= 10){	
-								towerList[i].SetActive(fireTex);
-								selectorActive[i] = false;
-								player.DecMana(10);
-							}
-							else {
-								Debug.Log ("Insufficient Mana to create a tower");
+			Debug.Log("Input Mouse Position x:" + Input.mousePosition.x + " y:" + Input.mousePosition.y);
+			if (mouseDown == true && mouseDrag == false && mouseUp == true){
+				for (int i = 0; i < listSize; i++){
+					if (selectorActive[i]){
+						if (selectorButtonList[i].x + buttonSize > Input.mousePosition.x && selectorButtonList[i].x < Input.mousePosition.x ){
+							if (selectorButtonList[i].y + buttonSize > Input.mousePosition.y && selectorButtonList[i].y < Input.mousePosition.y ){ 
+								if (player.GetMana() >= 10){
+									towerList[i].SetActive(fireTex);
+									selectorActive[i] = false;
+									player.DecMana(10);
+								}
+								else {
+									Debug.Log ("Insufficient Mana to create a tower");
+								}
 							}
 						}
 					}
 				}
-				
 			}
+			else if (mouseDown == true && mouseDrag == true && mouseUp == true){
+				// create a wall here =)
+			}
+			resetButtonStates();
 		}
 		/*
 		for (int i = 0; i < listSize; i++){
@@ -82,5 +108,11 @@ public class SelectorOverlay {
 				}
 			}
 		}*/
+	}
+	
+	public void resetButtonStates(){
+		mouseDown = false;
+		mouseDrag = false;
+		mouseUp = false;
 	}
 }
