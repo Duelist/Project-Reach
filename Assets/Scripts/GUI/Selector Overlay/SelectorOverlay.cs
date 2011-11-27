@@ -27,9 +27,11 @@ public class SelectorOverlay {
 					Vector3 meepo = camera.WorldToScreenPoint(map.tiles[i,j].tileObject.transform.position);
 					//Debug.Log(meepo.x + ", " + meepo.y +", "+ meepo.z);
 					//Need to add modifications to the x and y values to get the corner of the tile.
-					//Need to invert the Y numbers to match world space locations
+					//Need to invert the Y numbers to match world space locations for buttons but not Events
+					//float yStore = Screen.height - meepo.y - (buttonSize/2);
 					float xStore = meepo.x - (buttonSize/2);
-					float yStore = Screen.height - meepo.y - (buttonSize/2);
+					float yStore = meepo.y - (buttonSize/2);
+					
 					selectorButtonList[counter] = new Vector2 (xStore, yStore);
 					selectorActive[counter] = true;
 					counter++;
@@ -39,6 +41,33 @@ public class SelectorOverlay {
 	}
 	
 	public void DrawGUI (Tower [] towerList, Player player){
+		// Change of button to event
+		Event e = Event.current;
+		if (e.type == EventType.MouseDrag){
+			Debug.Log("Current event detected: " + Event.current.type);
+		}
+		if (e.type == EventType.MouseUp){
+			Debug.Log("Current event detected: " + Event.current.type);
+			Debug.Log("Input Mouse Position x:" + Input.mousePosition.x + " y:" + Input.mousePosition.y); 
+			for (int i = 0; i < listSize; i++){
+				if (selectorActive[i]){
+					if (selectorButtonList[i].x + buttonSize > Input.mousePosition.x && selectorButtonList[i].x < Input.mousePosition.x ){
+						if (selectorButtonList[i].y + buttonSize > Input.mousePosition.y && selectorButtonList[i].y < Input.mousePosition.y ){ 
+							if (player.GetMana() >= 10){	
+								towerList[i].SetActive(fireTex);
+								selectorActive[i] = false;
+								player.DecMana(10);
+							}
+							else {
+								Debug.Log ("Insufficient Mana to create a tower");
+							}
+						}
+					}
+				}
+				
+			}
+		}
+		/*
 		for (int i = 0; i < listSize; i++){
 			if (selectorActive[i]){
 				if (GUI.Button (new Rect(selectorButtonList[i].x,selectorButtonList[i].y,buttonSize,buttonSize), i+"")){
@@ -52,6 +81,6 @@ public class SelectorOverlay {
 					}
 				}
 			}
-		}
+		}*/
 	}
 }
