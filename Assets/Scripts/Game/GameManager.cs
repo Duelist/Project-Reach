@@ -12,8 +12,12 @@ public class GameManager {
 	private Camera camera;
 	private Effect fireEffect;
 	private Zone fireZone;
-	private Tower [] towerList;
 	private float timeKeeper;
+	
+	// Radical Changes, changing towerList to Hashtable for optimization
+	// Key: tower.x + "," + tower.y + "Tower"
+	// Value: Tower (at that position)
+	private Hashtable towerList;
 	
 	public GameManager (){
 		player1 = new Player ("Player 1");
@@ -22,6 +26,7 @@ public class GameManager {
 		guiManager = new GUIManager (map, player1);
 		enemyManager = new EnemyManager(map);
 		// Testing Tower stuff
+		/*
 		towerList = new Tower [map.selectorNum];
 		Vector2 [] selectList = map.GetSelectorPositionList();
 		for (int i = 0; i < map.selectorNum; i++){
@@ -77,8 +82,10 @@ public class GameManager {
 				}
 			}
 			towerList[i] = new Tower ((int)selectList[i].x, (int)selectList[i].y, dir);
-		}
+		}*/
 		timeKeeper = Time.time;
+		
+		towerList = new Hashtable ();
 
 		// For Testing
 		//gameState = GameState.Building;

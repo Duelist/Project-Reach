@@ -4,6 +4,8 @@ using System.Collections;
 public class Map
 {
 	public string mapName;
+	public int mapSizeX;
+	public int mapSizeY;
 	public Vector2 mapSize;
 	public int tileSize;
 	public bool pastState;
@@ -22,7 +24,9 @@ public class Map
 	public Map()
 	{
 		mapName = "Default";
-		mapSize = new Vector2(15,15);
+		mapSizeX = 15;
+		mapSizeY = 15;
+		mapSize = new Vector2(mapSizeX,mapSizeY);
 		pastState = true;
 		tileSize = 32;
 		tilesetPast = null;

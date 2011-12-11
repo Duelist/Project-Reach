@@ -25,9 +25,9 @@ public class Tower {
 		active = false;
 	
 		towerObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		towerObj.renderer.enabled = false;
+		towerObj.renderer.enabled = true;
 		towerObj.transform.position = new Vector3(towerXPos, 0, towerZPos);
-		towerObj.transform.localScale = new Vector3(1f,0.1f,1f);
+		towerObj.transform.localScale = new Vector3(1f,0.5f,1f);
 		towerObj.transform.Rotate(0,0,180);
 		towerObj.transform.tag = "tower";
 		

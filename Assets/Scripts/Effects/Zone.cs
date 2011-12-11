@@ -23,6 +23,9 @@ public class Zone {
 		zoneObj.transform.position = new Vector3(position.x, 0, position.y);
 		zoneObj.transform.localScale = new Vector3(width,0.1f,length);
 		zoneObj.renderer.enabled = false;
+		
+		Texture fireZone = Resources.Load ("WallZone/FireZone") as Texture;
+		zoneObj.renderer.material.mainTexture = fireZone;
 	}
 	
 	/* Setters and Getters */

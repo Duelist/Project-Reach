@@ -43,7 +43,7 @@ public class GUIManager {
 		selectorOverlay = new SelectorOverlay(map);
 	}
 	
-	public void DrawGUI (Tower [] towerList, Player player) {
+	public void DrawGUI (Hashtable towerList, Player player) {
 		manaInvasion.DrawGUI(player);
 		futureButton.DrawGUI();
 		rollingButton.DrawGUI();

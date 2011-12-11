@@ -78,7 +78,7 @@ public class EnemyManager{
 	}
 	
 	// Update Method
-	public void DrawEnemy (Tower[] towerList, Player player) {
+	public void DrawEnemy (Hashtable towerList, Player player) {
 		MobMovement(towerList, player);
 	}
 	
@@ -91,7 +91,7 @@ public class EnemyManager{
 	}
 	
 	// Waypoint array is a list of Waypoints that contain the position of waypoints and the direction to move.
-	private void MobMovement (Tower[] towerList, Player player){
+	private void MobMovement (Hashtable towerList, Player player){
 		for (int i = 0; i < enemy.Count; i++){
 			Enemy newEnemy = enemy[i];
 			newEnemy.GetGameObject().renderer.material.mainTexture = newEnemy.GetAnimate(newEnemy.GetCurTex());
@@ -154,9 +154,9 @@ public class EnemyManager{
 	}
 	
 	// Zone detection
-	private void MobDamage(Tower[] towerList, Enemy newEnemy){
+	private void MobDamage(Hashtable towerList, Enemy newEnemy){
 		Vector3 enemyPos = newEnemy.GetPosition();
-		for (int j = 0; j < towerList.Length; j++){
+		/*for (int j = 0; j < towerList.Length; j++){
 			if (towerList[j].GetActive()){
 				Zone newZone = towerList[j].GetZone();
 				Vector2 zonePos = newZone.GetPosition();
@@ -174,7 +174,7 @@ public class EnemyManager{
 					}
 				}
 			}
-		}
+		}*/
 	}
 	
 	private void PlayerDamage (Player player, Enemy newEnemy){

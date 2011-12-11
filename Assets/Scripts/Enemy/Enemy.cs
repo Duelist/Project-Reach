@@ -68,7 +68,7 @@ public class Enemy{
 		cubeObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		cubeObject.transform.Rotate(0,0,180);
 		cubeObject.transform.position = new Vector3(x, 0, z);
-		cubeObject.transform.localScale = new Vector3(1f,0.01f,1f);
+		cubeObject.transform.localScale = new Vector3(1f,1f,1f);
 		
 		animHelper = Time.time;
 	}

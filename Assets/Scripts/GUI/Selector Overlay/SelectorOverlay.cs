@@ -2,10 +2,9 @@ using UnityEngine;
 using System.Collections;
 
 public class SelectorOverlay {
-	private Vector2 [] selectorButtonList;
-	private bool [] selectorActive;
-	private int listSize;
 	private float buttonSize;
+	private Vector2 firstTilePos;
+	private Vector2 lastTilePos;
 	
 	private bool mouseDown;
 	private bool mouseDrag;
@@ -13,106 +12,121 @@ public class SelectorOverlay {
 	
 	private Vector3 mouseDownPos;
 	
+	private Map mapStore;
+	
+	Camera camera;
+	
 	Texture fireTex = Resources.Load ("Tower/FireTower") as Texture;
 	public SelectorOverlay(Map map){
-		Camera camera = Camera.main;
+		camera = Camera.main;
 		if (map.tiles.GetUpperBound(0) > 1){
 			buttonSize = Mathf.Abs((camera.WorldToScreenPoint(map.tiles[0,0].tileObject.transform.position)).x - (camera.WorldToScreenPoint(map.tiles[1,0].tileObject.transform.position)).x);
 		}
 		else {
+			Debug.Log("Failed to calculate buttonSize, defaulting to size 32");
 			buttonSize = 32;
 		}
 		Debug.Log(buttonSize+"");
-		listSize = map.selectorNum;
+		firstTilePos = new Vector2 ((camera.WorldToScreenPoint(map.tiles[0,0].tileObject.transform.position)).x - (buttonSize/2), (camera.WorldToScreenPoint(map.tiles[0,0].tileObject.transform.position)).y - (buttonSize/2));
+		lastTilePos = new Vector2 ((camera.WorldToScreenPoint(map.tiles[map.mapSizeX-1,map.mapSizeY-1].tileObject.transform.position)).x + (buttonSize/2), (camera.WorldToScreenPoint(map.tiles[map.mapSizeX-1,map.mapSizeY-1].tileObject.transform.position)).y - (buttonSize/2));
+		mapStore = map;
 		
-		selectorButtonList = new Vector2[listSize];
-		selectorActive = new bool[listSize];
-		int counter = 0;
-		for (int i = 0; i < map.mapSize.x; i++){
-			for (int j = 0; j < map.mapSize.y; j++){
-				if (map.tiles[i,j].GetSelector()){
-					Vector3 meepo = camera.WorldToScreenPoint(map.tiles[i,j].tileObject.transform.position);
-					//Debug.Log(meepo.x + ", " + meepo.y +", "+ meepo.z);
-					//Need to add modifications to the x and y values to get the corner of the tile.
-					//Need to invert the Y numbers to match world space locations for buttons but not Events
-					//float yStore = Screen.height - meepo.y - (buttonSize/2);
-					float xStore = meepo.x - (buttonSize/2);
-					float yStore = meepo.y - (buttonSize/2);
-					
-					selectorButtonList[counter] = new Vector2 (xStore, yStore);
-					selectorActive[counter] = true;
-					counter++;
-				}
-			}
-		}
-		
-		mouseDown = false;
-		mouseDrag = false;
-		mouseUp = false;
+		ResetButtonStates();
 		
 		mouseDownPos = new Vector3 (-1,-1, 0);
 	}
 	
-	public void DrawGUI (Tower [] towerList, Player player){
+	public void DrawGUI (Hashtable towerList, Player player){
 		// Change of button to event
 		Event e = Event.current;
 		if (e.type == EventType.MouseDown){
 			mouseDown = true;
 			mouseDownPos.x = Input.mousePosition.x;
 			mouseDownPos.y = Input.mousePosition.y;
-			mouseDownPos.z = Input.mousePosition.z;
+			mouseDownPos.z = 0;
+			Debug.Log("Mouse Down x:" + Input.mousePosition.x + " y:" + Input.mousePosition.y + " z:" + Input.mousePosition.z);
 		}
 		else if (e.type == EventType.MouseDrag){
 			mouseDrag = true;
-			Debug.DrawLine(mouseDownPos, Input.mousePosition, Color.white);
+			Debug.Log("Dragging Mouse Position x:" + Input.mousePosition.x + " y:" + Input.mousePosition.y + " z:" + Input.mousePosition.z);
+			Vector3 positioning = Input.mousePosition;
+			positioning.z = 0;
+			Debug.DrawLine(mouseDownPos, positioning, Color.black);
 		}
 		else if (e.type == EventType.MouseUp){
 			mouseUp = true;
 			Debug.Log("Current event detected: " + Event.current.type);
 			Debug.Log("Input Mouse Position x:" + Input.mousePosition.x + " y:" + Input.mousePosition.y);
 			if (mouseDown == true && mouseDrag == false && mouseUp == true){
-				for (int i = 0; i < listSize; i++){
-					if (selectorActive[i]){
-						if (selectorButtonList[i].x + buttonSize > Input.mousePosition.x && selectorButtonList[i].x < Input.mousePosition.x ){
-							if (selectorButtonList[i].y + buttonSize > Input.mousePosition.y && selectorButtonList[i].y < Input.mousePosition.y ){ 
-								if (player.GetMana() >= 10){
-									towerList[i].SetActive(fireTex);
-									selectorActive[i] = false;
-									player.DecMana(10);
-								}
-								else {
-									Debug.Log ("Insufficient Mana to create a tower");
-								}
-							}
-						}
-					}
-				}
+				if (WithinBounds()){
+					CalculateTile(towerList, player);
+				}	
 			}
 			else if (mouseDown == true && mouseDrag == true && mouseUp == true){
 				// create a wall here =)
 			}
-			resetButtonStates();
+			ResetButtonStates();
 		}
-		/*
-		for (int i = 0; i < listSize; i++){
-			if (selectorActive[i]){
-				if (GUI.Button (new Rect(selectorButtonList[i].x,selectorButtonList[i].y,buttonSize,buttonSize), i+"")){
-					if (player.GetMana() >= 10){	
-						towerList[i].SetActive(fireTex);
-						selectorActive[i] = false;
-						player.DecMana(10);
-					}
-					else {
-						Debug.Log ("Insufficient Mana to create a tower");
-					}
-				}
-			}
-		}*/
 	}
 	
-	public void resetButtonStates(){
+	private void ResetButtonStates(){
 		mouseDown = false;
 		mouseDrag = false;
 		mouseUp = false;
+	}
+	
+	private void CalculateTile(Hashtable towerList, Player player){
+		// Remove the extra space from the origin of the screen to the first tile.
+		float storagePosX = Input.mousePosition.x - firstTilePos.x;
+		float storagePosY = Input.mousePosition.y - firstTilePos.y;
+		
+		// Calculate which tile was clicked and generate the tableKey
+		float i = buttonSize;
+		int hashKeyX = 0;
+		while (i < storagePosX){ // upto the size of the map.
+			hashKeyX++;
+			i += buttonSize;
+		}
+		i = buttonSize;
+		int hashKeyY = 0;
+		while (i < storagePosY){ // upto the size of the map.
+			hashKeyY++;
+			i += buttonSize;
+		}
+		
+		string tableKey = hashKeyX + "," + hashKeyY + "Tower";
+		Debug.Log (tableKey);
+		
+		//Check if tile is a selector
+		//Then Check if tableKey is occupied in hashtable (whether there is a tower created)
+		if (mapStore.tiles[hashKeyX,hashKeyY].hasSelector){
+			if (towerList.ContainsKey(tableKey)){
+				Debug.Log ("Key Found");
+			}
+			else {
+				if (player.GetMana() >= 10){
+					Tower tower = new Tower (hashKeyX, hashKeyY, "right");
+					tower.SetTextureTower(fireTex);
+					towerList.Add(tableKey, tower);
+					Debug.Log ("Key Created");
+					player.DecMana(10);
+				}
+				else {
+					Debug.Log ("Out of Mana!");
+				}
+			}
+		}
+		else {
+			Debug.Log ("Not a selector");
+		}
+	}
+	
+	// Calculate if the click was within map bounds
+	private bool WithinBounds(){
+		if (Input.mousePosition.x >= firstTilePos.x && Input.mousePosition.x <= lastTilePos.x && Input.mousePosition.y >= firstTilePos.y && Input.mousePosition.y <= lastTilePos.y){
+			return true;
+		}
+		Debug.Log ("Not Within bounds");
+		return false;
 	}
 }
