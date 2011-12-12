@@ -17,12 +17,12 @@ public class Tower {
 	private bool active;
 	
 	//Constructor
-	public Tower (int x, int z, string dir) {
+	public Tower (int x, int z, Map map) {
 		towerXPos = x;
 		towerZPos = z;
 		//effect = eff;
-		direct = dir;
-		active = false;
+		//direct = dir;
+		active = true;
 	
 		towerObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		towerObj.renderer.enabled = true;
@@ -31,7 +31,8 @@ public class Tower {
 		towerObj.transform.Rotate(0,0,180);
 		towerObj.transform.tag = "tower";
 		
-		createZone();
+		CreateZoneDir(map);
+		CreateZone();
 	}
 	
 	public void SetTextureTower(Texture tex){
@@ -42,7 +43,61 @@ public class Tower {
 		return towerObj;
 	}
 	
-	public void createZone() {
+	
+	private void CreateZoneDir(Map map){
+		if (towerXPos + 1 < map.GetMapSizeX() && towerZPos + 1 < map.GetMapSizeY()) {
+			if (!(map.GetTile(towerXPos + 1, towerZPos).GetCollision())) {
+				direct = "right";
+				if (!(map.GetTile(towerXPos, towerZPos + 1).GetCollision())) {
+					direct = "topright";
+				}
+			} else if (map.GetTile(towerXPos + 1, towerZPos).GetCollision() 
+				&& map.GetTile(towerXPos, towerZPos + 1).GetCollision()
+				&& !map.GetTile(towerXPos + 1, towerZPos + 1).GetCollision()) { 
+					direct = "topright";
+			}
+		}
+		if (towerXPos - 1  > 0 && towerZPos + 1 < map.GetMapSizeY()) {
+			if (!(map.GetTile(towerXPos - 1, towerZPos).GetCollision())) {
+				direct = "left";
+				if (!(map.GetTile(towerXPos, towerZPos + 1).GetCollision())) {
+					direct = "topleft";
+				}
+			} else if (map.GetTile(towerXPos - 1, towerZPos).GetCollision() 
+				&& map.GetTile(towerXPos, towerZPos + 1).GetCollision()
+				&& !map.GetTile(towerXPos - 1, towerZPos + 1).GetCollision()) { 
+					direct = "topleft";
+			}
+		}
+		if (towerXPos - 1  > 0 && towerZPos - 1 > 0) {
+			if (!(map.GetTile(towerXPos, towerZPos - 1).GetCollision())) {
+				direct = "bottom";
+				if (!(map.GetTile(towerXPos - 1, towerZPos).GetCollision())) {
+					direct = "bottomleft";
+				}
+			} else if (map.GetTile(towerXPos - 1, towerZPos).GetCollision() 
+				&& map.GetTile(towerXPos, towerZPos - 1).GetCollision()
+				&& !map.GetTile(towerXPos - 1, towerZPos - 1).GetCollision()) { 
+					direct = "bottomleft";
+			}
+		}
+		if (towerXPos + 1  < map.GetMapSizeX() && towerZPos - 1 > 0) {
+			if (!(map.GetTile(towerXPos, towerZPos - 1).GetCollision()) && !(map.GetTile(towerXPos + 1, towerZPos).GetCollision())) {
+				direct = "bottomright";
+			} else if (map.GetTile(towerXPos + 1, towerZPos).GetCollision() 
+				&& map.GetTile(towerXPos, towerZPos - 1).GetCollision()
+				&& !map.GetTile(towerXPos + 1, towerZPos - 1).GetCollision()) { 
+					direct = "bottomright";
+			}
+		}
+		if (towerZPos + 1 < map.GetMapSizeY() && towerXPos - 1  > 0 && towerXPos + 1  < map.GetMapSizeX()) {
+			if (map.GetTile(towerXPos - 1, towerZPos).GetCollision() && map.GetTile(towerXPos + 1, towerZPos).GetCollision() && !map.GetTile(towerXPos, towerZPos + 1).GetCollision()) {
+					direct = "top";
+			}
+		}
+	}
+	
+	private void CreateZone() {
 		if (this.direct == "topright") {
 			this.createTopRightZone();
 		} else if (this.direct == "right") {
@@ -187,7 +242,9 @@ public class Tower {
 	public bool GetActive(){
 		return active;
 	}
+
 	/* public Zone getWall() {
 		return this.wall;
 	}*/
+	
 }

@@ -21,8 +21,8 @@ public class Zone {
 		
 		zoneObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		zoneObj.transform.position = new Vector3(position.x, 0, position.y);
-		zoneObj.transform.localScale = new Vector3(width,0.1f,length);
-		zoneObj.renderer.enabled = false;
+		zoneObj.transform.localScale = new Vector3(width,0.5f,length);
+		zoneObj.renderer.enabled = true;
 		
 		Texture fireZone = Resources.Load ("WallZone/FireZone") as Texture;
 		zoneObj.renderer.material.mainTexture = fireZone;

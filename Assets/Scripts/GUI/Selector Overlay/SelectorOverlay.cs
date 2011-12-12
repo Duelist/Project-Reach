@@ -28,7 +28,7 @@ public class SelectorOverlay {
 		}
 		Debug.Log(buttonSize+"");
 		firstTilePos = new Vector2 ((camera.WorldToScreenPoint(map.tiles[0,0].tileObject.transform.position)).x - (buttonSize/2), (camera.WorldToScreenPoint(map.tiles[0,0].tileObject.transform.position)).y - (buttonSize/2));
-		lastTilePos = new Vector2 ((camera.WorldToScreenPoint(map.tiles[map.mapSizeX-1,map.mapSizeY-1].tileObject.transform.position)).x + (buttonSize/2), (camera.WorldToScreenPoint(map.tiles[map.mapSizeX-1,map.mapSizeY-1].tileObject.transform.position)).y - (buttonSize/2));
+		lastTilePos = new Vector2 ((camera.WorldToScreenPoint(map.tiles[map.mapSizeX-1,map.mapSizeY-1].tileObject.transform.position)).x + (buttonSize/2), (camera.WorldToScreenPoint(map.tiles[map.mapSizeX-1,map.mapSizeY-1].tileObject.transform.position)).y + (buttonSize/2));
 		mapStore = map;
 		
 		ResetButtonStates();
@@ -105,7 +105,7 @@ public class SelectorOverlay {
 			}
 			else {
 				if (player.GetMana() >= 10){
-					Tower tower = new Tower (hashKeyX, hashKeyY, "right");
+					Tower tower = new Tower (hashKeyX, hashKeyY, mapStore);
 					tower.SetTextureTower(fireTex);
 					towerList.Add(tableKey, tower);
 					Debug.Log ("Key Created");

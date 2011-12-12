@@ -158,6 +158,11 @@ public class Map
 		}
 		
 		// Openings
+		tiles [0,0].SetSelector(false);
+		tiles [4,0].SetSelector(false);
+		tiles [10,14].SetSelector(false);
+		tiles [14,14].SetSelector(false);
+		
 		tiles [1,0].SetCollision(false);
 		tiles [2,0].SetCollision(false);
 		tiles [3,0].SetCollision(false);
