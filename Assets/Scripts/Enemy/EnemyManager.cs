@@ -156,25 +156,23 @@ public class EnemyManager{
 	// Zone detection
 	private void MobDamage(Hashtable towerList, Enemy newEnemy){
 		Vector3 enemyPos = newEnemy.GetPosition();
-		/*for (int j = 0; j < towerList.Length; j++){
-			if (towerList[j].GetActive()){
-				Zone newZone = towerList[j].GetZone();
-				Vector2 zonePos = newZone.GetPosition();
-				if (zonePos.x - enemyPos.x <= 1 
-					&& zonePos.x - enemyPos.x >= -1
-					&& zonePos.y - enemyPos.z <= 1
-					&& zonePos.y - enemyPos.z >= -1){
-					
-					Effect newEff = newZone.GetEffect();
-					newEnemy.SetCurHP(newEnemy.GetCurHP() - newEff.GetDamage());
-					Debug.Log(newEnemy.GetName() + " DAMAGED for " + newEff.GetDamage());
-					if (newEnemy.GetCurHP() <= 0){
-						Debug.Log(newEnemy.GetName() + " has been Destroyed!");
-						enemy.Remove(newEnemy);
-					}
+		foreach (Tower tower in towerList.Values){
+			Zone newZone = tower.GetZone();
+			Vector2 zonePos = newZone.GetPosition();
+			if (zonePos.x - enemyPos.x <= 1 
+				&& zonePos.x - enemyPos.x >= -1
+				&& zonePos.y - enemyPos.z <= 1
+				&& zonePos.y - enemyPos.z >= -1){
+				
+				Effect newEff = newZone.GetEffect();
+				newEnemy.SetCurHP(newEnemy.GetCurHP() - newEff.GetDamage());
+				Debug.Log(newEnemy.GetName() + " DAMAGED for " + newEff.GetDamage());
+				if (newEnemy.GetCurHP() <= 0){
+					Debug.Log(newEnemy.GetName() + " has been Destroyed!");
+					enemy.Remove(newEnemy);
 				}
 			}
-		}*/
+		}
 	}
 	
 	private void PlayerDamage (Player player, Enemy newEnemy){
