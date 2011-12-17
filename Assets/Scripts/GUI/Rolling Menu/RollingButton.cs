@@ -34,9 +34,13 @@ public class RollingButton{
 	private int hinfo;
 	private int x;
 	private int y;
+	private int oldx;
+	private int oldy;
 	private int spacing;
 	private int menuWidth;
 	private int menuHeight;
+	
+	public bool active;
 
 	private int gear1X;
 	private int gear1Y;
@@ -94,6 +98,22 @@ public class RollingButton{
 		animateSpeed = 2;
 	}
 
+	public void setActive(int px,int py) {
+		active = true;
+		updatePos(px,py);
+	}
+	
+	public void setDeActive() {
+		active = false;
+		oldx = x;
+		oldy = y;
+	}
+	
+	private void updatePos(int px, int py) {
+		x = px;
+		y = py;		
+	}
+	
 	public void DrawGUI (){
 		if (animateX > 0){
 			if (animateX - animateSpeed < 0){

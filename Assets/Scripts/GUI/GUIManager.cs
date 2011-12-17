@@ -46,7 +46,10 @@ public class GUIManager {
 	public void DrawGUI (Hashtable towerList, Player player) {
 		manaInvasion.DrawGUI(player);
 		futureButton.DrawGUI();
-		rollingButton.DrawGUI();
-		selectorOverlay.DrawGUI(towerList, player);
+		rollingButton.active = selectorOverlay.drawMen;
+		if (rollingButton.active) {
+			rollingButton.setActive(selectorOverlay.menx,selectorOverlay.meny);
+			rollingButton.DrawGUI();
+		}		selectorOverlay.DrawGUI(towerList, player);
 	}
 }

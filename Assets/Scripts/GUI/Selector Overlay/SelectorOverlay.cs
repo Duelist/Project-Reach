@@ -10,6 +10,9 @@ public class SelectorOverlay {
 	private bool mouseDrag;
 	private bool mouseUp;
 	
+	public bool drawMen = false;
+	public int menx;
+	public int meny;
 	private Vector3 mouseDownPos;
 	
 	private Map mapStore;
@@ -61,6 +64,11 @@ public class SelectorOverlay {
 				if (WithinBounds()){
 					CalculateTile(towerList, player);
 				}	
+				if (onSelector((int)mouseDownPos.x,(int)mouseDownPos.y,towerList)) {
+					drawMen = true;
+					menx = (int) Input.mousePosition.x;
+					meny = Screen.height - (int) Input.mousePosition.y;				
+				}
 			}
 			else if (mouseDown == true && mouseDrag == true && mouseUp == true){
 				// create a wall here =)
@@ -127,6 +135,33 @@ public class SelectorOverlay {
 			return true;
 		}
 		Debug.Log ("Not Within bounds");
+		return false;
+	}
+	
+	private bool onSelector(int tilex,int tiley,Hashtable towerList) {
+		float storagePosX = tilex - firstTilePos.x;
+		float storagePosY = tiley - firstTilePos.y;
+		
+		// Calculate which tile was clicked and generate the tableKey
+		float i = buttonSize;
+		int hashKeyX = 0;
+		while (i < storagePosX){ // upto the size of the map.
+			hashKeyX++;
+			i += buttonSize;
+		}
+		i = buttonSize;
+		int hashKeyY = 0;
+		while (i < storagePosY){ // upto the size of the map.
+			hashKeyY++;
+			i += buttonSize;
+		}
+		string tableKey = hashKeyX + "," + hashKeyY + "Tower";
+
+		if (mapStore.tiles[hashKeyX,hashKeyY].hasSelector){
+			if (towerList.ContainsKey(tableKey)){
+				return true;
+			}
+		}
 		return false;
 	}
 }
