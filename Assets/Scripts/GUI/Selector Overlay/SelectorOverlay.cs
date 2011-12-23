@@ -62,7 +62,7 @@ public class SelectorOverlay {
 			Debug.Log("Input Mouse Position x:" + Input.mousePosition.x + " y:" + Input.mousePosition.y);
 			if (mouseDown == true && mouseDrag == false && mouseUp == true){
 				if (WithinBounds()){
-					CalculateTile(towerList, player);
+					CreateTower(towerList, player);
 				}	
 				if (onSelector((int)mouseDownPos.x,(int)mouseDownPos.y,towerList)) {
 					drawMen = true;
@@ -83,26 +83,35 @@ public class SelectorOverlay {
 		mouseUp = false;
 	}
 	
-	private void CalculateTile(Hashtable towerList, Player player){
+	// Need to use this method twice to get x and y
+	public int CalculateTile (float Position){
+		float i = buttonSize;
+		int hashKey = 0;
+		while (i < Position){ // upto the size of the map.
+			hashKey++;
+			i += buttonSize;
+		}
+		return hashKey;
+	}
+	
+	// Generate the key for store/search purposes
+	public string GenerateKey (int x, int y){
+		string tableKey = x + "," + y + "Tower";
+		return tableKey;
+	}
+
+	private void CreateTower(Hashtable towerList, Player player){
 		// Remove the extra space from the origin of the screen to the first tile.
 		float storagePosX = Input.mousePosition.x - firstTilePos.x;
 		float storagePosY = Input.mousePosition.y - firstTilePos.y;
 		
 		// Calculate which tile was clicked and generate the tableKey
-		float i = buttonSize;
-		int hashKeyX = 0;
-		while (i < storagePosX){ // upto the size of the map.
-			hashKeyX++;
-			i += buttonSize;
-		}
-		i = buttonSize;
-		int hashKeyY = 0;
-		while (i < storagePosY){ // upto the size of the map.
-			hashKeyY++;
-			i += buttonSize;
-		}
+		int hashKeyX = CalculateTile(storagePosX);
+		int hashKeyY = CalculateTile(storagePosY);
 		
-		string tableKey = hashKeyX + "," + hashKeyY + "Tower";
+		// Generate the key for store/search purposes
+		string tableKey = GenerateKey (hashKeyX, hashKeyY);
+		
 		Debug.Log (tableKey);
 		
 		//Check if tile is a selector
@@ -143,19 +152,9 @@ public class SelectorOverlay {
 		float storagePosY = tiley - firstTilePos.y;
 		
 		// Calculate which tile was clicked and generate the tableKey
-		float i = buttonSize;
-		int hashKeyX = 0;
-		while (i < storagePosX){ // upto the size of the map.
-			hashKeyX++;
-			i += buttonSize;
-		}
-		i = buttonSize;
-		int hashKeyY = 0;
-		while (i < storagePosY){ // upto the size of the map.
-			hashKeyY++;
-			i += buttonSize;
-		}
-		string tableKey = hashKeyX + "," + hashKeyY + "Tower";
+		int hashKeyX = CalculateTile(storagePosX);
+		int hashKeyY = CalculateTile(storagePosY);
+		string tableKey = GenerateKey (hashKeyX, hashKeyY);
 
 		if (mapStore.tiles[hashKeyX,hashKeyY].hasSelector){
 			if (towerList.ContainsKey(tableKey)){

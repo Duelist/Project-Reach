@@ -159,17 +159,21 @@ public class EnemyManager{
 		foreach (Tower tower in towerList.Values){
 			Zone newZone = tower.GetZone();
 			Vector2 zonePos = newZone.GetPosition();
+			// if the enemy is within a zone
 			if (zonePos.x - enemyPos.x <= 1 
 				&& zonePos.x - enemyPos.x >= -1
 				&& zonePos.y - enemyPos.z <= 1
 				&& zonePos.y - enemyPos.z >= -1){
 				
-				Effect newEff = newZone.GetEffect();
-				newEnemy.SetCurHP(newEnemy.GetCurHP() - newEff.GetDamage());
-				Debug.Log(newEnemy.GetName() + " DAMAGED for " + newEff.GetDamage());
-				if (newEnemy.GetCurHP() <= 0){
-					Debug.Log(newEnemy.GetName() + " has been Destroyed!");
-					enemy.Remove(newEnemy);
+				// if the timezone is correct "past"/"future"
+				if (newEnemy.ContainsTimeZone(newZone.getTime())){
+					Effect newEff = newZone.GetEffect();
+					newEnemy.SetCurHP(newEnemy.GetCurHP() - newEff.GetDamage());
+					Debug.Log(newEnemy.GetName() + " DAMAGED for " + newEff.GetDamage());
+					if (newEnemy.GetCurHP() <= 0){
+						Debug.Log(newEnemy.GetName() + " has been Destroyed!");
+						enemy.Remove(newEnemy);
+					}
 				}
 			}
 		}
