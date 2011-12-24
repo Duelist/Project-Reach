@@ -19,7 +19,6 @@ public class SelectorOverlay {
 	
 	Camera camera;
 	
-	Texture fireTex = Resources.Load ("Tower/FireTower") as Texture;
 	public SelectorOverlay(Map map){
 		camera = Camera.main;
 		if (map.tiles.GetUpperBound(0) > 1){
@@ -61,10 +60,18 @@ public class SelectorOverlay {
 			Debug.Log("Current event detected: " + Event.current.type);
 			Debug.Log("Input Mouse Position x:" + Input.mousePosition.x + " y:" + Input.mousePosition.y);
 			if (mouseDown == true && mouseDrag == false && mouseUp == true){
-				if (WithinBounds()){
+				if (WithinBounds() && OnSelector((int)mouseDownPos.x,(int)mouseDownPos.y,towerList)){
+					Debug.Log ("On Selector");
 					CreateTower(towerList, player);
-				}	
-				if (onSelector((int)mouseDownPos.x,(int)mouseDownPos.y,towerList)) {
+				}
+				else if (WithinBounds() && !(OnSelector((int)mouseDownPos.x,(int)mouseDownPos.y,towerList))){
+					Debug.Log ("Not a Selector");
+					ArrayList zoneList = GetZones((int)mouseDownPos.x, (int)mouseDownPos.y, towerList);
+					foreach (Zone zone in zoneList){
+						zone.FlipTime();
+					}
+				}
+				if (OnSelector((int)mouseDownPos.x,(int)mouseDownPos.y,towerList)) {
 					drawMen = true;
 					menx = (int) Input.mousePosition.x;
 					meny = Screen.height - (int) Input.mousePosition.y;				
@@ -116,25 +123,19 @@ public class SelectorOverlay {
 		
 		//Check if tile is a selector
 		//Then Check if tableKey is occupied in hashtable (whether there is a tower created)
-		if (mapStore.tiles[hashKeyX,hashKeyY].hasSelector){
-			if (towerList.ContainsKey(tableKey)){
-				Debug.Log ("Key Found");
-			}
-			else {
-				if (player.GetMana() >= 10){
-					Tower tower = new Tower (hashKeyX, hashKeyY, mapStore);
-					tower.SetTextureTower(fireTex);
-					towerList.Add(tableKey, tower);
-					Debug.Log ("Key Created");
-					player.DecMana(10);
-				}
-				else {
-					Debug.Log ("Out of Mana!");
-				}
-			}
+		if (towerList.ContainsKey(tableKey)){
+			Debug.Log ("Key Found");
 		}
 		else {
-			Debug.Log ("Not a selector");
+			if (player.GetMana() >= 10){
+				Tower tower = new Tower (hashKeyX, hashKeyY, mapStore, "fire");
+				towerList.Add(tableKey, tower);
+				Debug.Log ("Key Created");
+				player.DecMana(10);
+			}
+			else {
+				Debug.Log ("Out of Mana!");
+			}
 		}
 	}
 	
@@ -147,7 +148,7 @@ public class SelectorOverlay {
 		return false;
 	}
 	
-	private bool onSelector(int tilex,int tiley,Hashtable towerList) {
+	private bool OnSelector(int tilex,int tiley,Hashtable towerList) {
 		float storagePosX = tilex - firstTilePos.x;
 		float storagePosY = tiley - firstTilePos.y;
 		
@@ -157,10 +158,37 @@ public class SelectorOverlay {
 		string tableKey = GenerateKey (hashKeyX, hashKeyY);
 
 		if (mapStore.tiles[hashKeyX,hashKeyY].hasSelector){
-			if (towerList.ContainsKey(tableKey)){
+			if (!towerList.ContainsKey(tableKey)){
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	// Returns an arraylist of zones at the location
+	private ArrayList GetZones (int tilex, int tiley, Hashtable towerList){
+		// Remove the extra space from the origin of the screen to the first tile.
+		float storagePosX = tilex - firstTilePos.x;
+		float storagePosY = tiley - firstTilePos.y;
+		
+		// Calculate which tile was clicked and generate the tableKey
+		int tileClickedX = CalculateTile(storagePosX);
+		int tileClickedY = CalculateTile(storagePosY);
+		
+		ArrayList zoneList = new ArrayList ();
+		foreach (Tower tower in towerList.Values){
+			Zone newZone = tower.GetZone();
+			Vector2 zonePos = newZone.GetPosition();
+			// if the enemy is within a zone
+			if (zonePos.x - tileClickedX <= 1 
+				&& zonePos.x - tileClickedX >= -1
+				&& zonePos.y - tileClickedY <= 1
+				&& zonePos.y - tileClickedY >= -1){
+					
+				zoneList.Add(newZone);
+			}
+		}
+		
+		return zoneList;
 	}
 }

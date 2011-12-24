@@ -17,7 +17,7 @@ public class Tower {
 	private bool active;
 	
 	//Constructor
-	public Tower (int x, int z, Map map) {
+	public Tower (int x, int z, Map map, string eff) {
 		towerXPos = x;
 		towerZPos = z;
 		//effect = eff;
@@ -30,6 +30,10 @@ public class Tower {
 		towerObj.transform.localScale = new Vector3(1f,0.5f,1f);
 		towerObj.transform.Rotate(0,0,180);
 		towerObj.transform.tag = "tower";
+		
+		if (eff == "fire"){
+			SetTextureTower(Resources.Load ("Tower/FireTower") as Texture);
+		}
 		
 		CreateZoneDir(map);
 		CreateZone();

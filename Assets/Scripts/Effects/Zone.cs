@@ -24,7 +24,10 @@ public class Zone {
 		zoneObj.transform.localScale = new Vector3(width,0.5f,length);
 		zoneObj.renderer.enabled = true;
 		
-		Texture fireZone = Resources.Load ("WallZone/FireZone") as Texture;
+		Texture fireZone = Resources.Load ("WallZone/FireZonePast") as Texture;
+		if (time == "future"){
+			fireZone = Resources.Load ("WallZone/FireZoneFuture") as Texture;
+		}
 		zoneObj.renderer.material.mainTexture = fireZone;
 	}
 	
@@ -82,5 +85,17 @@ public class Zone {
 	
 	public void SetActive (){
 		zoneObj.renderer.enabled = true;
+	}
+	
+	public void FlipTime (){
+		Texture fireZone = Resources.Load ("WallZone/FireZonePast") as Texture;
+		if (time == "past"){
+			time = "future";
+			fireZone = Resources.Load ("WallZone/FireZoneFuture") as Texture;
+		}
+		else {
+			time = "past";
+		}
+		zoneObj.renderer.material.mainTexture = fireZone;
 	}
 }

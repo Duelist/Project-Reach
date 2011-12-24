@@ -16,8 +16,6 @@ public class GameManager {
 	private GUIManager guiManager;
 	private Map map;
 	private Camera camera;
-	private Effect fireEffect;
-	private Zone fireZone;
 	private float timeKeeper;
 	
 	// Radical Changes, changing towerList to Hashtable for optimization
