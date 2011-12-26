@@ -88,10 +88,10 @@ public class Zone {
 	}
 	
 	public void FlipTime (){
-		Texture fireZone = Resources.Load ("WallZone/FireZonePast") as Texture;
+		Texture fireZone = TextureFactory.GetFireZonePast();
 		if (time == "past"){
 			time = "future";
-			fireZone = Resources.Load ("WallZone/FireZoneFuture") as Texture;
+			fireZone = TextureFactory.GetFireZoneFuture();
 		}
 		else {
 			time = "past";

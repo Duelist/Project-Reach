@@ -11,13 +11,14 @@ public class Tower {
 	private int towerZPos;
 	private Zone zone;
 	private string direct; 
+	private string time;
 	//private Zone wall;
 	//private Effect effect;
 	private GameObject towerObj;
 	private bool active;
 	
 	//Constructor
-	public Tower (int x, int z, Map map, string eff) {
+	public Tower (int x, int z, Map map, string eff, string t) {
 		towerXPos = x;
 		towerZPos = z;
 		//effect = eff;
@@ -31,8 +32,15 @@ public class Tower {
 		towerObj.transform.Rotate(0,0,180);
 		towerObj.transform.tag = "tower";
 		
+		time = t;
+		
 		if (eff == "fire"){
-			SetTextureTower(Resources.Load ("Tower/FireTower") as Texture);
+			if (time == "past"){
+				SetTextureTower(TextureFactory.GetFireTowerPast());
+			}
+			else {
+				SetTextureTower(TextureFactory.GetFireTowerFuture());
+			}
 		}
 		
 		CreateZoneDir(map);
@@ -126,56 +134,56 @@ public class Tower {
 		int xPos = this.towerXPos;
 		int zPos = this.towerZPos - 2;
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
+		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, time);
 	}
 	
 	public void createBottomLeftZone() {
 		int xPos = this.towerXPos - 2;
 		int zPos = this.towerZPos - 2;
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
+		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, time);
 	}
 	
 	public void createBottomRightZone() {
 		int xPos = this.towerXPos + 2;
 		int zPos = this.towerZPos - 2;
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
+		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, time);
 	}
 	
 	public void createUpperZone() {
 		int xPos = this.towerXPos;
 		int zPos = this.towerZPos + 2;
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
+		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, time);
 	}
 	
 	public void createLeftZone() {
 		int xPos = this.towerXPos - 2;
 		int zPos = this.towerZPos;
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
+		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, time);
 	}
 	
 	public void createTopLeftZone() {
 		int xPos = this.towerXPos - 2;
 		int zPos = this.towerZPos + 2;
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
+		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, time);
 	}
 	
 	public void createRightZone() {
 		int xPos = this.towerXPos + 2;
 		int zPos = this.towerZPos;
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
+		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, time);
 	}
 	
 	public void createTopRightZone() {
 		int xPos = this.towerXPos + 2;
 		int zPos = this.towerZPos + 2;
 		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, "past");
+		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, time);
 	}
 	
 		// Physically/visually create a wall
@@ -245,6 +253,20 @@ public class Tower {
 	
 	public bool GetActive(){
 		return active;
+	}
+	
+	public void FlipTime (){
+		Texture fireTower = TextureFactory.GetFireTowerPast();
+		if (time == "past"){
+			time = "future";
+			fireTower = TextureFactory.GetFireTowerFuture();
+		}
+		else {
+			time = "past";
+		}
+		SetTextureTower(fireTower);
+		
+		this.zone.FlipTime();
 	}
 
 	/* public Zone getWall() {

@@ -64,12 +64,16 @@ public class SelectorOverlay {
 					Debug.Log ("On Selector");
 					CreateTower(towerList, player);
 				}
-				else if (WithinBounds() && !(OnSelector((int)mouseDownPos.x,(int)mouseDownPos.y,towerList))){
-					Debug.Log ("Not a Selector");
-					ArrayList zoneList = GetZones((int)mouseDownPos.x, (int)mouseDownPos.y, towerList);
+				else if (WithinBounds() && OnTower((int)mouseDownPos.x,(int)mouseDownPos.y,towerList)){
+					//Tower Select Flip
+					string tableKey = GenerateKeyFromMouseClick();
+					((Tower)towerList[tableKey]).FlipTime();
+					
+					// Zone Select Flip
+					/*ArrayList zoneList = GetZones((int)mouseDownPos.x, (int)mouseDownPos.y, towerList);
 					foreach (Zone zone in zoneList){
 						zone.FlipTime();
-					}
+					}*/
 				}
 				if (OnSelector((int)mouseDownPos.x,(int)mouseDownPos.y,towerList)) {
 					drawMen = true;
@@ -106,6 +110,20 @@ public class SelectorOverlay {
 		string tableKey = x + "," + y + "Tower";
 		return tableKey;
 	}
+	
+	public string GenerateKeyFromMouseClick (){
+		// Remove the extra space from the origin of the screen to the first tile.
+		float storagePosX = Input.mousePosition.x - firstTilePos.x;
+		float storagePosY = Input.mousePosition.y - firstTilePos.y;
+		
+		// Calculate which tile was clicked and generate the tableKey
+		int hashKeyX = CalculateTile(storagePosX);
+		int hashKeyY = CalculateTile(storagePosY);
+		
+		// Generate the key for store/search purposes
+		string tableKey = GenerateKey (hashKeyX, hashKeyY);
+		return tableKey;
+	}
 
 	private void CreateTower(Hashtable towerList, Player player){
 		// Remove the extra space from the origin of the screen to the first tile.
@@ -118,24 +136,15 @@ public class SelectorOverlay {
 		
 		// Generate the key for store/search purposes
 		string tableKey = GenerateKey (hashKeyX, hashKeyY);
-		
-		Debug.Log (tableKey);
-		
-		//Check if tile is a selector
-		//Then Check if tableKey is occupied in hashtable (whether there is a tower created)
-		if (towerList.ContainsKey(tableKey)){
-			Debug.Log ("Key Found");
+
+		if (player.GetMana() >= 10){
+			Tower tower = new Tower (hashKeyX, hashKeyY, mapStore, "fire", "past");
+			towerList.Add(tableKey, tower);
+			Debug.Log ("Key Created");
+			player.DecMana(10);
 		}
 		else {
-			if (player.GetMana() >= 10){
-				Tower tower = new Tower (hashKeyX, hashKeyY, mapStore, "fire");
-				towerList.Add(tableKey, tower);
-				Debug.Log ("Key Created");
-				player.DecMana(10);
-			}
-			else {
-				Debug.Log ("Out of Mana!");
-			}
+			Debug.Log ("Out of Mana!");
 		}
 	}
 	
@@ -161,6 +170,21 @@ public class SelectorOverlay {
 			if (!towerList.ContainsKey(tableKey)){
 				return true;
 			}
+		}
+		return false;
+	}
+	
+	private bool OnTower(int tilex,int tiley,Hashtable towerList){
+		float storagePosX = tilex - firstTilePos.x;
+		float storagePosY = tiley - firstTilePos.y;
+		
+		// Calculate which tile was clicked and generate the tableKey
+		int hashKeyX = CalculateTile(storagePosX);
+		int hashKeyY = CalculateTile(storagePosY);
+		
+		string tableKey = GenerateKey (hashKeyX, hashKeyY);
+		if (towerList.ContainsKey(tableKey)){
+			return true;
 		}
 		return false;
 	}
