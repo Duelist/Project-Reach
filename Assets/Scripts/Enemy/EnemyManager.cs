@@ -12,6 +12,7 @@ public class EnemyManager{
 	int numEnemies;
 	int enemiesOnDeck;
 	int numWaves;
+	int waveNum;
 	Vector3 offset;
 
 	float animationSpeed;
@@ -21,11 +22,17 @@ public class EnemyManager{
 	
 	// Enemy 1: Blue Jelly
 	private Texture [] blueJellyTex;
+	int maxTex;
 	// Enemy 2: Merupi
 	private Texture [] merupiTex;
+	int maxTex2;
+	
 	// Stores a list of enemy references
 	private List<Enemy> enemy;
-	//GameObject blueJellyCube;
+	// Store a list of enemy paths
+	ArrayList path;
+	ArrayList path2;
+	ArrayList path3;
 	
 	// Use this for initialization
 	public EnemyManager (Map map) {		
@@ -34,60 +41,75 @@ public class EnemyManager{
 		numEnemies = 10;
 		enemiesOnDeck = 0;
 		numWaves = 3;
+		waveNum = 0;
 		
 		animationSpeed = 0.2f; // change texture once per (animationSpeed) second;
 		
 		// Enemy 1: Blue Jelly Initialization
-		ArrayList imList = new ArrayList ();
-		ArrayList tZone = new ArrayList ();
-		tZone.Add("past");
-		// Texture Settings
-		int maxTex = 5;
+		maxTex = 5;
 		blueJellyTex = new Texture [maxTex];
 		for (int i = 0; i < maxTex; i++){
 			blueJellyTex[i] = Resources.Load ("Enemy/Blue Jelly/Blue Jelly "+i) as Texture;
 		}
-		
-		int maxTex2 = 9;
+		maxTex2 = 9;
 		merupiTex = new Texture [maxTex2];
 		for (int i = 0; i < maxTex2; i++){
 			merupiTex[i] = Resources.Load ("Mascot/Merupi "+i) as Texture;
 		}
 		
-		enemy = new List<Enemy> ();
-		// Initialization parameters:
-		// string n, int x, int z, int hp, int ms, int arm, int dam. ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList path
-		int startX = 1;
-		int startZ = 0;
 		Debug.Log("Path 1");
-		ArrayList path = AStar.Search (map.tiles[1,0], map.tiles[11,14], map, 1.0f);
+		path = AStar.Search (map.tiles[1,0], map.tiles[11,14], map, 1.0f);
 		Debug.Log("Path 2");
-		ArrayList path2 = AStar.Search (map.tiles[2,0], map.tiles[12,14], map, 1.0f);
+		path2 = AStar.Search (map.tiles[2,0], map.tiles[12,14], map, 1.0f);
 		Debug.Log("Path 3");
-		ArrayList path3 = AStar.Search (map.tiles[3,0], map.tiles[13,14], map, 1.0f);
+		path3 = AStar.Search (map.tiles[3,0], map.tiles[13,14], map, 1.0f);
 		
-		enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path));
-		enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path2));
-		enemy.Add(new Enemy ("Merupi", startX+2, startZ, 20, 1, 0, 5, imList, tZone, merupiTex, 50, maxTex2, path3));
-	
-		// Using gameobjects for now, gonna have to discuss wtf is going on here.
-		/*blueJellyCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		blueJellyCube.transform.Rotate(0,0,180);
-		blueJellyCube.transform.position = new Vector3(blueJelly.GetPositionX(), 0, blueJelly.GetPositionZ());
-		blueJellyCube.transform.localScale = new Vector3(1f,0.01f,1f);*/
+		enemy = new List<Enemy> ();
+		
+		spawnTimer = Time.time;
+
 	}
 	
 	// Update Method
 	public void DrawEnemy (Hashtable towerList, Player player) {
+		Spawn ();
 		MobMovement(towerList, player);
 	}
 	
-	public void spawn (){
-		/*if (Time.time > spawnTimer && enemiesOnDeck < numEnemies) {
+	public void Spawn (){
+		if (spawnTimer <= Time.time){
+			
+			// Initialization parameters:
+			// string n, int x, int z, int hp, int ms, int arm, int dam. ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList path
+			ArrayList imList = new ArrayList ();
+			ArrayList tZone = new ArrayList ();
+			tZone.Add("past");
+			// Texture Settings
+			int startX = 1;
+			int startZ = 0;
+			
+			// Level 1
+			if (waveNum == 0){
+				enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path));
+				enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path2));
+				enemy.Add(new Enemy ("Merupi", startX+2, startZ, 50, 1, 0, 5, imList, tZone, merupiTex, 50, maxTex2, path3));
+				waveNum++;
+			}
+			else if (waveNum == 1){
+				enemy.Add(new Enemy ("Blue Jelly 4", startX, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path));
+				enemy.Add(new Enemy ("Blue Jelly 5", startX+1, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path2));
+				enemy.Add(new Enemy ("Blue Jelly 6", startX+2, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path3));
+				waveNum++;
+			}
+			else if (waveNum == 2){
+				enemy.Add(new Enemy ("Blue Jelly 7", startX, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path));
+				enemy.Add(new Enemy ("Blue Jelly 8", startX+1, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path2));
+				enemy.Add(new Enemy ("Blue Jelly 9", startX+2, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path3));
+				waveNum++;
+			}
+			
 			spawnTimer = Time.time + spawnInterval;
-			//Instantiate(enemy,transform.position + offset,Quaternion.identity);
-			enemiesOnDeck++;
-		}*/
+		}
 	}
 	
 	// Waypoint array is a list of Waypoints that contain the position of waypoints and the direction to move.

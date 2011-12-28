@@ -62,7 +62,12 @@ public class SelectorOverlay {
 			if (mouseDown == true && mouseDrag == false && mouseUp == true){
 				if (WithinBounds() && OnSelector((int)mouseDownPos.x,(int)mouseDownPos.y,towerList)){
 					Debug.Log ("On Selector");
-					CreateTower(towerList, player);
+					drawMen = true;
+					menx = (int) Input.mousePosition.x;
+					meny = Screen.height - (int) Input.mousePosition.y;	
+
+					// will need to select a tower to build later before creating tower.
+					CreateTower(towerList, player);				
 				}
 				else if (WithinBounds() && OnTower((int)mouseDownPos.x,(int)mouseDownPos.y,towerList)){
 					//Tower Select Flip
@@ -74,11 +79,6 @@ public class SelectorOverlay {
 					foreach (Zone zone in zoneList){
 						zone.FlipTime();
 					}*/
-				}
-				if (OnSelector((int)mouseDownPos.x,(int)mouseDownPos.y,towerList)) {
-					drawMen = true;
-					menx = (int) Input.mousePosition.x;
-					meny = Screen.height - (int) Input.mousePosition.y;				
 				}
 			}
 			else if (mouseDown == true && mouseDrag == true && mouseUp == true){
