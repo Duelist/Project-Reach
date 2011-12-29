@@ -21,7 +21,8 @@ public class EnemyManager{
 	int move;
 	
 	// Enemy 1: Blue Jelly
-	private Texture [] blueJellyTex;
+	private Texture [] pBlueJellyTex;
+	private Texture [] fBlueJellyTex;
 	int maxTex;
 	// Enemy 2: Merupi
 	private Texture [] merupiTex;
@@ -47,10 +48,18 @@ public class EnemyManager{
 		
 		// Enemy 1: Blue Jelly Initialization
 		maxTex = 5;
-		blueJellyTex = new Texture [maxTex];
+		pBlueJellyTex = new Texture [maxTex];
 		for (int i = 0; i < maxTex; i++){
-			blueJellyTex[i] = Resources.Load ("Enemy/Blue Jelly/Blue Jelly "+i) as Texture;
+			pBlueJellyTex[i] = Resources.Load ("Enemy/Blue Jelly/Past Blue Jelly "+i) as Texture;
 		}
+
+		maxTex = 5;
+		fBlueJellyTex = new Texture [maxTex];
+		for (int i = 0; i < maxTex; i++){
+			fBlueJellyTex[i] = Resources.Load ("Enemy/Blue Jelly/Future Blue Jelly "+i) as Texture;
+		}
+		
+		// Enemy 2: Merupi Initialization
 		maxTex2 = 9;
 		merupiTex = new Texture [maxTex2];
 		for (int i = 0; i < maxTex2; i++){
@@ -82,29 +91,32 @@ public class EnemyManager{
 			// Initialization parameters:
 			// string n, int x, int z, int hp, int ms, int arm, int dam. ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList path
 			ArrayList imList = new ArrayList ();
-			ArrayList tZone = new ArrayList ();
-			tZone.Add("past");
+			ArrayList ptZone = new ArrayList ();
+			ArrayList ftZone = new ArrayList ();
+			ptZone.Add("past");
+			ftZone.Add("future");
+			
 			// Texture Settings
 			int startX = 1;
 			int startZ = 0;
 			
 			// Level 1
 			if (waveNum == 0){
-				enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path));
-				enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path2));
-				enemy.Add(new Enemy ("Merupi", startX+2, startZ, 50, 1, 0, 5, imList, tZone, merupiTex, 50, maxTex2, path3));
+				enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 1, 0, 1, imList, ftZone, fBlueJellyTex, 50, maxTex, path));
+				enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 1, 0, 1, imList, ftZone, fBlueJellyTex, 50, maxTex, path2));
+				enemy.Add(new Enemy ("Merupi", startX+2, startZ, 50, 1, 0, 5, imList, ftZone, merupiTex, 50, maxTex2, path3));
 				waveNum++;
 			}
 			else if (waveNum == 1){
-				enemy.Add(new Enemy ("Blue Jelly 4", startX, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path));
-				enemy.Add(new Enemy ("Blue Jelly 5", startX+1, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path2));
-				enemy.Add(new Enemy ("Blue Jelly 6", startX+2, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path3));
+				enemy.Add(new Enemy ("Blue Jelly 4", startX, startZ, 20, 1, 0, 1, imList, ptZone, pBlueJellyTex, 50, maxTex, path));
+				enemy.Add(new Enemy ("Blue Jelly 5", startX+1, startZ, 20, 1, 0, 1, imList, ptZone, pBlueJellyTex, 50, maxTex, path2));
+				enemy.Add(new Enemy ("Blue Jelly 6", startX+2, startZ, 20, 1, 0, 1, imList, ptZone, pBlueJellyTex, 50, maxTex, path3));
 				waveNum++;
 			}
 			else if (waveNum == 2){
-				enemy.Add(new Enemy ("Blue Jelly 7", startX, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path));
-				enemy.Add(new Enemy ("Blue Jelly 8", startX+1, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path2));
-				enemy.Add(new Enemy ("Blue Jelly 9", startX+2, startZ, 20, 1, 0, 1, imList, tZone, blueJellyTex, 50, maxTex, path3));
+				enemy.Add(new Enemy ("Blue Jelly 7", startX, startZ, 20, 1, 0, 1, imList, ftZone, fBlueJellyTex, 50, maxTex, path));
+				enemy.Add(new Enemy ("Blue Jelly 8", startX+1, startZ, 20, 1, 0, 1, imList, ptZone, pBlueJellyTex, 50, maxTex, path2));
+				enemy.Add(new Enemy ("Blue Jelly 9", startX+2, startZ, 20, 1, 0, 1, imList, ftZone, fBlueJellyTex, 50, maxTex, path3));
 				waveNum++;
 			}
 			
