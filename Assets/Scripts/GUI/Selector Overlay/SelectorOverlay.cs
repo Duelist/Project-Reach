@@ -10,6 +10,8 @@ public class SelectorOverlay {
 	private bool mouseDrag;
 	private bool mouseUp;
 	
+	private bool mouseDownOnSelector;
+	
 	public bool drawMen = false;
 	public int menx;
 	public int meny;
@@ -39,14 +41,20 @@ public class SelectorOverlay {
 	}
 	
 	public void DrawGUI (Hashtable towerList, Player player){
-		// Change of button to event
+		
+		
 		Event e = Event.current;
 		if (e.type == EventType.MouseDown){
 			mouseDown = true;
 			mouseDownPos.x = Input.mousePosition.x;
 			mouseDownPos.y = Input.mousePosition.y;
 			mouseDownPos.z = 0;
+			
 			Debug.Log("Mouse Down x:" + Input.mousePosition.x + " y:" + Input.mousePosition.y + " z:" + Input.mousePosition.z);
+			if (WithinBounds() && OnSelector((int)mouseDownPos.x,(int)mouseDownPos.y,towerList)){
+				Debug.Log ("Mouse Down On Selector");
+				mouseDownOnSelector = true;
+			}
 		}
 		else if (e.type == EventType.MouseDrag){
 			mouseDrag = true;
@@ -54,11 +62,18 @@ public class SelectorOverlay {
 			Vector3 positioning = Input.mousePosition;
 			positioning.z = 0;
 			Debug.DrawLine(mouseDownPos, positioning, Color.black);
+			
+			// Radial Menu while dragging
+			if (mouseDownOnSelector == true){
+				float x = mouseDownPos.x;
+				float y = mouseDownPos.y - buttonSize;
+			}
 		}
 		else if (e.type == EventType.MouseUp){
 			mouseUp = true;
 			Debug.Log("Current event detected: " + Event.current.type);
 			Debug.Log("Input Mouse Position x:" + Input.mousePosition.x + " y:" + Input.mousePosition.y);
+			// Click Events
 			if (mouseDown == true && mouseDrag == false && mouseUp == true){
 				if (WithinBounds() && OnSelector((int)mouseDownPos.x,(int)mouseDownPos.y,towerList)){
 					Debug.Log ("On Selector");
@@ -81,10 +96,36 @@ public class SelectorOverlay {
 					}*/
 				}
 			}
+			// Drag Events
 			else if (mouseDown == true && mouseDrag == true && mouseUp == true){
+				if (mouseDownOnSelector == true){
+					// Create Fire Tower
+				}
 				// create a wall here =)
 			}
 			ResetButtonStates();
+		}
+		
+		// Radial Menu
+		// Change of button to event
+		if (mouseDownOnSelector == true){
+			float onScreenXPos = mouseDownPos.x - (buttonSize/2);
+			float onScreenYPos = (lastTilePos.y - firstTilePos.y) - (mouseDownPos.y - (buttonSize/2));
+			GUI.skin = GUISkinFactory.GetFireButtonSkin();
+			if (GUI.Button (new Rect(onScreenXPos,onScreenYPos - buttonSize,buttonSize,buttonSize),"")){}
+			GUI.DrawTexture(new Rect(onScreenXPos,onScreenYPos - buttonSize,buttonSize,buttonSize),TextureFactory.GetFireButtonDecal());
+				
+			GUI.skin = GUISkinFactory.GetIceButtonSkin();
+			if (GUI.Button (new Rect(onScreenXPos,onScreenYPos + buttonSize,buttonSize,buttonSize),"")){}
+			GUI.DrawTexture(new Rect(onScreenXPos,onScreenYPos + buttonSize,buttonSize,buttonSize),TextureFactory.GetIceButtonDecal());
+				
+			GUI.skin = GUISkinFactory.GetEarthButtonSkin();
+			if (GUI.Button (new Rect(onScreenXPos + buttonSize,onScreenYPos,buttonSize,buttonSize),"")){}
+			GUI.DrawTexture(new Rect(onScreenXPos + buttonSize,onScreenYPos,buttonSize,buttonSize),TextureFactory.GetEarthButtonDecal());
+				
+			GUI.skin = GUISkinFactory.GetWindButtonSkin();
+			if (GUI.Button (new Rect(onScreenXPos - buttonSize,onScreenYPos,buttonSize,buttonSize),"")){}
+			GUI.DrawTexture(new Rect(onScreenXPos - buttonSize,onScreenYPos,buttonSize,buttonSize),TextureFactory.GetWindButtonDecal());
 		}
 	}
 	
@@ -92,6 +133,7 @@ public class SelectorOverlay {
 		mouseDown = false;
 		mouseDrag = false;
 		mouseUp = false;
+		mouseDownOnSelector = false;
 	}
 	
 	// Need to use this method twice to get x and y
