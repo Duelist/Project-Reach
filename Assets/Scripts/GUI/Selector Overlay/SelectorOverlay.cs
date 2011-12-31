@@ -41,8 +41,6 @@ public class SelectorOverlay {
 	}
 	
 	public void DrawGUI (Hashtable towerList, Player player){
-		
-		
 		Event e = Event.current;
 		if (e.type == EventType.MouseDown){
 			mouseDown = true;
@@ -86,7 +84,7 @@ public class SelectorOverlay {
 				}
 				else if (WithinBounds() && OnTower((int)mouseDownPos.x,(int)mouseDownPos.y,towerList)){
 					//Tower Select Flip
-					string tableKey = GenerateKeyFromMouseClick();
+					int tableKey = GenerateKeyFromMouseClick();
 					((Tower)towerList[tableKey]).FlipTime();
 					
 					// Zone Select Flip
@@ -148,12 +146,11 @@ public class SelectorOverlay {
 	}
 	
 	// Generate the key for store/search purposes
-	public string GenerateKey (int x, int y){
-		string tableKey = x + "," + y + "Tower";
-		return tableKey;
+	public int GenerateKey (int x, int y){
+		return (int)(0.5*(x + y)*(x + y + 1) + y);
 	}
 	
-	public string GenerateKeyFromMouseClick (){
+	public int GenerateKeyFromMouseClick (){
 		// Remove the extra space from the origin of the screen to the first tile.
 		float storagePosX = Input.mousePosition.x - firstTilePos.x;
 		float storagePosY = Input.mousePosition.y - firstTilePos.y;
@@ -163,7 +160,7 @@ public class SelectorOverlay {
 		int hashKeyY = CalculateTile(storagePosY);
 		
 		// Generate the key for store/search purposes
-		string tableKey = GenerateKey (hashKeyX, hashKeyY);
+		int tableKey = GenerateKey(hashKeyX, hashKeyY);
 		return tableKey;
 	}
 
@@ -177,7 +174,7 @@ public class SelectorOverlay {
 		int hashKeyY = CalculateTile(storagePosY);
 		
 		// Generate the key for store/search purposes
-		string tableKey = GenerateKey (hashKeyX, hashKeyY);
+		int tableKey = GenerateKey(hashKeyX, hashKeyY);
 
 		if (player.GetMana() >= 10){
 			Tower tower = new Tower (hashKeyX, hashKeyY, mapStore, "fire", "past");
@@ -192,9 +189,8 @@ public class SelectorOverlay {
 	
 	// Calculate if the click was within map bounds
 	private bool WithinBounds(){
-		if (Input.mousePosition.x >= firstTilePos.x && Input.mousePosition.x <= lastTilePos.x && Input.mousePosition.y >= firstTilePos.y && Input.mousePosition.y <= lastTilePos.y){
+		if (Input.mousePosition.x >= firstTilePos.x && Input.mousePosition.x <= lastTilePos.x && Input.mousePosition.y >= firstTilePos.y && Input.mousePosition.y <= lastTilePos.y)
 			return true;
-		}
 		Debug.Log ("Not Within bounds");
 		return false;
 	}
@@ -206,7 +202,7 @@ public class SelectorOverlay {
 		// Calculate which tile was clicked and generate the tableKey
 		int hashKeyX = CalculateTile(storagePosX);
 		int hashKeyY = CalculateTile(storagePosY);
-		string tableKey = GenerateKey (hashKeyX, hashKeyY);
+		int tableKey = GenerateKey(hashKeyX, hashKeyY);
 
 		if (mapStore.tiles[hashKeyX,hashKeyY].hasSelector){
 			if (!towerList.ContainsKey(tableKey)){
@@ -224,7 +220,7 @@ public class SelectorOverlay {
 		int hashKeyX = CalculateTile(storagePosX);
 		int hashKeyY = CalculateTile(storagePosY);
 		
-		string tableKey = GenerateKey (hashKeyX, hashKeyY);
+		int tableKey = GenerateKey (hashKeyX, hashKeyY);
 		if (towerList.ContainsKey(tableKey)){
 			return true;
 		}
