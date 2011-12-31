@@ -40,22 +40,20 @@ public class GameManager {
 		// gameState = GameState.Stopped;
 	}
 	
-	public void DrawScene (){
-		guiManager.DrawGUI(towerList, player1);
-		if (gameState == GameState.Playing){
-			enemyManager.DrawEnemy(towerList, player1);
-		}
+	public void HandleGameLogic (){
+		// Increments player's mana pool and updates time
 		if (timeKeeper + 1 < Time.time){
 			player1.IncMana(1);
 			timeKeeper = Time.time;
 		}
-		/*Effect eff = new Effect("fire");
-		Zone zone = new Zone(eff, 3, 3, "present");
-		Tower tower = new Tower(4, 3, zone);
-		Tower tower2 = new Tower(4,6,zone);
-		Wall wall = new Wall(tower, tower2);
-		tower.createUpperZone(eff, 4, 3 , 2, 2);
-		tower.createWall(wall);
-		Debug.Log("Tower Created");*/
+	}
+	
+	public void DrawScene (){
+		HandleGameLogic();
+		
+		guiManager.DrawGUI(towerList, player1);
+		if (gameState == GameState.Playing){
+			enemyManager.DrawEnemy(towerList, player1);
+		}
 	}
 }

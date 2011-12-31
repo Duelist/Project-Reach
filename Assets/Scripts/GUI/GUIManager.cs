@@ -48,8 +48,9 @@ public class GUIManager {
 		futureButton.DrawGUI();
 		rollingButton.active = selectorOverlay.drawMen;
 		if (rollingButton.active) {
-			rollingButton.setActive(selectorOverlay.menx,selectorOverlay.meny);
-			rollingButton.DrawGUI();
-		}		selectorOverlay.DrawGUI(towerList, player);
+			//rollingButton.setActive(selectorOverlay.menx,selectorOverlay.meny);
+			//rollingButton.DrawGUI();
+		}
+		selectorOverlay.DrawGUI(towerList, player);
 	}
 }
