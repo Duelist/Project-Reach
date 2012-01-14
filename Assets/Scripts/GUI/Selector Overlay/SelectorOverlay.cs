@@ -60,12 +60,6 @@ public class SelectorOverlay {
 			Vector3 positioning = Input.mousePosition;
 			positioning.z = 0;
 			Debug.DrawLine(mouseDownPos, positioning, Color.black);
-			
-			// Radial Menu while dragging
-			if (mouseDownOnSelector == true){
-				float x = mouseDownPos.x;
-				float y = mouseDownPos.y - buttonSize;
-			}
 		}
 		else if (e.type == EventType.MouseUp){
 			mouseUp = true;
@@ -75,12 +69,12 @@ public class SelectorOverlay {
 			if (mouseDown == true && mouseDrag == false && mouseUp == true){
 				if (WithinBounds() && OnSelector((int)mouseDownPos.x,(int)mouseDownPos.y,towerList)){
 					Debug.Log ("On Selector");
-					drawMen = true;
-					menx = (int) Input.mousePosition.x;
-					meny = Screen.height - (int) Input.mousePosition.y;	
+					//drawMen = true;
+					//menx = (int) Input.mousePosition.x;
+					//meny = Screen.height - (int) Input.mousePosition.y;	
 
 					// will need to select a tower to build later before creating tower.
-					CreateTower(towerList, player);				
+							
 				}
 				else if (WithinBounds() && OnTower((int)mouseDownPos.x,(int)mouseDownPos.y,towerList)){
 					//Tower Select Flip
@@ -98,6 +92,20 @@ public class SelectorOverlay {
 			else if (mouseDown == true && mouseDrag == true && mouseUp == true){
 				if (mouseDownOnSelector == true){
 					// Create Fire Tower
+					float onScreenXPos = mouseDownPos.x - buttonSize/2;
+					float onScreenYPos = mouseDownPos.y - buttonSize/2;
+					Debug.Log(onScreenXPos + "|" + Input.mousePosition.x);
+					Debug.Log(onScreenYPos + "|" + Input.mousePosition.y);
+					// Fire button condition
+					if (Input.mousePosition.x > onScreenXPos && Input.mousePosition.x < onScreenXPos + buttonSize && Input.mousePosition.y > onScreenYPos + buttonSize && Input.mousePosition.y < (onScreenYPos + buttonSize * 2)){
+						CreateTower((int)mouseDownPos.x,(int)mouseDownPos.y, towerList, player, "fire");	
+						Debug.Log ("Create Splash Tower");
+					}
+					// Fire button condition
+					else if (Input.mousePosition.x > onScreenXPos && Input.mousePosition.x < onScreenXPos + buttonSize && Input.mousePosition.y > (onScreenYPos - buttonSize) && Input.mousePosition.y < onScreenYPos){
+						CreateTower((int)mouseDownPos.x,(int)mouseDownPos.y, towerList, player, "ice");	
+						Debug.Log ("Create Single Fire Tower");
+					}
 				}
 				// create a wall here =)
 			}
@@ -116,7 +124,8 @@ public class SelectorOverlay {
 			GUI.skin = GUISkinFactory.GetIceButtonSkin();
 			if (GUI.Button (new Rect(onScreenXPos,onScreenYPos + buttonSize,buttonSize,buttonSize),"")){}
 			GUI.DrawTexture(new Rect(onScreenXPos,onScreenYPos + buttonSize,buttonSize,buttonSize),TextureFactory.GetIceButtonDecal());
-				
+			
+			/*
 			GUI.skin = GUISkinFactory.GetEarthButtonSkin();
 			if (GUI.Button (new Rect(onScreenXPos + buttonSize,onScreenYPos,buttonSize,buttonSize),"")){}
 			GUI.DrawTexture(new Rect(onScreenXPos + buttonSize,onScreenYPos,buttonSize,buttonSize),TextureFactory.GetEarthButtonDecal());
@@ -124,6 +133,7 @@ public class SelectorOverlay {
 			GUI.skin = GUISkinFactory.GetWindButtonSkin();
 			if (GUI.Button (new Rect(onScreenXPos - buttonSize,onScreenYPos,buttonSize,buttonSize),"")){}
 			GUI.DrawTexture(new Rect(onScreenXPos - buttonSize,onScreenYPos,buttonSize,buttonSize),TextureFactory.GetWindButtonDecal());
+			*/
 		}
 	}
 	
@@ -164,10 +174,10 @@ public class SelectorOverlay {
 		return tableKey;
 	}
 
-	private void CreateTower(Hashtable towerList, Player player){
+	private void CreateTower(int tilex, int tiley, Hashtable towerList, Player player, string element){
 		// Remove the extra space from the origin of the screen to the first tile.
-		float storagePosX = Input.mousePosition.x - firstTilePos.x;
-		float storagePosY = Input.mousePosition.y - firstTilePos.y;
+		float storagePosX = tilex - firstTilePos.x;
+		float storagePosY = tiley - firstTilePos.y;
 		
 		// Calculate which tile was clicked and generate the tableKey
 		int hashKeyX = CalculateTile(storagePosX);
@@ -177,7 +187,7 @@ public class SelectorOverlay {
 		int tableKey = GenerateKey(hashKeyX, hashKeyY);
 
 		if (player.GetMana() >= 10){
-			Tower tower = new Tower (hashKeyX, hashKeyY, mapStore, "fire", "past");
+			Tower tower = new Tower (hashKeyX, hashKeyY, mapStore, element, "past");
 			towerList.Add(tableKey, tower);
 			Debug.Log ("Key Created");
 			player.DecMana(10);

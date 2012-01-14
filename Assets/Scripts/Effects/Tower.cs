@@ -13,7 +13,7 @@ public class Tower {
 	private string direct; 
 	private string time;
 	//private Zone wall;
-	//private Effect effect;
+	private string effect;
 	private GameObject towerObj;
 	private bool active;
 	
@@ -21,7 +21,7 @@ public class Tower {
 	public Tower (int x, int z, Map map, string eff, string t) {
 		towerXPos = x;
 		towerZPos = z;
-		//effect = eff;
+		effect = eff;
 		//direct = dir;
 		active = true;
 	
@@ -40,6 +40,15 @@ public class Tower {
 			}
 			else {
 				SetTextureTower(TextureFactory.GetFireTowerFuture());
+			}
+		}
+		
+		if (eff == "ice"){
+			if (time == "past"){
+				SetTextureTower(TextureFactory.GetIceTowerPast());
+			}
+			else {
+				SetTextureTower(TextureFactory.GetIceTowerFuture());
 			}
 		}
 		
@@ -256,17 +265,27 @@ public class Tower {
 	}
 	
 	public void FlipTime (){
-		Texture fireTower = TextureFactory.GetFireTowerPast();
-		if (time == "past"){
-			time = "future";
-			fireTower = TextureFactory.GetFireTowerFuture();
-		}
-		else {
-			time = "past";
-		}
-		SetTextureTower(fireTower);
-		
+		SetTextureTower(GetTowerTexture());
 		this.zone.FlipTime();
+	}
+	
+	private Texture GetTowerTexture (){
+		Texture towerTex = TextureFactory.GetFireTowerPast(); // default
+		
+		if (effect == "fire" && time == "past"){
+			towerTex = TextureFactory.GetFireTowerPast();
+		}
+		else if (effect == "fire" && time == "future"){
+			towerTex = TextureFactory.GetFireTowerFuture();
+		}
+		else if (effect == "ice" && time == "past"){
+			towerTex = TextureFactory.GetIceTowerPast();
+		}
+		else if (effect == "ice" && time == "future"){
+			towerTex = TextureFactory.GetIceTowerFuture();
+		}
+		
+		return towerTex;
 	}
 
 	/* public Zone getWall() {
