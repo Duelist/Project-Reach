@@ -15,7 +15,7 @@ public class EnemyManager{
 	int waveNum;
 	Vector3 offset;
 
-	float animationSpeed;
+	//float animationSpeed;
 	
 	float moveHelper;
 	int move;
@@ -44,7 +44,7 @@ public class EnemyManager{
 		numWaves = 3;
 		waveNum = 0;
 		
-		animationSpeed = 0.2f; // change texture once per (animationSpeed) second;
+		//animationSpeed = 0.2f; // change texture once per (animationSpeed) second;
 		
 		// Enemy 1: Blue Jelly Initialization
 		maxTex = 5;
@@ -129,7 +129,9 @@ public class EnemyManager{
 		for (int i = 0; i < enemy.Count; i++){
 			Enemy newEnemy = enemy[i];
 			newEnemy.GetGameObject().renderer.material.mainTexture = newEnemy.GetAnimate(newEnemy.GetCurTex());
-			if (newEnemy.GetAnimHelper() + animationSpeed < Time.time){
+			//if (newEnemy.GetAnimHelper() + animationSpeed < Time.time){ no longer animation speed
+			float checkTime = (float)newEnemy.GetMoveSpeed() / (float)newEnemy.GetMaxTex();
+			if (newEnemy.GetAnimHelper() + checkTime < Time.time){ 
 				newEnemy.IncCurTex();
 				newEnemy.SetAnimHelper(Time.time);
 
