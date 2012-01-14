@@ -185,9 +185,9 @@ public class SelectorOverlay {
 		
 		// Generate the key for store/search purposes
 		int tableKey = GenerateKey(hashKeyX, hashKeyY);
-
+		
 		if (player.GetMana() >= 10){
-			Tower tower = new Tower (hashKeyX, hashKeyY, mapStore, element, "past");
+			Tower tower = new Tower (hashKeyX, hashKeyY, mapStore, Effect.EffectType.Fire, false);
 			towerList.Add(tableKey, tower);
 			Debug.Log ("Key Created");
 			player.DecMana(10);

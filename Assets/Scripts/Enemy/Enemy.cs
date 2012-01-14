@@ -9,15 +9,11 @@ public class Enemy{
 	private int moveSpeed;
 	private int armour;
 	private int damage;
-	// Typing:
-	// immunityList : ArrayList <String>
-	// timeZone : ArrayList <String>
-	// debuffList : ArrayList <String>
-	private ArrayList immunityList;
-	private ArrayList timeZoneList;
+
 	private ArrayList debuffList;
+	private bool pastState;
 	
-	private Texture [] animate;
+	private Texture[] animate;
 	private int eSize, maxTex, curTex;
 	
 	private ArrayList path;
@@ -27,7 +23,7 @@ public class Enemy{
 	// Object to be drawn on screen
 	GameObject cubeObject;
 	
-	public Enemy (string n, float x, float z, int hp, int ms, int arm, int dam, ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList pa){
+	public Enemy (string n, float x, float z, int hp, int ms, int arm, int dam, bool tZone, Texture [] anim, int s, int maxT, ArrayList pa){
 		ename = n;
 		position = new Vector3 (x,0,z);
 		maxHP = hp;
@@ -43,15 +39,7 @@ public class Enemy{
 		
 		damage = dam;
 		
-		immunityList = new ArrayList ();
-		if (imList != null){
-			immunityList = imList;
-		}
-		
-		timeZoneList = new ArrayList ();
-		if (tZone != null){
-			timeZoneList = tZone;
-		}
+		pastState = tZone;
 		
 		debuffList = new ArrayList ();
 
@@ -138,64 +126,15 @@ public class Enemy{
 	}
 	
 	// ArrayList getters and Modifiers
-	// -- ImmunityList -- //
-	// Returns ArrayList <String>
-	public ArrayList GetImmunityList (){
-		return immunityList;
-	}
-	// Returns true if the immunity exists in the list, false ow
-	public bool ContainsImmunity (string imType){
-		if (immunityList.IndexOf(imType) != -1){
-			return true;
-		}
-		return false;
-	}
-	// Returns true if an Immunity is added, false ow
-	public bool AddImmunity (string imType){
-		if (ContainsImmunity(imType)){
-			return false;
-		}
-		immunityList.Add(imType);
-		return true;
-	}
-	// Returns true if an Immunity was removed, false ow
-	public bool RemoveImmunity (string imType){
-		int temp = immunityList.Count;
-		immunityList.Remove(imType);
-		if (immunityList.Count == temp){
-			return false;
-		}
-		return true;
-	}
 	
 	// -- TimeZone -- //
 	// Returns ArrayList <String>
-	public ArrayList GetTimeZoneList (){
-		return timeZoneList;
+	public bool GetPastState (){
+		return pastState;
 	}
 	
-	public bool ContainsTimeZone (string tzType){
-		if (timeZoneList.IndexOf(tzType) != -1){
-			return true;
-		}
-		return false;
-	}
-	
-	public bool AddTimeZone (string tzType){
-		if (ContainsTimeZone(tzType)){
-			return false;
-		}
-		timeZoneList.Add(tzType);
-		return true;
-	}
-	
-	public bool RemoveTimeZone (string tzType){
-		int temp = timeZoneList.Count;
-		timeZoneList.Remove(tzType);
-		if (timeZoneList.Count == temp){
-			return false;
-		}
-		return true;
+	public void SetPastState (bool tzType){
+		pastState = tzType;
 	}
 	
 	// -- DebuffList -- //
@@ -204,14 +143,14 @@ public class Enemy{
 		return debuffList;
 	}
 	
-	public bool ContainsDebuff (string dbType){
+	public bool ContainsDebuff (Effect.DebuffType dbType){
 		if (debuffList.IndexOf(dbType) != -1){
 			return true;
 		}
 		return false;
 	}
 	
-	public bool AddDebuff (string dbType){
+	public bool AddDebuff (Effect.DebuffType dbType){
 		if (ContainsDebuff(dbType)){
 			return false;
 		}
@@ -219,7 +158,7 @@ public class Enemy{
 		return true;
 	}
 	
-	public bool RemoveDebuff (string dbType){
+	public bool RemoveDebuff (Effect.DebuffType dbType){
 		int temp = debuffList.Count;
 		debuffList.Remove(dbType);
 		if (debuffList.Count == temp){
@@ -229,7 +168,7 @@ public class Enemy{
 	}
 	
 	// Animation, eSize, MaxTex, and CurTex Getters/Setters
-	public Texture [] GetAnimate(){
+	public Texture[] GetAnimate(){
 		return animate;
 	}
 	public Texture GetAnimate(int i){

@@ -8,15 +8,15 @@ public class Zone {
 	private int length;
 	// private ArrayList effectList;
 	private Effect effect;
-	private string time;
+	private bool pastState;
 	
 	private GameObject zoneObj;
 	
-	public Zone (Effect eff, Vector2 pos, int w, int l, string t) {
+	public Zone (Effect eff, Vector2 pos, int w, int l, bool t) {
 		width  = w;
 		length = l;
 		effect = eff;
-		time = t;
+		pastState = t;
 		position = pos;
 		
 		zoneObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -25,15 +25,15 @@ public class Zone {
 		zoneObj.renderer.enabled = true;
 		
 		Texture fireZone = Resources.Load ("WallZone/FireZonePast") as Texture;
-		if (time == "future"){
+		if (pastState == false){
 			fireZone = Resources.Load ("WallZone/FireZoneFuture") as Texture;
 		}
 		zoneObj.renderer.material.mainTexture = fireZone;
 	}
 	
 	/* Setters and Getters */
-	public void setTime(string t) {
-		this.time = t;
+	public void setTime(bool t) {
+		this.pastState = t;
 	}
 	
 	public void setEffect(Effect eff) {
@@ -52,8 +52,8 @@ public class Zone {
 		return this.effect;
 	}
 	
-	public string getTime() {
-		return this.time;
+	public bool GetTime() {
+		return this.pastState;
 	}
 	
 	public Zone GetZone() {
@@ -68,12 +68,12 @@ public class Zone {
 		return this.length;
 	}
 	
-	public string getZoneEffect() {
-		return this.effect.getEffectElement();
+	public Effect.EffectType getZoneEffect() {
+		return this.effect.GetEffectType();
 	}
 	
-	public string getZoneSpecial() {
-		return this.effect.getEffectSpecial();
+	public Effect.DebuffType getZoneSpecial() {
+		return this.effect.GetDebuffType();
 	}
 
 	public Vector2 GetPosition (){
@@ -89,12 +89,12 @@ public class Zone {
 	
 	public void FlipTime (){
 		Texture fireZone = TextureFactory.GetFireZonePast();
-		if (time == "past"){
-			time = "future";
+		if (pastState == true){
+			pastState = false;
 			fireZone = TextureFactory.GetFireZoneFuture();
 		}
 		else {
-			time = "past";
+			pastState = true;
 		}
 		zoneObj.renderer.material.mainTexture = fireZone;
 	}

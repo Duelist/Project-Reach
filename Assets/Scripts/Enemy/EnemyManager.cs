@@ -90,23 +90,21 @@ public class EnemyManager{
 			
 			// Initialization parameters:
 			// string n, int x, int z, int hp, int ms, int arm, int dam. ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList path
-			ArrayList imList = new ArrayList ();
-			ArrayList ptZone = new ArrayList ();
-			ArrayList ftZone = new ArrayList ();
-			ptZone.Add("past");
-			ftZone.Add("future");
+			bool pastState = false;
 			
 			// Texture Settings
 			int startX = 1;
 			int startZ = 0;
 			
+			
 			// Level 1
 			if (waveNum == 0){
-				enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 1, 0, 1, imList, ftZone, fBlueJellyTex, 50, maxTex, path));
-				enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 1, 0, 1, imList, ftZone, fBlueJellyTex, 50, maxTex, path2));
-				enemy.Add(new Enemy ("Merupi", startX+2, startZ, 50, 1, 0, 5, imList, ftZone, merupiTex, 50, maxTex2, path3));
+				enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 1, 0, 1, pastState, fBlueJellyTex, 50, maxTex, path));
+				enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 1, 0, 1, pastState, fBlueJellyTex, 50, maxTex, path2));
+				enemy.Add(new Enemy ("Merupi", startX+2, startZ, 50, 1, 0, 5, pastState, merupiTex, 50, maxTex2, path3));
 				waveNum++;
 			}
+			/*
 			else if (waveNum == 1){
 				enemy.Add(new Enemy ("Blue Jelly 4", startX, startZ, 20, 1, 0, 1, imList, ptZone, pBlueJellyTex, 50, maxTex, path));
 				enemy.Add(new Enemy ("Blue Jelly 5", startX+1, startZ, 20, 1, 0, 1, imList, ptZone, pBlueJellyTex, 50, maxTex, path2));
@@ -119,6 +117,7 @@ public class EnemyManager{
 				enemy.Add(new Enemy ("Blue Jelly 9", startX+2, startZ, 20, 1, 0, 1, imList, ftZone, fBlueJellyTex, 50, maxTex, path3));
 				waveNum++;
 			}
+			*/
 			
 			spawnTimer = Time.time + spawnInterval;
 		}
@@ -202,9 +201,9 @@ public class EnemyManager{
 				&& zonePos.y - enemyPos.z >= -1){
 				
 				// if the timezone is correct "past"/"future"
-				if (newEnemy.ContainsTimeZone(newZone.getTime())){
+				if (newEnemy.GetPastState() == newZone.GetTime()){
 					Effect newEff = newZone.GetEffect();
-					newEnemy.SetCurHP(newEnemy.GetCurHP() - newEff.GetDamage());
+					newEnemy.SetCurHP((int)(newEnemy.GetCurHP() - newEff.GetDamage()));
 					Debug.Log(newEnemy.GetName() + " DAMAGED for " + newEff.GetDamage());
 					if (newEnemy.GetCurHP() <= 0){
 						Debug.Log(newEnemy.GetName() + " has been Destroyed!");

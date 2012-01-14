@@ -2,66 +2,62 @@ using UnityEngine;
 using System.Collections;
 
 public class Effect
-{
-	// Effect variables
-	private string effectSpecial;
-	private string effectElement; 
+{	
+	public enum EffectType {None, Fire, Ice, Earth, Wind};
+	public enum DebuffType {None, Weaken, Slow, Slip, Burn};
 	
-	private int damage = 1;
-	private int damageIncrease = 3;
+	private EffectType effectType;
+	private DebuffType debuffType;
+	
+	private float damage;
+	private float damageIncrease;
 	
 	private float armour;
-	private float armourReduction = 0.5f;
+	private float armourReduction;
 	
 	private float speed;
-	private float speedReduction = 0.5f;
+	private float speedReduction;
 	
-	
-
 	// Effects constructor, creates an effect object and sets variables accordingly
 	// Since we are creating an effect, then we are creating a zone, thus effect and zone are the same
-	public Effect (string eff) {
-		effectElement = eff;
+	public Effect (EffectType effect) {
+		this.effectType = effect;
 		
-		if (eff == "fire") {
+		if (this.effectType == EffectType.Fire) {
 			damage = damage * damageIncrease;
-			this.effectSpecial = "damage increase";
-		} else if (eff == "earth") {
+			this.debuffType = DebuffType.Burn;
+		} else if (this.effectType == EffectType.Earth) {
 			armour = armour * armourReduction;
-			this.effectSpecial = "armour decrease";
-		} else if (eff == "wind") { 
+			this.debuffType = DebuffType.Weaken;
+		} else if (this.effectType == EffectType.Wind) { 
 			speed = speed * speedReduction;
-			this.effectSpecial = "slow";
-		} else if (eff == "ice") {
-			this.effectSpecial = "Slip & Slide";
-		} else if (eff == "default") {
-			this.effectSpecial = "none";
-			damage = damage + damage;
+			this.debuffType = DebuffType.Slow;
+		} else if (this.effectType == EffectType.Ice) {
+			this.debuffType = DebuffType.Slip;
+		} else if (this.effectType == EffectType.None) {
+			this.debuffType = DebuffType.None;
 		}
 		//this.setEffectSpecial(eff);
 		// createZone(effectElement, towerXPos, towerZPos, width, length);
 	}
 	
-	
-	// Setters and Getters
-	//public void setEffectSpecial(string eff) {
-		
-	//}
-	
-	public void seteffectElementAndSpecial(string ele) {
-		this.effectElement = ele;
-		//this.setEffectSpecial(ele);
+	public void SetEffectType(EffectType effect) {
+		this.effectType = effect;
 	}
 	
-	public string getEffectElement() {
-		return this.effectElement;
+	public void SetDebuffType(DebuffType debuff) {
+		this.debuffType = debuff;
 	}
 	
-	public string getEffectSpecial() {
-		return this.effectSpecial;
+	public EffectType GetEffectType() {
+		return this.effectType;
 	}
 	
-	public int GetDamage(){
+	public DebuffType GetDebuffType() {
+		return this.debuffType;
+	}
+	
+	public float GetDamage(){
 		return damage;
 	}
 	

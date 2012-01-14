@@ -27,6 +27,7 @@ public class MainManager : MonoBehaviour
 		//mainState = MainState.Paused;
 		//mainState = MainState.GameOver;
 		
+		//changeState(mainState);
 		gameManager = new GameManager();
 		menuManager = new MenuManager();
 	}
@@ -63,6 +64,18 @@ public class MainManager : MonoBehaviour
 				EndGame();
 			}
 		}*/
+	}
+	
+	void ChangeState(MainState newState)
+	{
+		if (newState == MainState.Menu)
+		{
+			menuManager = new MenuManager();
+		}
+		if (newState == MainState.InGame)
+		{
+			gameManager = new GameManager();
+		}
 	}
 	
 	void OnGUI(){
