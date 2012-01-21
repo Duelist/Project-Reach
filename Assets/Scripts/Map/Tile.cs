@@ -9,6 +9,7 @@ public class Tile
 	public bool hasSelector;
 	public bool collision;
 	public GameObject tileObject;
+	public bool hasSpellSelector;
 	
 	public Tile()
 	{
@@ -31,6 +32,14 @@ public class Tile
 	}
 	public void SetSelector(bool select){
 		hasSelector = select;
+	}
+	
+	public void SetSpellSelector(bool select) {
+		hasSpellSelector = select;
+	}
+	
+	public bool GetSpellSelector() {
+		return this.hasSpellSelector;
 	}
 	
 	public void SetTexture(Texture tex){

@@ -157,6 +157,8 @@ public class Map
 			}
 		}
 		
+		
+		
 		// Openings
 		tiles [0,0].SetSelector(false);
 		tiles [4,0].SetSelector(false);
@@ -175,6 +177,20 @@ public class Map
 		tiles [11,14].SetSelector(false);
 		tiles [12,14].SetSelector(false);
 		tiles [13,14].SetSelector(false);
+		
+		// Selectors inside the path for "spell" zone placement - Andrew
+		for (int i = 2; i < (int)mapSize.x - 2; i++) {
+			for (int j = 2; j < (int)mapSize.y - 2; j++) {
+				if ((tiles[i-2, j].GetCollision() == true 
+					|| tiles[i+2, j].GetCollision() == true 
+						|| tiles[i, j + 2].GetCollision() == true
+							|| tiles[i, j-2].GetCollision() == true)
+								&& j % 2 == 1
+									&& tiles[i,j].GetCollision() == false) {
+					tiles[i,j].SetSpellSelector(true);
+				}
+			}				
+		}
 		
 		GenerateTestTextures(tiles);
 	}// Test Map Class

@@ -11,6 +11,7 @@ public class SelectorOverlay {
 	private bool mouseUp;
 	
 	private bool mouseDownOnSelector;
+	private bool mouseDownOnSpellSelector;
 	
 	public bool drawMen = false;
 	public int menx;
@@ -52,6 +53,10 @@ public class SelectorOverlay {
 			if (WithinBounds() && OnSelector((int)mouseDownPos.x,(int)mouseDownPos.y,towerList)){
 				Debug.Log ("Mouse Down On Selector");
 				mouseDownOnSelector = true;
+			} 
+			else if (WithinBounds() && OnSpellSelector((int)mouseDownPos.x,(int)mouseDownPos.y)) {
+				Debug.Log("SPELL SELECTOR");
+				mouseDownOnSpellSelector = true;
 			}
 		}
 		else if (e.type == EventType.MouseDrag){
@@ -134,6 +139,8 @@ public class SelectorOverlay {
 			if (GUI.Button (new Rect(onScreenXPos - buttonSize,onScreenYPos,buttonSize,buttonSize),"")){}
 			GUI.DrawTexture(new Rect(onScreenXPos - buttonSize,onScreenYPos,buttonSize,buttonSize),TextureFactory.GetWindButtonDecal());
 			*/
+		} else if (mouseDownOnSpellSelector == true) {
+			CreateSpell((int)mouseDownPos.x,(int)mouseDownPos.y, player, "ice");
 		}
 	}
 	
@@ -172,6 +179,26 @@ public class SelectorOverlay {
 		// Generate the key for store/search purposes
 		int tableKey = GenerateKey(hashKeyX, hashKeyY);
 		return tableKey;
+	}
+	
+	private void CreateSpell(int tilex, int tiley, Player player, string element) {
+		float storagePosX = tilex - firstTilePos.x;
+		float storagePosY = tiley - firstTilePos.y;
+		
+		// Calculate which tile was clicked and generate the tableKey
+		int hashKeyX = CalculateTile(storagePosX);
+		int hashKeyY = CalculateTile(storagePosY);
+		
+		// Generate the key for store/search purposes
+		int tableKey = GenerateKey(hashKeyX, hashKeyY);
+		
+		if (player.GetMana() >= 10){
+			Zone zone = new Zone (new Effect(Effect.EffectType.Fire), new Vector2(hashKeyX, hashKeyY), 3, 3, false);
+			player.DecMana(10);
+		}
+		else {
+			Debug.Log ("Out of Mana!");
+		}
 	}
 
 	private void CreateTower(int tilex, int tiley, Hashtable towerList, Player player, string element){
@@ -218,6 +245,20 @@ public class SelectorOverlay {
 			if (!towerList.ContainsKey(tableKey)){
 				return true;
 			}
+		}
+		return false;
+	}
+	
+	private bool OnSpellSelector(int tilex,int tiley) {
+		float storagePosX = tilex - firstTilePos.x;
+		float storagePosY = tiley - firstTilePos.y;
+		
+		// Calculate which tile was clicked and generate the tableKey
+		int hashKeyX = CalculateTile(storagePosX);
+		int hashKeyY = CalculateTile(storagePosY);
+
+		if (mapStore.tiles[hashKeyX,hashKeyY].hasSpellSelector){
+			return true;
 		}
 		return false;
 	}
