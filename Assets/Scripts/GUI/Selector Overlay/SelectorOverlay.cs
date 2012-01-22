@@ -103,12 +103,12 @@ public class SelectorOverlay {
 					Debug.Log(onScreenYPos + "|" + Input.mousePosition.y);
 					// Fire button condition
 					if (Input.mousePosition.x > onScreenXPos && Input.mousePosition.x < onScreenXPos + buttonSize && Input.mousePosition.y > onScreenYPos + buttonSize && Input.mousePosition.y < (onScreenYPos + buttonSize * 2)){
-						CreateTower((int)mouseDownPos.x,(int)mouseDownPos.y, towerList, player, "fire");	
+						CreateTower((int)mouseDownPos.x,(int)mouseDownPos.y, towerList, player, Effect.EffectType.Fire);	
 						Debug.Log ("Create Splash Tower");
 					}
 					// Fire button condition
 					else if (Input.mousePosition.x > onScreenXPos && Input.mousePosition.x < onScreenXPos + buttonSize && Input.mousePosition.y > (onScreenYPos - buttonSize) && Input.mousePosition.y < onScreenYPos){
-						CreateTower((int)mouseDownPos.x,(int)mouseDownPos.y, towerList, player, "ice");	
+						CreateTower((int)mouseDownPos.x,(int)mouseDownPos.y, towerList, player, Effect.EffectType.Ice);	
 						Debug.Log ("Create Single Fire Tower");
 					}
 				}
@@ -201,7 +201,7 @@ public class SelectorOverlay {
 		}
 	}
 
-	private void CreateTower(int tilex, int tiley, Hashtable towerList, Player player, string element){
+	private void CreateTower(int tilex, int tiley, Hashtable towerList, Player player, Effect.EffectType effect){
 		// Remove the extra space from the origin of the screen to the first tile.
 		float storagePosX = tilex - firstTilePos.x;
 		float storagePosY = tiley - firstTilePos.y;
@@ -214,7 +214,7 @@ public class SelectorOverlay {
 		int tableKey = GenerateKey(hashKeyX, hashKeyY);
 		
 		if (player.GetMana() >= 10){
-			Tower tower = new Tower (hashKeyX, hashKeyY, mapStore, Effect.EffectType.Fire, false);
+			Tower tower = new Tower (hashKeyX, hashKeyY, mapStore, effect, false);
 			towerList.Add(tableKey, tower);
 			Debug.Log ("Key Created");
 			player.DecMana(10);

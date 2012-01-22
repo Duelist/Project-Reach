@@ -272,6 +272,12 @@ public class Tower {
 	}
 	
 	public void FlipTime (){
+		if (pastState == true){
+			pastState = false;
+		}
+		else {
+			pastState = true;
+		}
 		SetTextureTower(GetTowerTexture());
 		this.zone.FlipTime();
 	}
