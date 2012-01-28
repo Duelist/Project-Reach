@@ -17,14 +17,13 @@ public class CheckpointManager
     
     private ArrayList checkpoints;
     
-    public CheckpointManager()
+    public CheckpointManager(int numberOfCheckpoints)
     {
-        GameObject[] checkpoints = GameObject.FindGameObjectsWithTag("cp");
         float minDistance = 2.0f;
         
-        for (int i = 0; i < checkpoints.Length; i++)
+        for (int i = 0; i < numberOfCheckpoints; i++)
         {
-            Checkpoint new_checkpoint = new Checkpoint(checkpoints[i],minDistance);
+            Checkpoint new_checkpoint = new Checkpoint(GameObject.Find("cp"+(i+1)),minDistance);
             this.checkpoints.Add(new_checkpoint);
         }
     }
