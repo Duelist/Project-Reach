@@ -6,7 +6,7 @@ public class Enemy{
 	private string ename;
 	private Vector3 position;
 	private int maxHP, curHP;
-	private int moveSpeed;
+	private float moveSpeed;
 	private int armour;
 	private int damage;
 
@@ -23,7 +23,7 @@ public class Enemy{
 	// Object to be drawn on screen
 	GameObject cubeObject;
 	
-	public Enemy (string n, float x, float z, int hp, int ms, int arm, int dam, bool tZone, Texture [] anim, int s, int maxT, ArrayList pa){
+	public Enemy (string n, float x, float z, int hp, float ms, int arm, int dam, bool tZone, Texture [] anim, int s, int maxT, ArrayList pa){
 		ename = n;
 		position = new Vector3 (x,0,z);
 		maxHP = hp;
@@ -99,10 +99,10 @@ public class Enemy{
 		curHP = cHP;
 	}
 	
-	public int GetMoveSpeed (){
+	public float GetMoveSpeed (){
 		return moveSpeed;
 	}
-	public void SetMoveSpeed (int ms){
+	public void SetMoveSpeed (float ms){
 		moveSpeed = ms;
 	}
 	

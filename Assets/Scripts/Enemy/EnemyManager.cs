@@ -99,9 +99,9 @@ public class EnemyManager{
 			
 			// Level 1
 			if (waveNum == 0){
-				enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 1, 0, 1, pastState, fBlueJellyTex, 50, maxTex, path));
-				enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 1, 0, 1, pastState, fBlueJellyTex, 50, maxTex, path2));
-				enemy.Add(new Enemy ("Merupi", startX+2, startZ, 50, 1, 0, 5, pastState, merupiTex, 50, maxTex2, path3));
+				enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 0.2f, 0, 1, pastState, fBlueJellyTex, 50, maxTex, path));
+				enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 0.2f, 0, 1, pastState, fBlueJellyTex, 50, maxTex, path2));
+				enemy.Add(new Enemy ("Merupi", startX+2, startZ, 50, 0.2f, 0, 5, pastState, merupiTex, 50, maxTex2, path3));
 				waveNum++;
 			}
 			/*
@@ -129,9 +129,19 @@ public class EnemyManager{
 			Enemy newEnemy = enemy[i];
 			newEnemy.GetGameObject().renderer.material.mainTexture = newEnemy.GetAnimate(newEnemy.GetCurTex());
 			//if (newEnemy.GetAnimHelper() + animationSpeed < Time.time){ no longer animation speed
-			float checkTime = (float)newEnemy.GetMoveSpeed() / (float)newEnemy.GetMaxTex();
-			if (newEnemy.GetAnimHelper() + checkTime < Time.time){ 
+			//float checkTime = (float)newEnemy.GetMoveSpeed() / (float)newEnemy.GetMaxTex();
+			float checkTime = 0.2f; // This is now the animation speed
+			if (newEnemy.GetAnimHelper() + checkTime < Time.time){
 				newEnemy.IncCurTex();
+				newEnemy.SetAnimHelper(Time.time);
+				
+				float curX = newEnemy.GetPositionX();
+				float curZ = newEnemy.GetPositionZ();
+				float newPosZ = curZ + newEnemy.GetMoveSpeed();
+				newEnemy.SetPosition(curX, newPosZ);
+				newEnemy.GetGameObject().transform.position = new Vector3(curX, 0, newPosZ);
+				
+				/*newEnemy.IncCurTex();
 				newEnemy.SetAnimHelper(Time.time);
 
 				if (newEnemy.IsAnimating()){
@@ -171,7 +181,7 @@ public class EnemyManager{
 				}
 				//if (moveHelper + (1/blueJelly.GetMoveSpeed()) < Time.time){
 				else{
-					Vector3 newPosition = newEnemy.PopPath();
+					/*Vector3 newPosition = newEnemy.PopPath();
 					int x = (int)newPosition.x;
 					int z = (int)newPosition.z;
 					if (x != -1 || z != -1){
@@ -183,7 +193,7 @@ public class EnemyManager{
 						PlayerDamage(player, newEnemy);
 						enemy.Remove(newEnemy);
 					}
-				}
+				}*/
 			}
 		}
 	}
