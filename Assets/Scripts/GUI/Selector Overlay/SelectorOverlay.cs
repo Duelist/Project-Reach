@@ -24,16 +24,18 @@ public class SelectorOverlay {
 	
 	public SelectorOverlay(Map map){
 		camera = Camera.main;
+                /*
 		if (map.tiles.GetUpperBound(0) > 1){
-			buttonSize = Mathf.Abs((camera.WorldToScreenPoint(map.tiles[0,0].tileObject.transform.position)).x - (camera.WorldToScreenPoint(map.tiles[1,0].tileObject.transform.position)).x);
+			//buttonSize = Mathf.Abs((camera.WorldToScreenPoint(map.tiles[0,0].tileObject.transform.position)).x - (camera.WorldToScreenPoint(map.tiles[1,0].tileObject.transform.position)).x);
 		}
 		else {
 			Debug.Log("Failed to calculate buttonSize, defaulting to size 32");
 			buttonSize = 32;
 		}
+                */
 		Debug.Log(buttonSize+"");
-		firstTilePos = new Vector2 ((camera.WorldToScreenPoint(map.tiles[0,0].tileObject.transform.position)).x - (buttonSize/2), (camera.WorldToScreenPoint(map.tiles[0,0].tileObject.transform.position)).y - (buttonSize/2));
-		lastTilePos = new Vector2 ((camera.WorldToScreenPoint(map.tiles[map.mapSizeX-1,map.mapSizeY-1].tileObject.transform.position)).x + (buttonSize/2), (camera.WorldToScreenPoint(map.tiles[map.mapSizeX-1,map.mapSizeY-1].tileObject.transform.position)).y + (buttonSize/2));
+		//firstTilePos = new Vector2 ((camera.WorldToScreenPoint(map.tiles[0,0].tileObject.transform.position)).x - (buttonSize/2), (camera.WorldToScreenPoint(map.tiles[0,0].tileObject.transform.position)).y - (buttonSize/2));
+		//lastTilePos = new Vector2 ((camera.WorldToScreenPoint(map.tiles[map.mapSizeX-1,map.mapSizeY-1].tileObject.transform.position)).x + (buttonSize/2), (camera.WorldToScreenPoint(map.tiles[map.mapSizeX-1,map.mapSizeY-1].tileObject.transform.position)).y + (buttonSize/2));
 		mapStore = map;
 		
 		ResetButtonStates();
@@ -42,6 +44,9 @@ public class SelectorOverlay {
 	}
 	
 	public void DrawGUI (Hashtable towerList, Player player){
+                //firstTilePos = new Vector2 ((camera.WorldToScreenPoint(mapStore.tiles[0,0].tileObject.transform.position)).x - (buttonSize/2), (camera.WorldToScreenPoint(mapStore.tiles[0,0].tileObject.transform.position)).y - (buttonSize/2));
+		//lastTilePos = new Vector2 ((camera.WorldToScreenPoint(mapStore.tiles[mapStore.mapSizeX-1,mapStore.mapSizeY-1].tileObject.transform.position)).x + (buttonSize/2), (camera.WorldToScreenPoint(mapStore.tiles[mapStore.mapSizeX-1,mapStore.mapSizeY-1].tileObject.transform.position)).y + (buttonSize/2));
+                
 		Event e = Event.current;
 		if (e.type == EventType.MouseDown){
 			mouseDown = true;
@@ -240,12 +245,13 @@ public class SelectorOverlay {
 		int hashKeyX = CalculateTile(storagePosX);
 		int hashKeyY = CalculateTile(storagePosY);
 		int tableKey = GenerateKey(hashKeyX, hashKeyY);
-
+                /*
 		if (mapStore.tiles[hashKeyX,hashKeyY].hasSelector){
 			if (!towerList.ContainsKey(tableKey)){
 				return true;
 			}
 		}
+                */
 		return false;
 	}
 	
@@ -256,10 +262,11 @@ public class SelectorOverlay {
 		// Calculate which tile was clicked and generate the tableKey
 		int hashKeyX = CalculateTile(storagePosX);
 		int hashKeyY = CalculateTile(storagePosY);
-
+                /*
 		if (mapStore.tiles[hashKeyX,hashKeyY].hasSpellSelector){
 			return true;
 		}
+                */
 		return false;
 	}
 	

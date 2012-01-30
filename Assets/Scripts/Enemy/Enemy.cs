@@ -51,7 +51,7 @@ public class Enemy{
 		maxTex = maxT;
 		curTex = 0;
 		
-		path = new ArrayList(pa);
+		//path = new ArrayList(pa);
 		
 		cubeObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		cubeObject.transform.Rotate(0,0,180);
@@ -225,20 +225,24 @@ public class Enemy{
 	
 	// Pop a vector in the current Path and return the vector popped
 	public Vector3 PopPath() {
+                /*
 		if (path != null && path.Count > 0){
 			Vector3 head = ((Tile)path[0]).tileObject.transform.position;
 			path.RemoveAt(0);
 			return head;
 		}
+                */
 		return new Vector3 (-1,-1,-1);
 	}
 	
 	// Grab the head of the current Path
 	public Vector3 GetPathHead(){
+                /*
 		if (path != null && path.Count > 0){
 			Vector3 head = ((Tile)path[0]).tileObject.transform.position;
 			return head;
 		}
+                */
 		return new Vector3 (-1, -1, -1);
 	}
 	

@@ -66,13 +66,14 @@ public class EnemyManager{
 			merupiTex[i] = Resources.Load ("Mascot/Merupi "+i) as Texture;
 		}
 		
+                /*
 		Debug.Log("Path 1");
 		path = AStar.Search (map.tiles[1,0], map.tiles[11,14], map, 1.0f);
 		Debug.Log("Path 2");
 		path2 = AStar.Search (map.tiles[2,0], map.tiles[12,14], map, 1.0f);
 		Debug.Log("Path 3");
 		path3 = AStar.Search (map.tiles[3,0], map.tiles[13,14], map, 1.0f);
-		
+                */
 		enemy = new List<Enemy> ();
 		
 		spawnTimer = Time.time;

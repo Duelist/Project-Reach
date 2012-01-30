@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+/*
 public class AStar 
 {
 	private static List<Tile> open;
@@ -94,3 +94,4 @@ public class AStar
 		return (p1 - p2).magnitude;
 	}
 }
+*/

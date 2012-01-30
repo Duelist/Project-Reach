@@ -65,6 +65,7 @@ public class Tower {
 	
 	
 	private void CreateZoneDir(Map map){
+            /*
 		if (towerXPos + 1 < map.GetMapSizeX() && towerZPos + 1 < map.GetMapSizeY()) {
 			if (!(map.GetTile(towerXPos + 1, towerZPos).GetCollision())) {
 				direct = "right";
@@ -115,6 +116,7 @@ public class Tower {
 					direct = "top";
 			}
 		}
+            */
 	}
 	
 	private void CreateZone() {

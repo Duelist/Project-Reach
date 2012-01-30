@@ -26,7 +26,7 @@ public class GameManager {
 	public GameManager (){
 		player1 = new Player ("Player 1");
 		map = new Map();
-		map.GenerateLevel1();
+		//map.GenerateLevel1();
 		guiManager = new GUIManager (map, player1);
 		enemyManager = new EnemyManager(map);
 		timeKeeper = Time.time;
@@ -49,10 +49,9 @@ public class GameManager {
 	}
 	
 	public void DrawScene (){
-		HandleGameLogic();
-		
 		guiManager.DrawGUI(towerList, player1);
 		if (gameState == GameState.Playing){
+			HandleGameLogic();
 			enemyManager.DrawEnemy(towerList, player1);
 		}
 	}
