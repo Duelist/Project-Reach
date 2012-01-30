@@ -33,7 +33,6 @@ public class SelectorOverlay {
 			buttonSize = 32;
 		}
                 */
-		Debug.Log(buttonSize+"");
 		//firstTilePos = new Vector2 ((camera.WorldToScreenPoint(map.tiles[0,0].tileObject.transform.position)).x - (buttonSize/2), (camera.WorldToScreenPoint(map.tiles[0,0].tileObject.transform.position)).y - (buttonSize/2));
 		//lastTilePos = new Vector2 ((camera.WorldToScreenPoint(map.tiles[map.mapSizeX-1,map.mapSizeY-1].tileObject.transform.position)).x + (buttonSize/2), (camera.WorldToScreenPoint(map.tiles[map.mapSizeX-1,map.mapSizeY-1].tileObject.transform.position)).y + (buttonSize/2));
 		mapStore = map;

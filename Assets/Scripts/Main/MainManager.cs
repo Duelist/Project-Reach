@@ -17,8 +17,7 @@ public class MainManager : MonoBehaviour
 		// The menu state of the game
 		// This is set from the beginning of the game
 		mainState = MainState.Menu;
-		//menuManager.start()
-		Debug.Log("Main Manager Start");
+		//menuManager.start();
 		//enemyManager.Sleep();
 		
 		// ---------------------- For Testing Purposes ------------------------//

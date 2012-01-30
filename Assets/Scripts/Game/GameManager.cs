@@ -25,7 +25,7 @@ public class GameManager {
 	
 	public GameManager (){
 		player1 = new Player ("Player 1");
-		map = new Map();
+		//map = new Map();
 		//map.GenerateLevel1();
 		guiManager = new GUIManager (map, player1);
 		enemyManager = new EnemyManager(map);
