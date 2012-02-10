@@ -20,7 +20,7 @@ public class CheckpointList
     public CheckpointList(string prefix, int numberOfCheckpoints)
     {
         float minDistance = 2.0f;
-        
+        checkpoints = new ArrayList ();
         for (int i = 0; i < numberOfCheckpoints; i++)
         {
             Checkpoint new_checkpoint = new Checkpoint(GameObject.Find(prefix+(i+1)),minDistance);

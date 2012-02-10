@@ -35,6 +35,8 @@ public class EnemyManager{
 	ArrayList path2;
 	ArrayList path3;
 	
+	CheckpointList clist;
+	
 	// Use this for initialization
 	public EnemyManager (Map map) {		
 		spawnTimer = 0.0f;
@@ -77,7 +79,8 @@ public class EnemyManager{
 		enemy = new List<Enemy> ();
 		
 		spawnTimer = Time.time;
-
+		
+		clist = new CheckpointList ("cp", 1);
 	}
 	
 	// Update Method
@@ -138,9 +141,15 @@ public class EnemyManager{
 				
 				float curX = newEnemy.GetPositionX();
 				float curZ = newEnemy.GetPositionZ();
+				
+				clist.getList();
+				Debug.Log("");
+				
+				float newPosX = curX + newEnemy.GetMoveSpeed();
 				float newPosZ = curZ + newEnemy.GetMoveSpeed();
-				newEnemy.SetPosition(curX, newPosZ);
-				newEnemy.GetGameObject().transform.position = new Vector3(curX, 0, newPosZ);
+				
+				newEnemy.SetPosition(newPosX, newPosZ);
+				newEnemy.GetGameObject().transform.position = new Vector3(newPosX, 0, newPosZ);
 				
 				/*newEnemy.IncCurTex();
 				newEnemy.SetAnimHelper(Time.time);
