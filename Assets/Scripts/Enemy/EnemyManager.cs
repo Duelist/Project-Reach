@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -34,8 +35,6 @@ public class EnemyManager{
 	ArrayList path;
 	ArrayList path2;
 	ArrayList path3;
-	
-	CheckpointList clist;
 	
 	// Use this for initialization
 	public EnemyManager (Map map) {		
@@ -79,8 +78,6 @@ public class EnemyManager{
 		enemy = new List<Enemy> ();
 		
 		spawnTimer = Time.time;
-		
-		clist = new CheckpointList ("cp", 1);
 	}
 	
 	// Update Method
@@ -103,9 +100,9 @@ public class EnemyManager{
 			
 			// Level 1
 			if (waveNum == 0){
-				enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 0.2f, 0, 1, pastState, fBlueJellyTex, 50, maxTex, path));
-				enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 0.2f, 0, 1, pastState, fBlueJellyTex, 50, maxTex, path2));
-				enemy.Add(new Enemy ("Merupi", startX+2, startZ, 50, 0.2f, 0, 5, pastState, merupiTex, 50, maxTex2, path3));
+				enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 0.2f, 0, 1, pastState, fBlueJellyTex, 50, maxTex, "cp", 5));
+				enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 0.2f, 0, 1, pastState, fBlueJellyTex, 50, maxTex, "cp", 5));
+				enemy.Add(new Enemy ("Merupi", startX+2, startZ, 50, 0.2f, 0, 5, pastState, merupiTex, 50, maxTex2, "cp", 5));
 				waveNum++;
 			}
 			/*
@@ -142,14 +139,52 @@ public class EnemyManager{
 				float curX = newEnemy.GetPositionX();
 				float curZ = newEnemy.GetPositionZ();
 				
-				clist.getList();
-				Debug.Log("");
+				GameObject checkpt = newEnemy.GetCpObj();
+				if (checkpt != null){
+					float cpX = checkpt.transform.position.x;
+					float cpZ = checkpt.transform.position.z;
+					
+					if (curX > cpX){
+						if (curX - newEnemy.GetMoveSpeed() < cpX){
+							curX = cpX;
+						}
+						else {
+							curX -= newEnemy.GetMoveSpeed();
+						}						
+					}
+					else if (curX < cpX){
+						if (curX + newEnemy.GetMoveSpeed() > cpX){
+							curX = cpX;
+						}
+						else {
+							curX += newEnemy.GetMoveSpeed();
+						}
+					}
+					
+					if (curZ > cpZ){
+						if (curZ - newEnemy.GetMoveSpeed() < cpZ){
+							curZ = cpZ;
+						}
+						else {
+							curZ -= newEnemy.GetMoveSpeed();
+						}						
+					}
+					else if (curZ < cpZ){
+						if (curZ + newEnemy.GetMoveSpeed() > cpZ){
+							curZ = cpZ;
+						}
+						else {
+							curZ += newEnemy.GetMoveSpeed();
+						}
+					}
 				
-				float newPosX = curX + newEnemy.GetMoveSpeed();
-				float newPosZ = curZ + newEnemy.GetMoveSpeed();
-				
-				newEnemy.SetPosition(newPosX, newPosZ);
-				newEnemy.GetGameObject().transform.position = new Vector3(newPosX, 0, newPosZ);
+					newEnemy.SetPosition(curX, curZ);
+					newEnemy.GetGameObject().transform.position = new Vector3(curX, 0, curZ);
+					
+					if (Math.Abs(curX - cpX) < newEnemy.GetMinDistance() && Math.Abs(curZ - cpZ) < newEnemy.GetMinDistance()){
+						newEnemy.RemoveCp();
+					}
+				}
 				
 				/*newEnemy.IncCurTex();
 				newEnemy.SetAnimHelper(Time.time);

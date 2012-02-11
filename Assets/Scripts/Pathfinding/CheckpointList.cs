@@ -12,24 +12,48 @@ public class CheckpointList
         {
             this.checkpoint = checkpoint;
             this.minDistance = minDistance;
+			Debug.Log(checkpoint);
         }
+		
+		public GameObject GetCheckpoint (){
+			return checkpoint;
+		}
+		
+		public float GetMinDistance (){
+			return minDistance;
+		}
     }
     
     private ArrayList checkpoints;
     
     public CheckpointList(string prefix, int numberOfCheckpoints)
     {
-        float minDistance = 2.0f;
+        float minDistance = 1.0f;
         checkpoints = new ArrayList ();
         for (int i = 0; i < numberOfCheckpoints; i++)
         {
-            Checkpoint new_checkpoint = new Checkpoint(GameObject.Find(prefix+(i+1)),minDistance);
+			Debug.Log(prefix+(i+1));
+            Checkpoint new_checkpoint = new Checkpoint(GameObject.FindWithTag(prefix+(i+1)),minDistance);
             this.checkpoints.Add(new_checkpoint);
         }
     }
     
-    public ArrayList getList()
-    {
+    public ArrayList GetList(){
         return checkpoints;
     }
+	
+	public GameObject GetCpHead (){
+		if (checkpoints.Count > 0){
+			return ((Checkpoint)checkpoints[0]).GetCheckpoint();
+		}
+		return null;
+	}
+	
+	public void RemoveHead (){
+		checkpoints.RemoveAt(0);
+	}
+	
+	public float GetMinDistance (){
+		return ((Checkpoint)checkpoints[0]).GetMinDistance();
+	}
 }

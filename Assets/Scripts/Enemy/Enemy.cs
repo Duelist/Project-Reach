@@ -16,14 +16,14 @@ public class Enemy{
 	private Texture[] animate;
 	private int eSize, maxTex, curTex;
 	
-	private ArrayList path;
+	private CheckpointList clist;
 	
 	private float animHelper;
 	
 	// Object to be drawn on screen
 	GameObject cubeObject;
 	
-	public Enemy (string n, float x, float z, int hp, float ms, int arm, int dam, bool tZone, Texture [] anim, int s, int maxT, ArrayList pa){
+	public Enemy (string n, float x, float z, int hp, float ms, int arm, int dam, bool tZone, Texture [] anim, int s, int maxT, string cpTag, int cpPoints){
 		ename = n;
 		position = new Vector3 (x,0,z);
 		maxHP = hp;
@@ -52,6 +52,7 @@ public class Enemy{
 		curTex = 0;
 		
 		//path = new ArrayList(pa);
+		clist = new CheckpointList (cpTag, cpPoints);
 		
 		cubeObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		cubeObject.transform.Rotate(0,0,180);
@@ -251,4 +252,15 @@ public class Enemy{
 		return !(curTex == maxTex-1);
 	}
 	
+	public GameObject GetCpObj(){
+		return clist.GetCpHead();
+	}
+	
+	public void RemoveCp(){
+		clist.RemoveHead();
+	}
+	
+	public float GetMinDistance() {
+		return clist.GetMinDistance();
+	}
 }
