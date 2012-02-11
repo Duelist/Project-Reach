@@ -45,7 +45,7 @@ public class SelectorOverlay {
 	public void DrawGUI (Hashtable towerList, Player player){
                 //firstTilePos = new Vector2 ((camera.WorldToScreenPoint(mapStore.tiles[0,0].tileObject.transform.position)).x - (buttonSize/2), (camera.WorldToScreenPoint(mapStore.tiles[0,0].tileObject.transform.position)).y - (buttonSize/2));
 		//lastTilePos = new Vector2 ((camera.WorldToScreenPoint(mapStore.tiles[mapStore.mapSizeX-1,mapStore.mapSizeY-1].tileObject.transform.position)).x + (buttonSize/2), (camera.WorldToScreenPoint(mapStore.tiles[mapStore.mapSizeX-1,mapStore.mapSizeY-1].tileObject.transform.position)).y + (buttonSize/2));
-                
+		/*
 		Event e = Event.current;
 		if (e.type == EventType.MouseDown){
 			mouseDown = true;
@@ -94,7 +94,7 @@ public class SelectorOverlay {
 					/*ArrayList zoneList = GetZones((int)mouseDownPos.x, (int)mouseDownPos.y, towerList);
 					foreach (Zone zone in zoneList){
 						zone.FlipTime();
-					}*/
+					}*//*
 				}
 			}
 			// Drag Events
@@ -134,7 +134,6 @@ public class SelectorOverlay {
 			if (GUI.Button (new Rect(onScreenXPos,onScreenYPos + buttonSize,buttonSize,buttonSize),"")){}
 			GUI.DrawTexture(new Rect(onScreenXPos,onScreenYPos + buttonSize,buttonSize,buttonSize),TextureFactory.GetIceButtonDecal());
 			
-			/*
 			GUI.skin = GUISkinFactory.GetEarthButtonSkin();
 			if (GUI.Button (new Rect(onScreenXPos + buttonSize,onScreenYPos,buttonSize,buttonSize),"")){}
 			GUI.DrawTexture(new Rect(onScreenXPos + buttonSize,onScreenYPos,buttonSize,buttonSize),TextureFactory.GetEarthButtonDecal());
@@ -143,9 +142,9 @@ public class SelectorOverlay {
 			if (GUI.Button (new Rect(onScreenXPos - buttonSize,onScreenYPos,buttonSize,buttonSize),"")){}
 			GUI.DrawTexture(new Rect(onScreenXPos - buttonSize,onScreenYPos,buttonSize,buttonSize),TextureFactory.GetWindButtonDecal());
 			*/
-		} else if (mouseDownOnSpellSelector == true) {
+		/*} else if (mouseDownOnSpellSelector == true) {
 			CreateSpell((int)mouseDownPos.x,(int)mouseDownPos.y, player, "ice");
-		}
+		}*/
 	}
 	
 	private void ResetButtonStates(){
