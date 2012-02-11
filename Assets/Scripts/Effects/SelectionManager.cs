@@ -22,13 +22,16 @@ public class SelectionManager : MonoBehaviour
 					//Tile tile = hit.transform.gameObject.GetComponent("Tile");
 					//Debug.Log(tile.GetSelector());
 				//} else 
-				if (hit.transform.tag== "tower") {
+				if (hit.transform.gameObject.name == "selector") {
 					Debug.Log("Tower Hit!");
-					//Tower tw = hit.transform.gameObject.GetComponent("Tower");
-					//tw.selected = true;
+					CreateTower((int)hit.transform.position.x,(int)hit.transform.position.z, Effect.EffectType.Fire);
 				}
 			}
-			
 		}
+	}
+	
+	private void CreateTower(int tilex, int tiley, Effect.EffectType effect){
+		Tower tower = new Tower (tilex, tiley, effect, false);
+		Debug.Log ("Key Created");
 	}
 }

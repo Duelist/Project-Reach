@@ -43,7 +43,7 @@ public class SelectorOverlay {
 	}
 	
 	public void DrawGUI (Hashtable towerList, Player player){
-                //firstTilePos = new Vector2 ((camera.WorldToScreenPoint(mapStore.tiles[0,0].tileObject.transform.position)).x - (buttonSize/2), (camera.WorldToScreenPoint(mapStore.tiles[0,0].tileObject.transform.position)).y - (buttonSize/2));
+		//firstTilePos = new Vector2 ((camera.WorldToScreenPoint(mapStore.tiles[0,0].tileObject.transform.position)).x - (buttonSize/2), (camera.WorldToScreenPoint(mapStore.tiles[0,0].tileObject.transform.position)).y - (buttonSize/2));
 		//lastTilePos = new Vector2 ((camera.WorldToScreenPoint(mapStore.tiles[mapStore.mapSizeX-1,mapStore.mapSizeY-1].tileObject.transform.position)).x + (buttonSize/2), (camera.WorldToScreenPoint(mapStore.tiles[mapStore.mapSizeX-1,mapStore.mapSizeY-1].tileObject.transform.position)).y + (buttonSize/2));
 		/*
 		Event e = Event.current;
@@ -204,7 +204,7 @@ public class SelectorOverlay {
 		}
 	}
 
-	private void CreateTower(int tilex, int tiley, Hashtable towerList, Player player, Effect.EffectType effect){
+	/*private void CreateTower(int tilex, int tiley, Hashtable towerList, Player player, Effect.EffectType effect){
 		// Remove the extra space from the origin of the screen to the first tile.
 		float storagePosX = tilex - firstTilePos.x;
 		float storagePosY = tiley - firstTilePos.y;
@@ -225,7 +225,7 @@ public class SelectorOverlay {
 		else {
 			Debug.Log ("Out of Mana!");
 		}
-	}
+	}*/
 	
 	// Calculate if the click was within map bounds
 	private bool WithinBounds(){

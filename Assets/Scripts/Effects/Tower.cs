@@ -17,7 +17,7 @@ public class Tower {
 	private bool active;
 	
 	//Constructor
-	public Tower (int x, int z, Map map, Effect.EffectType effect, bool pastState) {
+	public Tower (int x, int z, Effect.EffectType effect, bool pastState) {
 		towerXPos = x;
 		towerZPos = z;
 		this.effect = effect;
@@ -50,8 +50,6 @@ public class Tower {
 				SetTextureTower(TextureFactory.GetIceTowerFuture());
 			}
 		}
-		
-		CreateZoneDir(map);
 		CreateZone();
 	}
 	
