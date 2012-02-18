@@ -53,6 +53,10 @@ public class RadialMenu {
 		radialSelector.renderer.enabled = false;
 		singleFireTower.renderer.enabled = false;
 		multiFireTower.renderer.enabled = false;
+		
+		radialSelector.transform.position = new Vector3(-1, 0, -1);
+		singleFireTower.transform.position = new Vector3(-1, 0, -1);
+		multiFireTower.transform.position = new Vector3(-1, 0, -1);
 	}
 
 }
