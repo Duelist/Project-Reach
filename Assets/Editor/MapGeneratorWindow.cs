@@ -51,7 +51,7 @@ public class MapGeneratorWindow : EditorWindow
                 {
                     GameObject tile = GameObject.CreatePrimitive(PrimitiveType.Cube);
                     Tile tileComponent = tile.AddComponent<Tile>();
-                    tileComponent.name = "Tile";
+                    tileComponent.name = "Tile [" + (x+1).ToString() + ", " + (y+1).ToString() + "]";
                     tileComponent.id = System.Convert.ToInt32(token.Trim());
                     tile.name = tileComponent.name;
                     tile.transform.parent = map.transform;
@@ -81,7 +81,8 @@ public class MapGeneratorWindow : EditorWindow
         }
         if (GUILayout.Button("Create Map"))
         {
-            
+            MapCreatorWindow window = (MapCreatorWindow)EditorWindow.GetWindow(typeof(MapCreatorWindow));
+            window.LoadData(tile_num_dict, tile_tex_table);
         }
         if (GUILayout.Button("Generate Map!"))
         {
