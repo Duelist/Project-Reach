@@ -14,7 +14,7 @@ public class SelectionManager : MonoBehaviour
 	}
 	
 	void Update () {
-			Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+		Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 		// Input.GetToouch for iPhone, may translate to this after port.
 		if (Input.GetMouseButtonDown(0)) {
 			mouseDown = true;
@@ -38,7 +38,6 @@ public class SelectionManager : MonoBehaviour
 		if (Input.GetMouseButtonUp(0) && selectorHit){
 			mouseDown = false;
 			selectorHit = false;
-			radial.HideRadial();
 			RaycastHit hit;
 			if (Physics.Raycast (ray, out hit, 100000)) {
 				if (hit.transform.gameObject.name == "createSingle") {
@@ -51,6 +50,7 @@ public class SelectionManager : MonoBehaviour
 					Debug.Log ("No Tower Type Selected");
 				}
 			}
+			radial.HideRadial();
 		}
 	}
 	
