@@ -20,6 +20,10 @@ public class TextureFactory{
 	private static Texture windTowerFuture;
 	private static Texture windButtonDecal;
 	
+	private static Texture fireSelectorButton;
+	private static Texture iceSelectorButton;
+	private static Texture tileSelector;
+	
 	public TextureFactory(){
 	}
 	
@@ -125,5 +129,27 @@ public class TextureFactory{
 			windButtonDecal = Resources.Load("GUI/Decals/Wind-Decal") as Texture;
 		}
 		return windButtonDecal;
+	}
+	
+	// Radial Menu Textures
+	public static Texture GetFireSelectorButton(){
+		if (fireSelectorButton == null){
+			fireSelectorButton = Resources.Load("GUI/Rolling Menu Textures/FireButton") as Texture;
+		}
+		return fireSelectorButton;
+	}
+	
+	public static Texture GetIceSelectorButton(){
+		if (iceSelectorButton == null){
+			iceSelectorButton = Resources.Load("GUI/Rolling Menu Textures/IceButton") as Texture;
+		}
+		return iceSelectorButton;
+	}
+	
+	public static Texture GetTileSelector(){
+		if (tileSelector == null){
+			tileSelector = Resources.Load("GUI/Tile Selection/Tile Selected") as Texture;
+		}
+		return tileSelector;
 	}
 }
