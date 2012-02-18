@@ -5,7 +5,7 @@ public class MainManager : MonoBehaviour
 {
 	private enum MainState {Menu, InGame, GameOver};
 	private MainState mainState;
-	private MenuManager menuManager;
+	//private MenuManager menuManager;
 	private GameManager gameManager;
 	private int enemyCount;
 
@@ -28,7 +28,7 @@ public class MainManager : MonoBehaviour
 		
 		//changeState(mainState);
 		gameManager = new GameManager();
-		menuManager = new MenuManager();
+		//menuManager = new MenuManager();
 	}
 	
 	// When the menu calls the Game Manager to start:
@@ -69,7 +69,7 @@ public class MainManager : MonoBehaviour
 	{
 		if (newState == MainState.Menu)
 		{
-			menuManager = new MenuManager();
+		//	menuManager = new MenuManager();
 		}
 		if (newState == MainState.InGame)
 		{
@@ -79,7 +79,7 @@ public class MainManager : MonoBehaviour
 	
 	void OnGUI(){
 		if (mainState == MainState.Menu){
-			menuManager.DrawMain();
+			//menuManager.DrawMain();
 		}
 		if (mainState == MainState.InGame){
 			gameManager.DrawScene();

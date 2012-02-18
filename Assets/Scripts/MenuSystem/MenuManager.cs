@@ -27,7 +27,7 @@ public class MenuManager {
 	public void DrawMain() {
 //		mainmen = new MainMenu ();
 //		mainmen.DrawMainGUI(settingmen,loadmen,aboutmen,newmenu);
-		mainmen.Types();
+//		mainmen.Types();
 
 	}
 	
