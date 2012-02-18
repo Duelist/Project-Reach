@@ -38,7 +38,7 @@ public class Wall {
 	
 	
 	// Physically/visually create a wall
-/*	public void createWall(int xs, int zs, int xe, int ze) {
+	public void createWall(int xs, int zs, int xe, int ze) {
 		int xDiff = Mathf.Abs(xs - xe);
 		int zDiff = Mathf.Abs(zs - ze);
 		
@@ -57,8 +57,11 @@ public class Wall {
 				cubeHor.transform.localScale = new Vector3(1,1,1);
 			}
 		}
+		/*GameObject cubeVert = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		cubeVert.transform.position=new Vector3(xs, 0 , zs);
+		cubeVert.transform.localScale = new Vector3(xe, 0, ze);*/
+		
 	}
-	*/
 	// Setters and getters
 	
 	// Sets the x coordinate starting position of the wall, as an int

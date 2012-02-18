@@ -10,4 +10,5 @@ public class Tile : MonoBehaviour
 	public bool hasSelector;
 	public bool hasSpellSelector;
 	public bool collision;
+	
 }
