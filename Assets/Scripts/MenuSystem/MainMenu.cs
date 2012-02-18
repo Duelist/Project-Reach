@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class MainMenu {
+public class MainMenu: MonoBehaviour {
 	
 	public bool visible;
 	int buttonWidth = 200;
@@ -34,7 +34,8 @@ public class MainMenu {
 	}
 		
 	//public void Types(string men) {
-	public void Types() {
+	//public void Types() {
+	public void OnGUI() {
 		/*mainmenu = false;
 		settingsmenu = false;
 		aboutmenu = false;
