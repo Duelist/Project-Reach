@@ -105,12 +105,12 @@ public class MapGeneratorWindow : EditorWindow
 						selectorComponent.name = "selector";
 						selector.name = selectorComponent.name;
 						selector.transform.parent = tiles[id].transform;
-						selector.transform.position = new Vector3((float)x,0,(float)y);
-						selector.transform.localScale = new Vector3(1.1f,0.15f,1.0f);
+						selector.transform.position = new Vector3((float)x,0.1f,(float)y);
+						selector.transform.localScale = new Vector3(1.1f,0.1f,1.1f);
 					}
 					//tile.renderer.material.mainTexture = (Texture2D) tile_tex_table[tileComponent.id];
                     //tile.renderer.material.mainTextureScale = new Vector2(-1.0f,-1.0f);
-						x++;
+					x++;
 					id++;
                 }
                 y++;

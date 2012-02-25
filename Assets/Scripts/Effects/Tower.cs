@@ -10,17 +10,19 @@ public class Tower {
 	private int towerXPos;
 	private int towerZPos;
 	private Zone zone;
-	private string direct;
+	private int direct;
 	private bool pastState;
 	private Effect.EffectType effect;
 	private GameObject towerObj;
 	private bool active;
 	
 	//Constructor
-	public Tower (int x, int z, Effect.EffectType effect, bool pastState) {
+	public Tower (int x, int z, Effect.EffectType effect, bool pastState, int direction) {
 		towerXPos = x;
 		towerZPos = z;
 		this.effect = effect;
+		direct = direction;
+		
 		//direct = dir;
 		active = true;
 	
@@ -118,21 +120,21 @@ public class Tower {
 	}
 	
 	private void CreateZone() {
-		if (this.direct == "topright") {
+		if (this.direct == 3) {
 			this.createZone(this.towerXPos + 2, this.towerZPos + 2);
-		} else if (this.direct == "right") {
+		} else if (this.direct == 6) {
 			this.createZone(this.towerXPos + 2, this.towerZPos);
-		} else if (this.direct == "left") {
+		} else if (this.direct == 4) {
 			this.createZone(this.towerXPos - 2, this.towerZPos);
-		} else if (this.direct == "topleft") {
+		} else if (this.direct == 1) {
 			this.createZone(this.towerXPos - 2, this.towerZPos + 2);
-		} else if (this.direct == "top") {
+		} else if (this.direct == 2) {
 			this.createZone(this.towerXPos, this.towerZPos + 2);
-		} else if (this.direct == "bottom") {
+		} else if (this.direct == 8) {
 			this.createZone(this.towerXPos, this.towerZPos - 2);
-		} else if (this.direct == "bottomleft") {
+		} else if (this.direct == 7) {
 			this.createZone(this.towerXPos - 2, this.towerZPos - 2);
-		} else if (this.direct == "bottomright") {
+		} else if (this.direct == 9) {
 			this.createZone(this.towerXPos + 2, this.towerZPos - 2);
 		}
 	}

@@ -7,10 +7,12 @@ public class SelectionManager : MonoBehaviour
 	bool mouseDown = false;
 	bool selectorHit = false;
 	private RadialMenu radial;
+	private Selector hitselector;
 	//private Ray ray;
 	//ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 	void Awake (){
 		radial = new RadialMenu ();
+		hitselector = new Selector();
 	}
 	
 	void Update () {
@@ -31,6 +33,8 @@ public class SelectionManager : MonoBehaviour
 				if (hit.transform.gameObject.name == "selector") {
 					Debug.Log("Selector Hit!");
 					selectorHit = true;
+					hitselector = hit.transform.gameObject.GetComponent<Selector>();
+					Debug.Log(hitselector.direction);
 					CreateRadial((int)hit.transform.position.x,(int)hit.transform.position.z, radial);
 				}
 			}
@@ -41,10 +45,10 @@ public class SelectionManager : MonoBehaviour
 			RaycastHit hit;
 			if (Physics.Raycast (ray, out hit, 100000)) {
 				if (hit.transform.gameObject.name == "createSingle") {
-					CreateTower(radial.selectorX,radial.selectorY, Effect.EffectType.Fire);
+					CreateTower(radial.selectorX,radial.selectorY, Effect.EffectType.Fire, hitselector.direction);
 				}
 				else if (hit.transform.gameObject.name == "createMulti"){
-					CreateTower(radial.selectorX,radial.selectorY, Effect.EffectType.Ice);
+					CreateTower(radial.selectorX,radial.selectorY, Effect.EffectType.Ice, hitselector.direction);
 				}
 				else {
 					Debug.Log ("No Tower Type Selected");
@@ -54,8 +58,9 @@ public class SelectionManager : MonoBehaviour
 		}
 	}
 	
-	private void CreateTower(int tilex, int tiley, Effect.EffectType effect){
-		Tower tower = new Tower (tilex, tiley, effect, false);
+	private void CreateTower(int tilex, int tiley, Effect.EffectType effect, int dir){
+		Tower tower = new Tower (tilex, tiley, effect, false, dir);
+		
 		Debug.Log ("Tower Created");
 	}
 	

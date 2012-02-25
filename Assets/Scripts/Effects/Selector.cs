@@ -6,6 +6,10 @@ public class Selector : MonoBehaviour{
 	public string name;
 	public int direction;
 	
+	public int getDirection() {
+		return direction;
+	}
+	
 	/*public Selector(Effect.EffectType eff, bool h) {
 		hit = h;
 		effect = eff;
