@@ -8,6 +8,7 @@ public class GUIManager {
 	FutureButton futureButton;
 	RollingButton rollingButton;
 	SelectorOverlay selectorOverlay;
+	CastSpell castSpell;
 	// Use this for initialization
 	public GUIManager (Map map, Player player) {
 		/*maxMana = 100;
@@ -41,6 +42,7 @@ public class GUIManager {
 		rollingButton = new RollingButton (100,90,10);
 		
 		selectorOverlay = new SelectorOverlay(map);
+		castSpell = new CastSpell();
 	}
 	
 	public void DrawGUI (Hashtable towerList, Player player) {
@@ -52,5 +54,6 @@ public class GUIManager {
 			//rollingButton.DrawGUI();
 		}
 		selectorOverlay.DrawGUI(towerList, player);
+		castSpell.DrawGUI();
 	}
 }

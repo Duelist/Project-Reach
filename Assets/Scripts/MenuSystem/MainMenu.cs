@@ -14,7 +14,7 @@ public class MainMenu: MonoBehaviour {
 	bool loadmenu = false;
 	bool newmenu = false;
 	
-	int selGrindInt = 0;
+	int selGridInt = -1;
 	string[] levelstrings = {"Level1","Level2","Level3","Level4","Level5","Level6","Level7","Level8","Level9"};
 
 	int toolbarInt = 0;
@@ -138,9 +138,24 @@ public class MainMenu: MonoBehaviour {
 		//	stuffs[i] = stuff;
 		//}
 //		GUI.skin = test2;
-		selGrindInt = GUILayout.SelectionGrid(selGrindInt,levelstrings,3);
+		selGridInt = GUILayout.SelectionGrid(selGridInt,levelstrings,3);
 		endPage();
 	//	GUI.skin = null;
+		switch(selGridInt) {
+			case 0:
+				Application.LoadLevel(1);
+				break;
+			case 1:
+				Application.LoadLevel(2);
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			default:
+				break;
+		}
+		
 		if ( GUI.Button(new Rect(Screen.width - buttonWidth ,
 			Screen.height - buttonHeight,buttonWidth,buttonHeight),"Back") ) 
 		{
