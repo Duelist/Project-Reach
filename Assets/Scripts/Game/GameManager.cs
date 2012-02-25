@@ -7,7 +7,7 @@ using System.Collections;
 // 3. Enemies
 // 4. GUI (using Unity GUI)
 
-public class GameManager {
+public class GameManager : MonoBehaviour{
 
 	private Player player1;
 	private enum GameState {Building, Playing, Paused, Stopped};
@@ -23,7 +23,7 @@ public class GameManager {
 	// Value: Tower (at that position)
 	private Hashtable towerList;
 	
-	public GameManager (){
+	void Start (){
 		player1 = new Player ("Player 1");
 		//map = new Map();
 		//map.GenerateLevel1();
@@ -48,7 +48,7 @@ public class GameManager {
 		}
 	}
 	
-	public void DrawScene (){
+	void OnGUI(){
 		guiManager.DrawGUI(towerList, player1);
 		if (gameState == GameState.Playing){
 			HandleGameLogic();
