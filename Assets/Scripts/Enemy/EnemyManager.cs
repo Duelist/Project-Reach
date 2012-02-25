@@ -92,6 +92,7 @@ public class EnemyManager{
 			// Initialization parameters:
 			// string n, int x, int z, int hp, int ms, int arm, int dam. ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList path
 			bool pastState = false;
+			bool futureState = true;
 			
 			// Texture Settings
 			int startX = 1;
@@ -100,25 +101,23 @@ public class EnemyManager{
 			
 			// Level 1
 			if (waveNum == 0){
-				enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 0.2f, 0, 1, pastState, fBlueJellyTex, 50, maxTex, "cp", 5));
-				enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 0.2f, 0, 1, pastState, fBlueJellyTex, 50, maxTex, "cp", 5));
-				enemy.Add(new Enemy ("Merupi", startX+2, startZ, 50, 0.2f, 0, 5, pastState, merupiTex, 50, maxTex2, "cp", 5));
+				enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "lp", 5));
+				enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "cp", 5));
+				enemy.Add(new Enemy ("Merupi", startX+2, startZ, 50, 0.5f, 0, 5, futureState, merupiTex, 50, maxTex2, "rp", 5));
 				waveNum++;
 			}
-			/*
 			else if (waveNum == 1){
-				enemy.Add(new Enemy ("Blue Jelly 4", startX, startZ, 20, 1, 0, 1, imList, ptZone, pBlueJellyTex, 50, maxTex, path));
-				enemy.Add(new Enemy ("Blue Jelly 5", startX+1, startZ, 20, 1, 0, 1, imList, ptZone, pBlueJellyTex, 50, maxTex, path2));
-				enemy.Add(new Enemy ("Blue Jelly 6", startX+2, startZ, 20, 1, 0, 1, imList, ptZone, pBlueJellyTex, 50, maxTex, path3));
+				enemy.Add(new Enemy ("Blue Jelly 4", startX, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "lp", 5));
+				enemy.Add(new Enemy ("Blue Jelly 5", startX+1, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "cp", 5));
+				enemy.Add(new Enemy ("Blue Jelly 6", startX+2, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "rp", 5));
 				waveNum++;
 			}
 			else if (waveNum == 2){
-				enemy.Add(new Enemy ("Blue Jelly 7", startX, startZ, 20, 1, 0, 1, imList, ftZone, fBlueJellyTex, 50, maxTex, path));
-				enemy.Add(new Enemy ("Blue Jelly 8", startX+1, startZ, 20, 1, 0, 1, imList, ptZone, pBlueJellyTex, 50, maxTex, path2));
-				enemy.Add(new Enemy ("Blue Jelly 9", startX+2, startZ, 20, 1, 0, 1, imList, ftZone, fBlueJellyTex, 50, maxTex, path3));
+				enemy.Add(new Enemy ("Blue Jelly 4", startX, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "lp", 5));
+				enemy.Add(new Enemy ("Blue Jelly 5", startX+1, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "cp", 5));
+				enemy.Add(new Enemy ("Blue Jelly 6", startX+2, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "rp", 5));
 				waveNum++;
 			}
-			*/
 			
 			spawnTimer = Time.time + spawnInterval;
 		}
