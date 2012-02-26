@@ -184,6 +184,11 @@ public class EnemyManager{
 						newEnemy.RemoveCp();
 					}
 				}
+				else{ // Enemy Has reached the goal!
+					PlayerDamage(player, newEnemy);
+					newEnemy.Clean();
+					enemy.Remove(newEnemy);
+				}
 				
 				/*newEnemy.IncCurTex();
 				newEnemy.SetAnimHelper(Time.time);
@@ -261,6 +266,7 @@ public class EnemyManager{
 					Debug.Log(newEnemy.GetName() + " DAMAGED for " + newEff.GetDamage());
 					if (newEnemy.GetCurHP() <= 0){
 						Debug.Log(newEnemy.GetName() + " has been Destroyed!");
+						newEnemy.Clean();
 						enemy.Remove(newEnemy);
 					}
 				}

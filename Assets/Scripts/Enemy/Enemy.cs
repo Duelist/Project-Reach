@@ -263,4 +263,8 @@ public class Enemy{
 	public float GetMinDistance() {
 		return clist.GetMinDistance();
 	}
+	
+	public void Clean (){
+		GameManager.Destroy(cubeObject);
+	}
 }

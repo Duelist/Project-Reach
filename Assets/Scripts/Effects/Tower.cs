@@ -63,79 +63,25 @@ public class Tower {
 		return towerObj;
 	}
 	
-	
-	private void CreateZoneDir(Map map){
-            /*
-		if (towerXPos + 1 < map.GetMapSizeX() && towerZPos + 1 < map.GetMapSizeY()) {
-			if (!(map.GetTile(towerXPos + 1, towerZPos).GetCollision())) {
-				direct = "right";
-				if (!(map.GetTile(towerXPos, towerZPos + 1).GetCollision())) {
-					direct = "topright";
-				}
-			} else if (map.GetTile(towerXPos + 1, towerZPos).GetCollision() 
-				&& map.GetTile(towerXPos, towerZPos + 1).GetCollision()
-				&& !map.GetTile(towerXPos + 1, towerZPos + 1).GetCollision()) { 
-					direct = "topright";
-			}
-		}
-		if (towerXPos - 1  > 0 && towerZPos + 1 < map.GetMapSizeY()) {
-			if (!(map.GetTile(towerXPos - 1, towerZPos).GetCollision())) {
-				direct = "left";
-				if (!(map.GetTile(towerXPos, towerZPos + 1).GetCollision())) {
-					direct = "topleft";
-				}
-			} else if (map.GetTile(towerXPos - 1, towerZPos).GetCollision() 
-				&& map.GetTile(towerXPos, towerZPos + 1).GetCollision()
-				&& !map.GetTile(towerXPos - 1, towerZPos + 1).GetCollision()) { 
-					direct = "topleft";
-			}
-		}
-		if (towerXPos - 1  > 0 && towerZPos - 1 > 0) {
-			if (!(map.GetTile(towerXPos, towerZPos - 1).GetCollision())) {
-				direct = "bottom";
-				if (!(map.GetTile(towerXPos - 1, towerZPos).GetCollision())) {
-					direct = "bottomleft";
-				}
-			} else if (map.GetTile(towerXPos - 1, towerZPos).GetCollision() 
-				&& map.GetTile(towerXPos, towerZPos - 1).GetCollision()
-				&& !map.GetTile(towerXPos - 1, towerZPos - 1).GetCollision()) { 
-					direct = "bottomleft";
-			}
-		}
-		if (towerXPos + 1  < map.GetMapSizeX() && towerZPos - 1 > 0) {
-			if (!(map.GetTile(towerXPos, towerZPos - 1).GetCollision()) && !(map.GetTile(towerXPos + 1, towerZPos).GetCollision())) {
-				direct = "bottomright";
-			} else if (map.GetTile(towerXPos + 1, towerZPos).GetCollision() 
-				&& map.GetTile(towerXPos, towerZPos - 1).GetCollision()
-				&& !map.GetTile(towerXPos + 1, towerZPos - 1).GetCollision()) { 
-					direct = "bottomright";
-			}
-		}
-		if (towerZPos + 1 < map.GetMapSizeY() && towerXPos - 1  > 0 && towerXPos + 1  < map.GetMapSizeX()) {
-			if (map.GetTile(towerXPos - 1, towerZPos).GetCollision() && map.GetTile(towerXPos + 1, towerZPos).GetCollision() && !map.GetTile(towerXPos, towerZPos + 1).GetCollision()) {
-					direct = "top";
-			}
-		}
-            */
-	}
-	
 	private void CreateZone() {
-		if (this.direct == 3) {
-			this.createZone(this.towerXPos + 2, this.towerZPos + 2);
-		} else if (this.direct == 6) {
-			this.createZone(this.towerXPos + 2, this.towerZPos);
+		if (this.direct == 1) {
+			this.createZone(this.towerXPos - 2, this.towerZPos - 2);
+		} else if (this.direct == 2) {
+			this.createZone(this.towerXPos, this.towerZPos - 2);
+		} else if (this.direct == 3) {
+			this.createZone(this.towerXPos + 2, this.towerZPos - 2);
 		} else if (this.direct == 4) {
 			this.createZone(this.towerXPos - 2, this.towerZPos);
-		} else if (this.direct == 1) {
-			this.createZone(this.towerXPos - 2, this.towerZPos + 2);
-		} else if (this.direct == 2) {
-			this.createZone(this.towerXPos, this.towerZPos + 2);
-		} else if (this.direct == 8) {
-			this.createZone(this.towerXPos, this.towerZPos - 2);
+		} else if (this.direct == 5) {
+			this.createZone(this.towerXPos, this.towerZPos);
+		} else if (this.direct == 6) {
+			this.createZone(this.towerXPos + 2, this.towerZPos);
 		} else if (this.direct == 7) {
-			this.createZone(this.towerXPos - 2, this.towerZPos - 2);
-		} else if (this.direct == 9) {
-			this.createZone(this.towerXPos + 2, this.towerZPos - 2);
+			this.createZone(this.towerXPos - 2, this.towerZPos + 2);
+		} else if (this.direct == 8) {
+			this.createZone(this.towerXPos, this.towerZPos + 2);
+		}else if (this.direct == 9) {
+			this.createZone(this.towerXPos + 2, this.towerZPos + 2);
 		}
 	}
 	

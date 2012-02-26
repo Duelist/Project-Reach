@@ -24,6 +24,8 @@ public class TextureFactory{
 	private static Texture iceSelectorButton;
 	private static Texture tileSelector;
 	
+	private static Texture gearTexture;
+	
 	public TextureFactory(){
 	}
 	
@@ -151,5 +153,12 @@ public class TextureFactory{
 			tileSelector = Resources.Load("GUI/Tile Selection/Tile Selected") as Texture;
 		}
 		return tileSelector;
+	}
+	
+	public static Texture GetGearTexture(){
+		if (gearTexture == null){
+			gearTexture = Resources.Load ("GUI/Rolling Menu Textures/Gear") as Texture;
+		}
+		return gearTexture;
 	}
 }

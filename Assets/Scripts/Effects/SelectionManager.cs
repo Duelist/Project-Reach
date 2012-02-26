@@ -8,6 +8,7 @@ public class SelectionManager : MonoBehaviour
 	bool selectorHit = false;
 	private RadialMenu radial;
 	private Selector hitselector;
+	private GameObject hitObject;
 	//private Ray ray;
 	//ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 	void Awake (){
@@ -30,31 +31,39 @@ public class SelectionManager : MonoBehaviour
 					//Tile tile = hit.transform.gameObject.GetComponent("Tile");
 					//Debug.Log(tile.GetSelector());
 				//} else 
+				if (hit.transform.gameObject.tag == "tower") {
+					Debug.Log("tower hit");
+				}
 				if (hit.transform.gameObject.name == "selector") {
-					Debug.Log("Selector Hit!");
 					selectorHit = true;
+					hitObject = hit.transform.gameObject;
 					hitselector = hit.transform.gameObject.GetComponent<Selector>();
-					Debug.Log(hitselector.direction);
 					CreateRadial((int)hit.transform.position.x,(int)hit.transform.position.z, radial);
 				}
 			}
 		}
-		if (Input.GetMouseButtonUp(0) && selectorHit){
-			mouseDown = false;
-			selectorHit = false;
-			RaycastHit hit;
-			if (Physics.Raycast (ray, out hit, 100000)) {
-				if (hit.transform.gameObject.name == "createSingle") {
-					CreateTower(radial.selectorX,radial.selectorY, Effect.EffectType.Fire, hitselector.direction);
+		if (Input.GetMouseButtonUp(0)){
+			if (selectorHit){
+				mouseDown = false;
+				selectorHit = false;
+				RaycastHit hit;
+				if (Physics.Raycast (ray, out hit, 100000)) {
+					if (hit.transform.gameObject.name == "createSingle") {
+						if (manaCheck(10)){
+							CreateTower(radial.selectorX,radial.selectorY, Effect.EffectType.Fire, hitselector.direction);
+						}	
+					}
+					else if (hit.transform.gameObject.name == "createMulti"){
+						if (manaCheck(20)){
+							CreateTower(radial.selectorX,radial.selectorY, Effect.EffectType.Ice, hitselector.direction);
+						}
+					}
+					else {
+						Debug.Log ("No Tower Type Selected");
+					}
 				}
-				else if (hit.transform.gameObject.name == "createMulti"){
-					CreateTower(radial.selectorX,radial.selectorY, Effect.EffectType.Ice, hitselector.direction);
-				}
-				else {
-					Debug.Log ("No Tower Type Selected");
-				}
+				radial.HideRadial();
 			}
-			radial.HideRadial();
 		}
 	}
 	
@@ -67,5 +76,18 @@ public class SelectionManager : MonoBehaviour
 	private void CreateRadial(int tilex, int tiley, RadialMenu rad){
 		rad.SetPosition(tilex, tiley);
 		rad.ShowRadial();
+	}
+	
+	private bool manaCheck(int manaCost) {
+		Player p1 =((GameManager)(GameObject.Find("GameManager").GetComponent("GameManager"))).GetCurrentPlayer();
+		if (p1.GetMana() > manaCost){
+			p1.DecMana (manaCost);
+			hitObject.name = "selector (used)";
+			return true;
+		}
+		else {
+			Debug.Log ("Insufficient Mana");
+		}
+		return false;
 	}
 }

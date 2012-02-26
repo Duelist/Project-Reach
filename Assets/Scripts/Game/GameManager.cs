@@ -55,4 +55,12 @@ public class GameManager : MonoBehaviour{
 			enemyManager.DrawEnemy(towerList, player1);
 		}
 	}
+	
+	public Player GetCurrentPlayer (){
+		return player1;
+	}
+	
+	public static void DestroyObject (GameObject go) {
+		Destroy(go);
+	}
 }
