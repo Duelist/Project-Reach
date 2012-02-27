@@ -45,7 +45,7 @@ public class GUIManager {
 		castSpell = new CastSpell();
 	}
 	
-	public void DrawGUI (Hashtable towerList, Player player) {
+	public void DrawGUI (Player player) {
 		manaInvasion.DrawGUI(player);
 		futureButton.DrawGUI();
 		rollingButton.active = selectorOverlay.drawMen;
@@ -53,7 +53,7 @@ public class GUIManager {
 			//rollingButton.setActive(selectorOverlay.menx,selectorOverlay.meny);
 			//rollingButton.DrawGUI();
 		}
-		selectorOverlay.DrawGUI(towerList, player);
+		//selectorOverlay.DrawGUI(towerList, player);
 		castSpell.DrawGUI();
 	}
 }

@@ -91,8 +91,8 @@ public class EnemyManager{
 			
 			// Initialization parameters:
 			// string n, int x, int z, int hp, int ms, int arm, int dam. ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList path
-			bool pastState = false;
-			bool futureState = true;
+			bool pastState = true;
+			bool futureState = false;
 			
 			// Texture Settings
 			int startX = 1;
@@ -113,9 +113,9 @@ public class EnemyManager{
 				waveNum++;
 			}
 			else if (waveNum == 2){
-				enemy.Add(new Enemy ("Blue Jelly 4", startX, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "lp", 5));
-				enemy.Add(new Enemy ("Blue Jelly 5", startX+1, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "cp", 5));
-				enemy.Add(new Enemy ("Blue Jelly 6", startX+2, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "rp", 5));
+				enemy.Add(new Enemy ("Blue Jelly 7", startX, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "lp", 5));
+				enemy.Add(new Enemy ("Blue Jelly 8", startX+1, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "cp", 5));
+				enemy.Add(new Enemy ("Blue Jelly 9", startX+2, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "rp", 5));
 				waveNum++;
 			}
 			
@@ -127,11 +127,23 @@ public class EnemyManager{
 	private void MobMovement (Hashtable towerList, Player player){
 		for (int i = 0; i < enemy.Count; i++){
 			Enemy newEnemy = enemy[i];
+			
 			newEnemy.GetGameObject().renderer.material.mainTexture = newEnemy.GetAnimate(newEnemy.GetCurTex());
 			//if (newEnemy.GetAnimHelper() + animationSpeed < Time.time){ no longer animation speed
 			//float checkTime = (float)newEnemy.GetMoveSpeed() / (float)newEnemy.GetMaxTex();
 			float checkTime = 0.2f; // This is now the animation speed
 			if (newEnemy.GetAnimHelper() + checkTime < Time.time){
+				// Zone Dmg check
+				foreach (Tower tower in towerList.Values){
+					// Can be used for tower atk speed later
+					float atkSpeed = 0.2f;
+					//Debug.Log(newEnemy.GetName());
+					//if (tower.GetAnimHelper() + atkSpeed < Time.time){
+					//	tower.SetAnimHelper(Time.time);
+						MobDamage(tower, newEnemy);
+					//}
+				}
+				
 				newEnemy.IncCurTex();
 				newEnemy.SetAnimHelper(Time.time);
 				
@@ -189,86 +201,30 @@ public class EnemyManager{
 					newEnemy.Clean();
 					enemy.Remove(newEnemy);
 				}
-				
-				/*newEnemy.IncCurTex();
-				newEnemy.SetAnimHelper(Time.time);
-
-				if (newEnemy.IsAnimating()){
-					// Implimenting smooth movement
-					Vector3 nextPosition = newEnemy.GetPathHead();
-					float maxFrame = newEnemy.GetMaxTex();
-					float curFrame = newEnemy.GetCurTex();
-					float nextX = (float) nextPosition.x;
-					float nextZ = (float) nextPosition.z;
-					float curX = newEnemy.GetPositionX();
-					float curZ = newEnemy.GetPositionZ();
-					// If not at the end...
-					if (nextX != -1 && nextZ != -1){
-						// For smooth x
-						float switcher = 1.0f;
-						
-						if (curX == nextX){
-							switcher = 0.0f;
-						}
-						else if (curX > nextX){
-							switcher = -1.0f;
-						}// else switcher = 1;
-						curX += ((curFrame+1)/maxFrame) * switcher;
-						
-						// For smooth z
-						switcher = 1.0f;
-						if (curZ == nextZ){
-							switcher = 0.0f;
-						}
-						else if (curZ > nextZ){
-							switcher = -1.0f;
-						}// else switcher = 1;
-						curZ += ((curFrame+1)/maxFrame) * switcher;
-
-						newEnemy.GetGameObject().transform.position = new Vector3(curX, 0, curZ);
-					}
-				}
-				//if (moveHelper + (1/blueJelly.GetMoveSpeed()) < Time.time){
-				else{
-					/*Vector3 newPosition = newEnemy.PopPath();
-					int x = (int)newPosition.x;
-					int z = (int)newPosition.z;
-					if (x != -1 || z != -1){
-						newEnemy.SetPosition(x, z);
-						newEnemy.GetGameObject().transform.position = new Vector3(x, 0, z);
-						MobDamage(towerList, newEnemy);
-					}
-					else{ // Enemy Has reached the goal!
-						PlayerDamage(player, newEnemy);
-						enemy.Remove(newEnemy);
-					}
-				}*/
 			}
 		}
 	}
 	
 	// Zone detection
-	private void MobDamage(Hashtable towerList, Enemy newEnemy){
+	private void MobDamage(Tower tower, Enemy newEnemy){
 		Vector3 enemyPos = newEnemy.GetPosition();
-		foreach (Tower tower in towerList.Values){
-			Zone newZone = tower.GetZone();
-			Vector2 zonePos = newZone.GetPosition();
-			// if the enemy is within a zone
-			if (zonePos.x - enemyPos.x <= 1 
-				&& zonePos.x - enemyPos.x >= -1
-				&& zonePos.y - enemyPos.z <= 1
-				&& zonePos.y - enemyPos.z >= -1){
-				
-				// if the timezone is correct "past"/"future"
-				if (newEnemy.GetPastState() == newZone.GetTime()){
-					Effect newEff = newZone.GetEffect();
-					newEnemy.SetCurHP((int)(newEnemy.GetCurHP() - newEff.GetDamage()));
-					Debug.Log(newEnemy.GetName() + " DAMAGED for " + newEff.GetDamage());
-					if (newEnemy.GetCurHP() <= 0){
-						Debug.Log(newEnemy.GetName() + " has been Destroyed!");
-						newEnemy.Clean();
-						enemy.Remove(newEnemy);
-					}
+		Zone newZone = tower.GetZone();
+		Vector2 zonePos = newZone.GetPosition();
+		// if the enemy is within a zone
+		if (zonePos.x - enemyPos.x <= 1 
+			&& zonePos.x - enemyPos.x >= -1
+			&& zonePos.y - enemyPos.z <= 1
+			&& zonePos.y - enemyPos.z >= -1){
+			
+			// if the timezone is correct "past"/"future"
+			if (newEnemy.GetPastState() == newZone.GetTime()){
+				Effect newEff = newZone.GetEffect();
+				newEnemy.SetCurHP((int)(newEnemy.GetCurHP() - newEff.GetDamage()));
+				Debug.Log(newEnemy.GetName() + " DAMAGED for " + newEff.GetDamage());
+				if (newEnemy.GetCurHP() <= 0){
+					Debug.Log(newEnemy.GetName() + " has been Destroyed!");
+					newEnemy.Clean();
+					enemy.Remove(newEnemy);
 				}
 			}
 		}

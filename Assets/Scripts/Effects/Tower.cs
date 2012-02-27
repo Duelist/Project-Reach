@@ -15,6 +15,7 @@ public class Tower {
 	private Effect.EffectType effect;
 	private GameObject towerObj;
 	private bool active;
+	private float animHelper;
 	
 	//Constructor
 	public Tower (int x, int z, Effect.EffectType effect, bool pastState, int direction) {
@@ -25,6 +26,8 @@ public class Tower {
 		
 		//direct = dir;
 		active = true;
+		
+		animHelper = 0;
 	
 		towerObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		towerObj.renderer.enabled = true;
@@ -91,66 +94,7 @@ public class Tower {
 		zone = new Zone (new Effect(Effect.EffectType.Fire), new Vector2(xPos, zPos), 3, 3, pastState);
 	}
 	
-	/*
-	// Creates a zone for the effect.
-	public void createBottomZone() {
-		int xPos = this.towerXPos;
-		int zPos = this.towerZPos - 2;
-		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		zone = new Zone (new Effect(Effect.EffectType.Fire), new Vector2(xPos, zPos), 3, 3, pastState);
-	}
-	
-	public void createBottomLeftZone() {
-		int xPos = this.towerXPos - 2;
-		int zPos = this.towerZPos - 2;
-		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		zone = new Zone (new Effect(Effect.EffectType.Fire), new Vector2(xPos, zPos), 3, 3, pastState);
-	}
-	
-	public void createBottomRightZone() {
-		int xPos = this.towerXPos + 2;
-		int zPos = this.towerZPos - 2;
-		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, pastState);
-	}
-	
-	public void createUpperZone() {
-		int xPos = this.towerXPos;
-		int zPos = this.towerZPos + 2;
-		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, pastState);
-	}
-	
-	public void createLeftZone() {
-		int xPos = this.towerXPos - 2;
-		int zPos = this.towerZPos;
-		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, pastState);
-	}
-	
-	public void createTopLeftZone() {
-		int xPos = this.towerXPos - 2;
-		int zPos = this.towerZPos + 2;
-		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, pastState);
-	}
-	
-	public void createRightZone() {
-		int xPos = this.towerXPos + 2;
-		int zPos = this.towerZPos;
-		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, pastState);
-	}
-	
-	public void createTopRightZone() {
-		int xPos = this.towerXPos + 2;
-		int zPos = this.towerZPos + 2;
-		// This is just for visual test purposes, will need to replace with actual ingame animation/models
-		zone = new Zone (new Effect("fire"), new Vector2(xPos, zPos), 3, 3, pastState);
-	}
-	*/
-	
-		// Physically/visually create a wall
+	// Physically/visually create a wall
 	//public void createWall(int xs, int zs, int xe, int ze) {
 	public void createWall(Wall wall) {
 		int xs = wall.getXStart();
@@ -217,6 +161,14 @@ public class Tower {
 	
 	public bool GetActive(){
 		return active;
+	}
+	
+	public float GetAnimHelper(){
+		return animHelper;
+	}
+	
+	public void SetAnimHelper (float animHelper){
+		this.animHelper = animHelper;
 	}
 	
 	public void FlipTime (){

@@ -39,6 +39,8 @@ public class Effect
 		}
 		//this.setEffectSpecial(eff);
 		// createZone(effectElement, towerXPos, towerZPos, width, length);
+		damage = 1;
+		damageIncrease = 1;
 	}
 	
 	public void SetEffectType(EffectType effect) {

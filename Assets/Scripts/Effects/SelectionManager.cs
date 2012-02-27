@@ -9,11 +9,13 @@ public class SelectionManager : MonoBehaviour
 	private RadialMenu radial;
 	private Selector hitselector;
 	private GameObject hitObject;
+	private GameManager gmRef;
 	//private Ray ray;
 	//ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 	void Awake (){
 		radial = new RadialMenu ();
 		hitselector = new Selector();
+		gmRef = ((GameManager)(GameObject.Find("GameManager").GetComponent("GameManager")));
 	}
 	
 	void Update () {
@@ -31,9 +33,6 @@ public class SelectionManager : MonoBehaviour
 					//Tile tile = hit.transform.gameObject.GetComponent("Tile");
 					//Debug.Log(tile.GetSelector());
 				//} else 
-				if (hit.transform.gameObject.tag == "tower") {
-					Debug.Log("tower hit");
-				}
 				if (hit.transform.gameObject.name == "selector") {
 					selectorHit = true;
 					hitObject = hit.transform.gameObject;
@@ -43,11 +42,15 @@ public class SelectionManager : MonoBehaviour
 			}
 		}
 		if (Input.GetMouseButtonUp(0)){
-			if (selectorHit){
-				mouseDown = false;
-				selectorHit = false;
-				RaycastHit hit;
-				if (Physics.Raycast (ray, out hit, 100000)) {
+			RaycastHit hit;
+			if (Physics.Raycast (ray, out hit, 100000)) {
+				if (hit.transform.gameObject.tag == "tower") {
+					Debug.Log ("Tower hit");
+					Tower towerSelected = (Tower)(gmRef.GetTowerList()["T" + (int)hit.transform.position.x + "," + (int)hit.transform.position.z]);
+					towerSelected.FlipTime();
+				}
+				if (selectorHit){
+					
 					if (hit.transform.gameObject.name == "createSingle") {
 						if (manaCheck(10)){
 							CreateTower(radial.selectorX,radial.selectorY, Effect.EffectType.Fire, hitselector.direction);
@@ -62,14 +65,16 @@ public class SelectionManager : MonoBehaviour
 						Debug.Log ("No Tower Type Selected");
 					}
 				}
-				radial.HideRadial();
 			}
+			selectorHit = false;
+			mouseDown = false;
+			radial.HideRadial();
 		}
 	}
 	
 	private void CreateTower(int tilex, int tiley, Effect.EffectType effect, int dir){
 		Tower tower = new Tower (tilex, tiley, effect, false, dir);
-		
+		gmRef.AddTowerToList(tower);
 		Debug.Log ("Tower Created");
 	}
 	
@@ -79,7 +84,7 @@ public class SelectionManager : MonoBehaviour
 	}
 	
 	private bool manaCheck(int manaCost) {
-		Player p1 =((GameManager)(GameObject.Find("GameManager").GetComponent("GameManager"))).GetCurrentPlayer();
+		Player p1 = gmRef.GetCurrentPlayer();
 		if (p1.GetMana() > manaCost){
 			p1.DecMana (manaCost);
 			hitObject.name = "selector (used)";

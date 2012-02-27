@@ -18,9 +18,8 @@ public class GameManager : MonoBehaviour{
 	private Camera camera;
 	private float timeKeeper;
 	
-	// Radical Changes, changing towerList to Hashtable for optimization
-	// Key: tower.x + "," + tower.y + "Tower"
-	// Value: Tower (at that position)
+	// Key: "T" + tower.getXPos() + "," + tower.getZPos()
+	// Value: Tower object at that location
 	private Hashtable towerList;
 	
 	void Start (){
@@ -49,7 +48,7 @@ public class GameManager : MonoBehaviour{
 	}
 	
 	void OnGUI(){
-		guiManager.DrawGUI(towerList, player1);
+		guiManager.DrawGUI(player1);
 		if (gameState == GameState.Playing){
 			HandleGameLogic();
 			enemyManager.DrawEnemy(towerList, player1);
@@ -58,6 +57,14 @@ public class GameManager : MonoBehaviour{
 	
 	public Player GetCurrentPlayer (){
 		return player1;
+	}
+	
+	public Hashtable GetTowerList(){
+		return towerList;
+	}
+	
+	public void AddTowerToList (Tower tower){
+		towerList.Add("T" + tower.getXPos() + "," + tower.getZPos(),tower);
 	}
 	
 	public static void DestroyObject (GameObject go) {
