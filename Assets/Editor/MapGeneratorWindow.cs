@@ -104,6 +104,7 @@ public class MapGeneratorWindow : EditorWindow
 						selectorComponent.direction = System.Convert.ToInt32(token.Trim());
 						selectorComponent.name = "selector";
 						selector.name = selectorComponent.name;
+						selector.tag = "selector";
 						selector.transform.parent = tiles[id].transform;
 						selector.transform.position = new Vector3((float)x,0,(float)y);
 						selector.transform.localScale = new Vector3(1.0f,1.1f,1.0f);

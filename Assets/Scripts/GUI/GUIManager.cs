@@ -23,7 +23,7 @@ public class GUIManager {
 		x = Screen.width - width * 2 - 10;
 		y = Screen.height - 233;*/
 		int width = 100;
-		manaInvasion = new ManaInvasion (0,30,width,50,Screen.width - width * 2 - 10,Screen.height - 233);
+		manaInvasion = new ManaInvasion (30,width,50,Screen.width - width * 2 - 10,Screen.height - 233);
 		
 		/*
 		timeZone = "Future";
@@ -53,7 +53,8 @@ public class GUIManager {
 		castSpell.DrawGUI();
 	}
 	
-	public void DrawBuildGUI (){
+	public void DrawBuildGUI (Player player){
+		manaInvasion.DrawGUI(player);
 		readyButton.DrawGUI();
 	}
 }

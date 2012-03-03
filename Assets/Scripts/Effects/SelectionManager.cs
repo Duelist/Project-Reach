@@ -33,7 +33,7 @@ public class SelectionManager : MonoBehaviour
 					//Tile tile = hit.transform.gameObject.GetComponent("Tile");
 					//Debug.Log(tile.GetSelector());
 				//} else 
-				if (hit.transform.gameObject.name == "selector") {
+				if (hit.transform.gameObject.name == "selector" && GameManager.GetGameState() == 0) {
 					selectorHit = true;
 					hitObject = hit.transform.gameObject;
 					hitselector = hit.transform.gameObject.GetComponent<Selector>();

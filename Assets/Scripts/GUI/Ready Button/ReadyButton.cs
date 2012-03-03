@@ -6,6 +6,7 @@ public class ReadyButton {
 	public void DrawGUI () {
 		if (GUI.Button (new Rect(Screen.width - Screen.width/sizeDivisor, Screen.height-Screen.height/sizeDivisor,Screen.width/sizeDivisor,Screen.height/sizeDivisor),"Ready!")){
 			GameManager.SetGameState(1);
+			GameManager.HideSelectors();
 		}
 	}
 }

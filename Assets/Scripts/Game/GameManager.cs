@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour{
 	private Map map;
 	private Camera camera;
 	private float timeKeeper;
+	private static int level;
+	private static GameObject[] selectors;
 	
 	// Key: "T" + tower.getXPos() + "," + tower.getZPos()
 	// Value: Tower object at that location
@@ -31,12 +33,14 @@ public class GameManager : MonoBehaviour{
 		timeKeeper = Time.time;
 		
 		towerList = new Hashtable ();
+		selectors = GameObject.FindGameObjectsWithTag ("selector");
 
 		// For Testing
 		gameState = GameState.Building;
 		//gameState = GameState.Playing;
 		// gameState = GameState.Paused;
 		// gameState = GameState.Stopped;
+		level = 0;
 	}
 	
 	public void HandleGameLogic (){
@@ -50,12 +54,12 @@ public class GameManager : MonoBehaviour{
 	void OnGUI(){
 		
 		if (gameState == GameState.Building){
-			guiManager.DrawBuildGUI();
+			guiManager.DrawBuildGUI(player1);
 		}
 		else if (gameState == GameState.Playing){
 			HandleGameLogic();
 			guiManager.DrawPlayGUI(player1);
-			enemyManager.DrawEnemy(towerList, player1);
+			enemyManager.DrawEnemy(towerList, player1, level);
 		}
 	}
 	
@@ -75,7 +79,33 @@ public class GameManager : MonoBehaviour{
 		Destroy(go);
 	}
 	
+	
+	public static int GetGameState (){
+		return (int)gameState;
+	}
 	public static void SetGameState (int state){
 		gameState = (GameState) state;
+	}
+	
+	public static int GetLevel (){
+		return level;
+	}
+	
+	public static void SetLevel (int lv){
+		level = lv;
+	}
+	
+	public static void HideSelectors (){
+		foreach (GameObject sObj in selectors){
+			Debug.Log ("Hiding Selector");
+			sObj.renderer.enabled = false;
+		}
+	}
+	
+	public static void ShowSelectors(){
+		foreach (GameObject sObj in selectors){
+			Debug.Log ("Showing Selector");
+			sObj.renderer.enabled = true;
+		}
 	}
 }

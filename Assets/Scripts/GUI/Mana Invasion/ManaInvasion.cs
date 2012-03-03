@@ -15,8 +15,8 @@ public class ManaInvasion {
 	private int y;
 	
 	// Use this for initialization
-	public ManaInvasion (int iCount, int iSize, int w, int h, int xx, int yy) {
-		invCount = iCount;
+	public ManaInvasion (int iSize, int w, int h, int xx, int yy) {
+		invCount = GameManager.GetLevel();
 		iconSize = iSize;
 		width = w;
 		height = h;
@@ -39,7 +39,7 @@ public class ManaInvasion {
 	}
 	
 	public void DrawGUI(Player player){
-		invCount = (int) Mathf.Floor(Time.time/10);
+		invCount = GameManager.GetLevel();
 		
 		if (hpOrb != null){
 			GUI.DrawTexture (new Rect (x, y - iconSize, iconSize, iconSize), hpOrb);
@@ -53,6 +53,6 @@ public class ManaInvasion {
 		if (invIcon != null){
 			GUI.DrawTexture (new Rect (x + width, y, iconSize, iconSize), invIcon);
 		}
-		GUI.Label (new Rect (x + width + iconSize, y + iconSize / 6, width - iconSize, height), invCount + " Invasion", textStyle);
+		GUI.Label (new Rect (x + width + iconSize, y + iconSize / 6, width - iconSize, height), "Invasion " + invCount, textStyle);
 	}
 }

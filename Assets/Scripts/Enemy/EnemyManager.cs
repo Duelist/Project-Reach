@@ -81,7 +81,7 @@ public class EnemyManager{
 	}
 	
 	// Update Method
-	public void DrawEnemy (Hashtable towerList, Player player) {
+	public void DrawEnemy (Hashtable towerList, Player player, int level) {
 		Spawn ();
 		MobMovement(towerList, player);
 		MobDamage(towerList);
@@ -101,25 +101,28 @@ public class EnemyManager{
 			int startZ = 0;
 			
 			
-			// Level 1
-			if (waveNum == 0){
-				enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "lp", 5));
-				enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "cp", 5));
-				enemy.Add(new Enemy ("Merupi", startX+2, startZ, 50, 0.5f, 0, 5, futureState, merupiTex, 50, maxTex2, "rp", 5));
-				waveNum++;
-			}
-			else if (waveNum == 1){
-				enemy.Add(new Enemy ("Blue Jelly 4", startX, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "lp", 5));
-				enemy.Add(new Enemy ("Blue Jelly 5", startX+1, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "cp", 5));
-				enemy.Add(new Enemy ("Blue Jelly 6", startX+2, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "rp", 5));
-				waveNum++;
-			}
-			else if (waveNum == 2){
-				enemy.Add(new Enemy ("Blue Jelly 7", startX, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "lp", 5));
-				enemy.Add(new Enemy ("Blue Jelly 8", startX+1, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "cp", 5));
-				enemy.Add(new Enemy ("Blue Jelly 9", startX+2, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "rp", 5));
-				waveNum++;
-			}
+			// Level 0
+			// Add if statement when we have more levels
+			//if (GameManager.GetLevel() == 0){
+				if (waveNum == 0){
+					enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "lp", 5));
+					enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "cp", 5));
+					enemy.Add(new Enemy ("Blue Jelly 3", startX+2, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "rp", 5));
+					waveNum++;
+				}
+				else if (waveNum == 1){
+					enemy.Add(new Enemy ("Blue Jelly 4", startX, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "lp", 5));
+					enemy.Add(new Enemy ("Blue Jelly 5", startX+1, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "cp", 5));
+					enemy.Add(new Enemy ("Blue Jelly 6", startX+2, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "rp", 5));
+					waveNum++;
+				}
+				else if (waveNum == 2){
+					enemy.Add(new Enemy ("Blue Jelly 7", startX, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "lp", 5));
+					enemy.Add(new Enemy ("Merupi", startX+1, startZ, 50, 0.5f, 0, 5, futureState, merupiTex, 50, maxTex2, "cp", 5));
+					enemy.Add(new Enemy ("Blue Jelly 9", startX+2, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "rp", 5));
+					waveNum++;
+				}
+			//}
 			
 			spawnTimer = Time.time + spawnInterval;
 		}
@@ -247,6 +250,8 @@ public class EnemyManager{
 		if (waveNum == numWaves && enemy.Count == 0){
 			GameManager.SetGameState(0);
 			waveNum = 0;
+			GameManager.SetLevel(GameManager.GetLevel () + 1);
+			GameManager.ShowSelectors();
 		}
 	}
 }
