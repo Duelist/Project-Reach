@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour{
 
 	private Player player1;
 	private enum GameState {Building, Playing, Paused, Stopped};
-	private GameState gameState;
+	private static GameState gameState;
 	private EnemyManager enemyManager;
 	private GUIManager guiManager;
 	private Map map;
@@ -33,8 +33,8 @@ public class GameManager : MonoBehaviour{
 		towerList = new Hashtable ();
 
 		// For Testing
-		//gameState = GameState.Building;
-		gameState = GameState.Playing;
+		gameState = GameState.Building;
+		//gameState = GameState.Playing;
 		// gameState = GameState.Paused;
 		// gameState = GameState.Stopped;
 	}
@@ -48,9 +48,13 @@ public class GameManager : MonoBehaviour{
 	}
 	
 	void OnGUI(){
-		guiManager.DrawGUI(player1);
-		if (gameState == GameState.Playing){
+		
+		if (gameState == GameState.Building){
+			guiManager.DrawBuildGUI();
+		}
+		else if (gameState == GameState.Playing){
 			HandleGameLogic();
+			guiManager.DrawPlayGUI(player1);
 			enemyManager.DrawEnemy(towerList, player1);
 		}
 	}
@@ -69,5 +73,9 @@ public class GameManager : MonoBehaviour{
 	
 	public static void DestroyObject (GameObject go) {
 		Destroy(go);
+	}
+	
+	public static void SetGameState (int state){
+		gameState = (GameState) state;
 	}
 }

@@ -10,7 +10,7 @@ public class CastSpell {
 	}
 	
 	public void DrawGUI () {
-		if (GUI.Button (new Rect(Screen.width/2 - 200/2, Screen.height-50,200,50),"Cast Spell")){
+		if (GUI.Button (new Rect(Screen.width - Screen.width/8, Screen.height-Screen.height/8,Screen.width/8,Screen.height/8),"Cast Spell")){
 			Debug.Log ("spell cast");
 			castwindow = true;
 		}

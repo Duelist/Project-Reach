@@ -9,6 +9,8 @@ public class GUIManager {
 	RollingButton rollingButton;
 	SelectorOverlay selectorOverlay;
 	CastSpell castSpell;
+	ReadyButton readyButton;
+	
 	// Use this for initialization
 	public GUIManager (Map map, Player player) {
 		/*maxMana = 100;
@@ -42,18 +44,16 @@ public class GUIManager {
 		rollingButton = new RollingButton (100,90,10);
 		
 		selectorOverlay = new SelectorOverlay(map);
-		castSpell = new CastSpell();
+		castSpell = new CastSpell();	
+		readyButton = new ReadyButton ();
 	}
 	
-	public void DrawGUI (Player player) {
+	public void DrawPlayGUI (Player player) {
 		manaInvasion.DrawGUI(player);
-		futureButton.DrawGUI();
-		rollingButton.active = selectorOverlay.drawMen;
-		if (rollingButton.active) {
-			//rollingButton.setActive(selectorOverlay.menx,selectorOverlay.meny);
-			//rollingButton.DrawGUI();
-		}
-		//selectorOverlay.DrawGUI(towerList, player);
 		castSpell.DrawGUI();
+	}
+	
+	public void DrawBuildGUI (){
+		readyButton.DrawGUI();
 	}
 }

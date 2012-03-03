@@ -84,6 +84,7 @@ public class EnemyManager{
 	public void DrawEnemy (Hashtable towerList, Player player) {
 		Spawn ();
 		MobMovement(towerList, player);
+		LevelEndCheck ();
 	}
 	
 	public void Spawn (){
@@ -233,5 +234,12 @@ public class EnemyManager{
 	private void PlayerDamage (Player player, Enemy newEnemy){
 		player.DecHealth(newEnemy.GetDamage());
 		Debug.Log(player.GetName() + " has been hit for " + newEnemy.GetDamage() + " damage");
+	}
+	
+	private void LevelEndCheck (){
+		if (waveNum == numWaves && enemy.Count == 0){
+			GameManager.SetGameState(0);
+			waveNum = 0;
+		}
 	}
 }
