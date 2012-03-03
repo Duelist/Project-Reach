@@ -84,6 +84,7 @@ public class EnemyManager{
 	public void DrawEnemy (Hashtable towerList, Player player) {
 		Spawn ();
 		MobMovement(towerList, player);
+		MobDamage(towerList);
 		LevelEndCheck ();
 	}
 	
@@ -126,25 +127,12 @@ public class EnemyManager{
 	
 	// Waypoint array is a list of Waypoints that contain the position of waypoints and the direction to move.
 	private void MobMovement (Hashtable towerList, Player player){
+		float checkTime = 0.2f; // This is now the animation speed
 		for (int i = 0; i < enemy.Count; i++){
 			Enemy newEnemy = enemy[i];
 			
 			newEnemy.GetGameObject().renderer.material.mainTexture = newEnemy.GetAnimate(newEnemy.GetCurTex());
-			//if (newEnemy.GetAnimHelper() + animationSpeed < Time.time){ no longer animation speed
-			//float checkTime = (float)newEnemy.GetMoveSpeed() / (float)newEnemy.GetMaxTex();
-			float checkTime = 0.2f; // This is now the animation speed
 			if (newEnemy.GetAnimHelper() + checkTime < Time.time){
-				// Zone Dmg check
-				foreach (Tower tower in towerList.Values){
-					// Can be used for tower atk speed later
-					float atkSpeed = 0.2f;
-					//Debug.Log(newEnemy.GetName());
-					//if (tower.GetAnimHelper() + atkSpeed < Time.time){
-					//	tower.SetAnimHelper(Time.time);
-						MobDamage(tower, newEnemy);
-					//}
-				}
-				
 				newEnemy.IncCurTex();
 				newEnemy.SetAnimHelper(Time.time);
 				
@@ -207,25 +195,44 @@ public class EnemyManager{
 	}
 	
 	// Zone detection
-	private void MobDamage(Tower tower, Enemy newEnemy){
-		Vector3 enemyPos = newEnemy.GetPosition();
-		Zone newZone = tower.GetZone();
-		Vector2 zonePos = newZone.GetPosition();
-		// if the enemy is within a zone
-		if (zonePos.x - enemyPos.x <= 1 
-			&& zonePos.x - enemyPos.x >= -1
-			&& zonePos.y - enemyPos.z <= 1
-			&& zonePos.y - enemyPos.z >= -1){
+	private void MobDamage(Hashtable towerList){
+		float atkSpeed = 0.2f;
+		// Zone Dmg check
+		foreach (Tower tower in towerList.Values){
+			// Can be used for tower atk speed later
+			bool areaAtk = false;
+			if (tower.GetEffect() == Effect.EffectType.Ice){
+				areaAtk = true;
+			}
 			
-			// if the timezone is correct "past"/"future"
-			if (newEnemy.GetPastState() == newZone.GetTime()){
-				Effect newEff = newZone.GetEffect();
-				newEnemy.SetCurHP((int)(newEnemy.GetCurHP() - newEff.GetDamage()));
-				Debug.Log(newEnemy.GetName() + " DAMAGED for " + newEff.GetDamage());
-				if (newEnemy.GetCurHP() <= 0){
-					Debug.Log(newEnemy.GetName() + " has been Destroyed!");
-					newEnemy.Clean();
-					enemy.Remove(newEnemy);
+			if (tower.GetAnimHelper() + atkSpeed < Time.time){
+				tower.SetAnimHelper(Time.time);
+				Zone newZone = tower.GetZone();
+				Vector2 zonePos = newZone.GetPosition();
+				for (int i = 0; i < enemy.Count; i++){
+					Enemy newEnemy = enemy[i];
+					Vector3 enemyPos = newEnemy.GetPosition();
+					// if the enemy is within a zone
+					if (zonePos.x - enemyPos.x <= 1 
+						&& zonePos.x - enemyPos.x >= -1
+						&& zonePos.y - enemyPos.z <= 1
+						&& zonePos.y - enemyPos.z >= -1){
+						
+						// if the timezone is correct "past"/"future"
+						if (newEnemy.GetPastState() == newZone.GetTime()){
+							Effect newEff = newZone.GetEffect();
+							newEnemy.SetCurHP((int)(newEnemy.GetCurHP() - newEff.GetDamage()));
+							Debug.Log(newEnemy.GetName() + " DAMAGED for " + newEff.GetDamage());
+							if (newEnemy.GetCurHP() <= 0){
+								Debug.Log(newEnemy.GetName() + " has been Destroyed!");
+								newEnemy.Clean();
+								enemy.Remove(newEnemy);
+							}
+							if (!areaAtk){
+								break;
+							}
+						}
+					}
 				}
 			}
 		}

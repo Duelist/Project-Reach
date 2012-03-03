@@ -5,12 +5,13 @@ public class CastSpell {
 
 	public Rect textwin =  new Rect (Screen.height - 10,Screen.width - 10,10,10);
 	private bool castwindow = false;
+	public int sizeDivisor = 6;
 	public CastSpell () {
 	
 	}
 	
 	public void DrawGUI () {
-		if (GUI.Button (new Rect(Screen.width - Screen.width/8, Screen.height-Screen.height/8,Screen.width/8,Screen.height/8),"Cast Spell")){
+		if (GUI.Button (new Rect(Screen.width - Screen.width/sizeDivisor, Screen.height-Screen.height/sizeDivisor,Screen.width/sizeDivisor,Screen.height/sizeDivisor),"Cast Spell")){
 			Debug.Log ("spell cast");
 			castwindow = true;
 		}

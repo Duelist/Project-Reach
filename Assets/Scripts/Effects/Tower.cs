@@ -131,6 +131,10 @@ public class Tower {
 		this.zone = z;
 	}
 	
+	public Effect.EffectType GetEffect(){
+		return effect;
+	}
+	
 	public void setEffect(Effect eff) {
 		this.zone.setEffect(eff);
 	}
