@@ -85,7 +85,7 @@ public class SelectionManager : MonoBehaviour
 	
 	private bool manaCheck(int manaCost) {
 		Player p1 = gmRef.GetCurrentPlayer();
-		if (p1.GetMana() > manaCost){
+		if (p1.GetMana() >= manaCost){
 			p1.DecMana (manaCost);
 			hitObject.name = "selector (used)";
 			return true;

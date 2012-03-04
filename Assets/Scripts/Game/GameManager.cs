@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour{
 	public void HandleGameLogic (){
 		// Increments player's mana pool and updates time
 		if (timeKeeper + 1 < Time.time){
-			player1.IncMana(1);
+			//player1.IncMana(1);
 			timeKeeper = Time.time;
 		}
 	}

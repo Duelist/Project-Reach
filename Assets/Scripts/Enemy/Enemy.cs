@@ -3,27 +3,31 @@ using System.Collections;
 
 public class Enemy{
 	
-	private string ename;
-	private Vector3 position;
-	private int maxHP, curHP;
-	private float moveSpeed;
-	private int armour;
-	private int damage;
+	protected string ename;
+	protected Vector3 position;
+	protected int maxHP, curHP;
+	protected float moveSpeed;
+	protected int armour;
+	protected int damage;
+	protected int bonus;
 
-	private ArrayList debuffList;
-	private bool pastState;
+	protected ArrayList debuffList;
+	protected bool pastState;
 	
-	private Texture[] animate;
-	private int eSize, maxTex, curTex;
+	protected Texture[] animate;
+	protected int eSize, maxTex, curTex;
 	
-	private CheckpointList clist;
+	protected CheckpointList clist;
 	
-	private float animHelper;
+	protected float animHelper;
 	
 	// Object to be drawn on screen
-	GameObject cubeObject;
+	protected GameObject cubeObject;
 	
-	public Enemy (string n, float x, float z, int hp, float ms, int arm, int dam, bool tZone, Texture [] anim, int s, int maxT, string cpTag, int cpPoints){
+	public Enemy (){
+	}
+	
+	public Enemy (string n, float x, float z, int hp, float ms, int arm, int dam, int bon, bool tZone, Texture [] anim, int s, int maxT, string cpTag, int cpPoints){
 		ename = n;
 		position = new Vector3 (x,0,z);
 		maxHP = hp;
@@ -38,6 +42,7 @@ public class Enemy{
 		}
 		
 		damage = dam;
+		bonus = bon;
 		
 		pastState = tZone;
 		
@@ -124,6 +129,12 @@ public class Enemy{
 	}
 	public void SetDamage(int dam){
 		damage = dam;
+	}
+	public int GetBonus(){
+		return bonus;
+	}
+	public void SetBonus(int bon){
+		bonus = bon;
 	}
 	
 	// ArrayList getters and Modifiers

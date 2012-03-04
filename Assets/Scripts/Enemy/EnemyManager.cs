@@ -21,10 +21,6 @@ public class EnemyManager{
 	float moveHelper;
 	int move;
 	
-	// Enemy 1: Blue Jelly
-	private Texture [] pBlueJellyTex;
-	private Texture [] fBlueJellyTex;
-	int maxTex;
 	// Enemy 2: Merupi
 	private Texture [] merupiTex;
 	int maxTex2;
@@ -46,19 +42,6 @@ public class EnemyManager{
 		waveNum = 0;
 		
 		//animationSpeed = 0.2f; // change texture once per (animationSpeed) second;
-		
-		// Enemy 1: Blue Jelly Initialization
-		maxTex = 5;
-		pBlueJellyTex = new Texture [maxTex];
-		for (int i = 0; i < maxTex; i++){
-			pBlueJellyTex[i] = Resources.Load ("Enemy/Blue Jelly/Past Blue Jelly "+i) as Texture;
-		}
-
-		maxTex = 5;
-		fBlueJellyTex = new Texture [maxTex];
-		for (int i = 0; i < maxTex; i++){
-			fBlueJellyTex[i] = Resources.Load ("Enemy/Blue Jelly/Future Blue Jelly "+i) as Texture;
-		}
 		
 		// Enemy 2: Merupi Initialization
 		maxTex2 = 9;
@@ -84,42 +67,41 @@ public class EnemyManager{
 	public void DrawEnemy (Hashtable towerList, Player player, int level) {
 		Spawn ();
 		MobMovement(towerList, player);
-		MobDamage(towerList);
+		MobDamage(towerList, player);
 		LevelEndCheck ();
 	}
 	
 	public void Spawn (){
 		if (spawnTimer <= Time.time){
 			
-			// Initialization parameters:
-			// string n, int x, int z, int hp, int ms, int arm, int dam. ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, ArrayList path
+			// Enemy Initialization parameters: string n, int x, int z, int hp, int ms, int arm, int dam, int bon. ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, string cpTag, int cpPoints		
+			// Blue Jelly Init: string n, int x, int z, bool state, string cpTag, int cpPoints
 			bool pastState = true;
 			bool futureState = false;
 			
 			// Texture Settings
 			int startX = 1;
-			int startZ = 0;
-			
+			int startZ = 0;	
 			
 			// Level 0
 			// Add if statement when we have more levels
 			//if (GameManager.GetLevel() == 0){
 				if (waveNum == 0){
-					enemy.Add(new Enemy ("Blue Jelly 1", startX, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "lp", 5));
-					enemy.Add(new Enemy ("Blue Jelly 2", startX+1, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "cp", 5));
-					enemy.Add(new Enemy ("Blue Jelly 3", startX+2, startZ, 20, 0.2f, 0, 1, futureState, fBlueJellyTex, 50, maxTex, "rp", 5));
+					enemy.Add(new EnemyBlueJelly ("Blue Jelly 1", startX, startZ, futureState, "lp", 5));
+					enemy.Add(new EnemyBlueJelly ("Blue Jelly 2", startX+1, startZ, futureState, "cp", 5));
+					enemy.Add(new EnemyBlueJelly ("Blue Jelly 3", startX+2, startZ, futureState, "rp", 5));
 					waveNum++;
 				}
 				else if (waveNum == 1){
-					enemy.Add(new Enemy ("Blue Jelly 4", startX, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "lp", 5));
-					enemy.Add(new Enemy ("Blue Jelly 5", startX+1, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "cp", 5));
-					enemy.Add(new Enemy ("Blue Jelly 6", startX+2, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "rp", 5));
+					enemy.Add(new EnemyBlueJelly ("Blue Jelly 4", startX, startZ, pastState, "lp", 5));
+					enemy.Add(new EnemyBlueJelly ("Blue Jelly 5", startX+1, startZ, pastState, "cp", 5));
+					enemy.Add(new EnemyBlueJelly ("Blue Jelly 6", startX+2, startZ, pastState, "rp", 5));
 					waveNum++;
 				}
 				else if (waveNum == 2){
-					enemy.Add(new Enemy ("Blue Jelly 7", startX, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "lp", 5));
-					enemy.Add(new Enemy ("Merupi", startX+1, startZ, 50, 0.5f, 0, 5, futureState, merupiTex, 50, maxTex2, "cp", 5));
-					enemy.Add(new Enemy ("Blue Jelly 9", startX+2, startZ, 20, 0.2f, 0, 1, pastState, pBlueJellyTex, 50, maxTex, "rp", 5));
+					enemy.Add(new EnemyBlueJelly ("Blue Jelly 7", startX, startZ, pastState, "lp", 5));
+					enemy.Add(new Enemy ("Merupi", startX+1, startZ, 50, 0.5f, 0, 5, 50, futureState, merupiTex, 50, maxTex2, "cp", 5));
+					enemy.Add(new EnemyBlueJelly ("Blue Jelly 9", startX+2, startZ, pastState, "rp", 5));
 					waveNum++;
 				}
 			//}
@@ -198,7 +180,7 @@ public class EnemyManager{
 	}
 	
 	// Zone detection
-	private void MobDamage(Hashtable towerList){
+	private void MobDamage(Hashtable towerList, Player player){
 		float atkSpeed = 0.2f;
 		// Zone Dmg check
 		foreach (Tower tower in towerList.Values){
@@ -227,7 +209,8 @@ public class EnemyManager{
 							newEnemy.SetCurHP((int)(newEnemy.GetCurHP() - newEff.GetDamage()));
 							Debug.Log(newEnemy.GetName() + " DAMAGED for " + newEff.GetDamage());
 							if (newEnemy.GetCurHP() <= 0){
-								Debug.Log(newEnemy.GetName() + " has been Destroyed!");
+								Debug.Log(newEnemy.GetName() + " has been Destroyed! You absorbed " + newEnemy.GetBonus() + " Mana!");
+								player.IncMana(newEnemy.GetBonus());
 								newEnemy.Clean();
 								enemy.Remove(newEnemy);
 							}

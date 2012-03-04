@@ -13,17 +13,10 @@ public class GUIManager {
 	
 	// Use this for initialization
 	public GUIManager (Map map, Player player) {
-		/*maxMana = 100;
-		manaCount = 0;
-		invCount = 0;
+		// Going to make the layout of the screen in 6s
+		int sizeDivisor = 6;
 		
-		iconSize = 30;
-		width = 100;
-		height = 50;
-		x = Screen.width - width * 2 - 10;
-		y = Screen.height - 233;*/
-		int width = 100;
-		manaInvasion = new ManaInvasion (30,width,50,Screen.width - width * 2 - 10,Screen.height - 233);
+		manaInvasion = new ManaInvasion (Screen.width - Screen.width/sizeDivisor, 0, Screen.width/sizeDivisor,Screen.height/sizeDivisor);
 		
 		/*
 		timeZone = "Future";
@@ -45,7 +38,7 @@ public class GUIManager {
 		
 		selectorOverlay = new SelectorOverlay(map);
 		castSpell = new CastSpell();	
-		readyButton = new ReadyButton ();
+		readyButton = new ReadyButton (Screen.width - Screen.width/sizeDivisor, Screen.height-Screen.height/sizeDivisor, Screen.width/sizeDivisor,Screen.height/sizeDivisor);
 	}
 	
 	public void DrawPlayGUI (Player player) {
