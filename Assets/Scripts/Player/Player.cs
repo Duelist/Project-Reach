@@ -51,8 +51,11 @@ public class Player{
 	}
 	
 	public void IncMana (int regen){
-		if (mana + regen < maxMana){
+		if (mana + regen <= maxMana){
 			mana = mana + regen;
+		}
+		else {
+			mana = maxMana;
 		}
 	}
 }
