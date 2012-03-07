@@ -8,6 +8,8 @@ public class SelectionManager : MonoBehaviour
 	bool selectorHit = false;
 	private RadialMenu radial;
 	private Selector hitselector;
+	Vector3 hitPos;
+	Vector2 hitSize;
 	private GameObject hitObject;
 	private GameManager gmRef;
 	//private Ray ray;
@@ -16,6 +18,7 @@ public class SelectionManager : MonoBehaviour
 		radial = new RadialMenu ();
 		hitselector = new Selector();
 		gmRef = ((GameManager)(GameObject.Find("GameManager").GetComponent("GameManager")));
+		hitPos =  new Vector3 (-1, 0, -1);
 	}
 	
 	void Update () {
@@ -36,6 +39,8 @@ public class SelectionManager : MonoBehaviour
 				if (hit.transform.gameObject.name == "selector" && GameManager.GetGameState() == 0) {
 					selectorHit = true;
 					hitObject = hit.transform.gameObject;
+					hitPos = ConvertObjectToScreenPos(hit.transform.position, hit.transform.localScale);
+					hitSize = ConvertObjectToScreenSize(hit.transform.position, hit.transform.localScale);
 					hitselector = hit.transform.gameObject.GetComponent<Selector>();
 					CreateRadial((int)hit.transform.position.x,(int)hit.transform.position.z, radial);
 				}
@@ -50,7 +55,6 @@ public class SelectionManager : MonoBehaviour
 					towerSelected.FlipTime();
 				}
 				if (selectorHit){
-					
 					if (hit.transform.gameObject.name == "createSingle") {
 						if (manaCheck(10)){
 							CreateTower(radial.selectorX,radial.selectorY, Effect.EffectType.Fire, hitselector.direction);
@@ -69,6 +73,12 @@ public class SelectionManager : MonoBehaviour
 			selectorHit = false;
 			mouseDown = false;
 			radial.HideRadial();
+		}
+	}
+	
+	void OnGUI (){
+		if (selectorHit){
+			radial.ShowRadialMenu(hitPos, hitSize);
 		}
 	}
 	
@@ -94,5 +104,19 @@ public class SelectionManager : MonoBehaviour
 			Debug.Log ("Insufficient Mana");
 		}
 		return false;
+	}
+	
+	private Vector3 ConvertObjectToScreenPos (Vector3 v3, Vector3 sv3){
+		Vector3 conV = camera.WorldToScreenPoint(new Vector3 (v3.x - (sv3.x/2), v3.y, v3.z + (sv3.z/2)));
+		Debug.Log ("x:" + conV.x + " y:" + conV.y + " z:" + conV.z);
+		conV.y = Screen.height - conV.y;
+		return conV;
+	}
+	
+	private Vector2 ConvertObjectToScreenSize (Vector3 v3, Vector3 sv3){
+		Vector3 conV1 = camera.WorldToScreenPoint(new Vector3 (v3.x, v3.y, v3.z));
+		Vector3 conV2 = camera.WorldToScreenPoint(new Vector3 (v3.x + sv3.x, v3.y, v3.z + sv3.z));
+		Vector2 conSize = new Vector2 (Mathf.Abs(conV1.x - conV2.x), Mathf.Abs(conV1.y - conV2.y));
+		return conSize;
 	}
 }
