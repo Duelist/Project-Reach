@@ -23,6 +23,7 @@ public class Zone {
 		zoneObj.transform.position = new Vector3(position.x, 0, position.y);
 		zoneObj.transform.localScale = new Vector3(width,0.5f,length);
 		zoneObj.renderer.enabled = true;
+		zoneObj.name = "Zone of Effect";
 		
 		Texture fireZone = Resources.Load ("WallZone/FireZonePast") as Texture;
 		if (pastState == false){

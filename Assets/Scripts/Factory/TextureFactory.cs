@@ -25,6 +25,7 @@ public class TextureFactory{
 	private static Texture tileSelector;
 	
 	private static Texture gearTexture;
+	private static Texture windowTexture;
 	
 	public TextureFactory(){
 	}
@@ -160,5 +161,13 @@ public class TextureFactory{
 			gearTexture = Resources.Load ("GUI/Rolling Menu Textures/Gear") as Texture;
 		}
 		return gearTexture;
+	}
+	
+	// Info Window Textures
+	public static Texture GetWindowTexture(){
+		if (windowTexture == null){
+			windowTexture = Resources.Load("GUI/Rolling Menu Textures/InfoWindow") as Texture;
+		}
+		return windowTexture;
 	}
 }

@@ -60,6 +60,7 @@ public class Enemy{
 		clist = new CheckpointList (cpTag, cpPoints);
 		
 		cubeObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		cubeObject.name = ename;
 		cubeObject.transform.Rotate(0,0,180);
 		cubeObject.transform.position = new Vector3(x, 0, z);
 		cubeObject.transform.localScale = new Vector3(1f,1f,1f);

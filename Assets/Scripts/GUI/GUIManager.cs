@@ -10,6 +10,7 @@ public class GUIManager {
 	SelectorOverlay selectorOverlay;
 	CastSpell castSpell;
 	ReadyButton readyButton;
+	InfoWindow infoWindow;
 	
 	// Use this for initialization
 	public GUIManager (Map map, Player player) {
@@ -39,15 +40,22 @@ public class GUIManager {
 		selectorOverlay = new SelectorOverlay(map);
 		castSpell = new CastSpell();	
 		readyButton = new ReadyButton (Screen.width - Screen.width/sizeDivisor, Screen.height-Screen.height/sizeDivisor, Screen.width/sizeDivisor,Screen.height/sizeDivisor);
+		infoWindow = new InfoWindow (Screen.width - Screen.width/sizeDivisor, Screen.height-Screen.height/sizeDivisor*3, Screen.width/sizeDivisor, Screen.height/sizeDivisor*2);
 	}
 	
 	public void DrawPlayGUI (Player player) {
 		manaInvasion.DrawGUI(player);
 		castSpell.DrawGUI();
+		infoWindow.DrawGUI();
 	}
 	
 	public void DrawBuildGUI (Player player){
 		manaInvasion.DrawGUI(player);
 		readyButton.DrawGUI();
+		infoWindow.DrawGUI();
+	}
+	
+	public InfoWindow GetInfoWindow (){
+		return infoWindow;
 	}
 }

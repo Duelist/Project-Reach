@@ -63,6 +63,10 @@ public class GameManager : MonoBehaviour{
 		}
 	}
 	
+	public GUIManager GetGuiManager() {
+		return guiManager;
+	}
+	
 	public Player GetCurrentPlayer (){
 		return player1;
 	}

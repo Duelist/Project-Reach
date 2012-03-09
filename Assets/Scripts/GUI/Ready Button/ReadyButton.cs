@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 
 public class ReadyButton {
-	public int sizeDivisor = 6;
 	int x, y, w, h;
 	
 	public ReadyButton (int x, int y, int w, int h){

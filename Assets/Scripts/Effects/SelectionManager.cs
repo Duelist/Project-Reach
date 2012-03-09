@@ -16,7 +16,6 @@ public class SelectionManager : MonoBehaviour
 	//ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 	void Awake (){
 		radial = new RadialMenu ();
-		hitselector = new Selector();
 		gmRef = ((GameManager)(GameObject.Find("GameManager").GetComponent("GameManager")));
 		hitPos =  new Vector3 (-1, 0, -1);
 	}
@@ -44,13 +43,14 @@ public class SelectionManager : MonoBehaviour
 					hitselector = hit.transform.gameObject.GetComponent<Selector>();
 					CreateRadial((int)hit.transform.position.x,(int)hit.transform.position.z, radial);
 				}
+				gmRef.GetGuiManager().GetInfoWindow().SetTex(hit.transform.gameObject.renderer.material.mainTexture);
+				gmRef.GetGuiManager().GetInfoWindow().SetDesc(hit.transform.gameObject.name);
 			}
 		}
 		if (Input.GetMouseButtonUp(0)){
 			RaycastHit hit;
 			if (Physics.Raycast (ray, out hit, 100000)) {
 				if (hit.transform.gameObject.tag == "tower") {
-					Debug.Log ("Tower hit");
 					Tower towerSelected = (Tower)(gmRef.GetTowerList()["T" + (int)hit.transform.position.x + "," + (int)hit.transform.position.z]);
 					towerSelected.FlipTime();
 				}

@@ -39,6 +39,7 @@ public class Tower {
 		this.pastState = pastState;
 		
 		if (effect == Effect.EffectType.Fire){
+			towerObj.name = "Single Fire Tower";
 			if (pastState == true){
 				SetTextureTower(TextureFactory.GetFireTowerPast());
 			}
@@ -48,6 +49,7 @@ public class Tower {
 		}
 		
 		if (effect == Effect.EffectType.Ice){
+			towerObj.name = "Area of Effect Tower";
 			if (pastState == true){
 				SetTextureTower(TextureFactory.GetIceTowerPast());
 			}
