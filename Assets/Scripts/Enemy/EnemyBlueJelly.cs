@@ -47,6 +47,7 @@ public class EnemyBlueJelly : Enemy {
 		cubeObject.transform.Rotate(0,0,180);
 		cubeObject.transform.position = new Vector3(x, 0, z);
 		cubeObject.transform.localScale = new Vector3(1f,1f,1f);
+		cubeObject.tag = "enemy";
 		
 		animHelper = Time.time;
 	}

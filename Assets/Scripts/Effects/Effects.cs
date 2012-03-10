@@ -63,4 +63,21 @@ public class Effect
 		return damage;
 	}
 	
+	public string GetFormattedEffectType(){
+		string effectTypeStr = "None";
+		if (this.effectType == EffectType.Fire){
+			effectTypeStr = "Fire";
+		}
+		else if (this.effectType == EffectType.Earth){
+			effectTypeStr = "Earth";
+		}
+		else if (this.effectType == EffectType.Wind){
+			effectTypeStr = "Wind";
+		}
+		else if (this.effectType == EffectType.Ice){
+			effectTypeStr = "Ice";
+		}
+		return effectTypeStr;
+	}
+	
 }

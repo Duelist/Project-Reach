@@ -28,23 +28,38 @@ public class SelectionManager : MonoBehaviour
 			Debug.Log("mouseDown");
 			RaycastHit hit;
 			if (Physics.Raycast (ray, out hit, 100000)) {
-				//float distanceToGround = hit.distance;
-				//Debug.DrawLine(ray.origin, hit.point);
-				//Debug.DrawRay(ray.origin, hit.point, Color.green, 2);
-				//if (hit.transform.tag == "tile") {
-					//Tile tile = hit.transform.gameObject.GetComponent("Tile");
-					//Debug.Log(tile.GetSelector());
-				//} else 
-				if (hit.transform.gameObject.name == "selector" && GameManager.GetGameState() == 0) {
-					selectorHit = true;
-					hitObject = hit.transform.gameObject;
-					hitPos = ConvertObjectToScreenPos(hit.transform.position, hit.transform.localScale);
-					hitSize = ConvertObjectToScreenSize(hit.transform.position, hit.transform.localScale);
-					hitselector = hit.transform.gameObject.GetComponent<Selector>();
-					CreateRadial((int)hit.transform.position.x,(int)hit.transform.position.z, radial);
+				
+				string infoMsg = "";
+				infoMsg += hit.transform.gameObject.name;
+				
+				
+				// Selector Events
+				if (hit.transform.gameObject.tag == "selector") {
+					if (GameManager.GetGameState() == 0){
+						selectorHit = true;
+						hitObject = hit.transform.gameObject;
+						hitPos = ConvertObjectToScreenPos(hit.transform.position, hit.transform.localScale);
+						hitSize = ConvertObjectToScreenSize(hit.transform.position, hit.transform.localScale);
+						hitselector = hit.transform.gameObject.GetComponent<Selector>();
+						CreateRadial((int)hit.transform.position.x,(int)hit.transform.position.z, radial);
+					}
 				}
+				
+				// Enemy Selection
+				if (hit.transform.gameObject.tag == "enemy"){
+					
+				}
+				
+				// Tower Selection
+				if (hit.transform.gameObject.tag == "tower"){
+					Tower towerSelected = (Tower)(gmRef.GetTowerList()["T" + (int)hit.transform.position.x + "," + (int)hit.transform.position.z]);
+					infoMsg += "\n Type: " + towerSelected.GetEffect().GetFormattedEffectType();
+					infoMsg += "\n Damage: " + towerSelected.GetZone().GetEffect().GetDamage();
+				}
+				
+				// Info Window Changes
 				gmRef.GetGuiManager().GetInfoWindow().SetTex(hit.transform.gameObject.renderer.material.mainTexture);
-				gmRef.GetGuiManager().GetInfoWindow().SetDesc(hit.transform.gameObject.name);
+				gmRef.GetGuiManager().GetInfoWindow().SetDesc(infoMsg);
 			}
 		}
 		if (Input.GetMouseButtonUp(0)){

@@ -12,7 +12,7 @@ public class Tower {
 	private Zone zone;
 	private int direct;
 	private bool pastState;
-	private Effect.EffectType effect;
+	private Effect effect;
 	private GameObject towerObj;
 	private bool active;
 	private float animHelper;
@@ -21,7 +21,7 @@ public class Tower {
 	public Tower (int x, int z, Effect.EffectType effect, bool pastState, int direction) {
 		towerXPos = x;
 		towerZPos = z;
-		this.effect = effect;
+		this.effect = new Effect (effect);
 		direct = direction;
 		
 		//direct = dir;
@@ -93,7 +93,7 @@ public class Tower {
 	public void createZone(int newXPos, int newZPos) {
 		int xPos = newXPos;
 		int zPos = newZPos;
-		zone = new Zone (new Effect(Effect.EffectType.Fire), new Vector2(xPos, zPos), 3, 3, pastState);
+		zone = new Zone (effect, new Vector2(xPos, zPos), 3, 3, pastState);
 	}
 	
 	// Physically/visually create a wall
@@ -133,7 +133,7 @@ public class Tower {
 		this.zone = z;
 	}
 	
-	public Effect.EffectType GetEffect(){
+	public Effect GetEffect(){
 		return effect;
 	}
 	
@@ -191,16 +191,16 @@ public class Tower {
 	private Texture GetTowerTexture (){
 		Texture towerTex = TextureFactory.GetFireTowerPast(); // default
 		
-		if (effect == Effect.EffectType.Fire && pastState == true){
+		if (effect.GetEffectType() == Effect.EffectType.Fire && pastState == true){
 			towerTex = TextureFactory.GetFireTowerPast();
 		}
-		else if (effect == Effect.EffectType.Fire && pastState == false){
+		else if (effect.GetEffectType() == Effect.EffectType.Fire && pastState == false){
 			towerTex = TextureFactory.GetFireTowerFuture();
 		}
-		else if (effect == Effect.EffectType.Ice && pastState == true){
+		else if (effect.GetEffectType() == Effect.EffectType.Ice && pastState == true){
 			towerTex = TextureFactory.GetIceTowerPast();
 		}
-		else if (effect == Effect.EffectType.Ice && pastState == false){
+		else if (effect.GetEffectType() == Effect.EffectType.Ice && pastState == false){
 			towerTex = TextureFactory.GetIceTowerFuture();
 		}
 		

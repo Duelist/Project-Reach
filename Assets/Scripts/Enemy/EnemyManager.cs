@@ -186,7 +186,7 @@ public class EnemyManager{
 		foreach (Tower tower in towerList.Values){
 			// Can be used for tower atk speed later
 			bool areaAtk = false;
-			if (tower.GetEffect() == Effect.EffectType.Ice){
+			if (tower.GetEffect().GetEffectType() == Effect.EffectType.Ice){
 				areaAtk = true;
 			}
 			
