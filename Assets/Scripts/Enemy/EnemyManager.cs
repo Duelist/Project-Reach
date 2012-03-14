@@ -87,9 +87,9 @@ public class EnemyManager{
 			// Add if statement when we have more levels
 			//if (GameManager.GetLevel() == 0){
 				if (waveNum == 0){
-					enemy.Add(new EnemyBlueJelly ("Blue Jelly 1", startX, startZ, futureState, "lp", 5));
-					enemy.Add(new EnemyBlueJelly ("Blue Jelly 2", startX+1, startZ, futureState, "cp", 5));
-					enemy.Add(new EnemyBlueJelly ("Blue Jelly 3", startX+2, startZ, futureState, "rp", 5));
+					enemy.Add(new EnemyMagmaSlug ("Magma Slug 1", startX, startZ, futureState, "lp", 5));
+					enemy.Add(new EnemyMagmaSlug ("Magma Slug 2", startX+1, startZ, futureState, "cp", 5));
+					enemy.Add(new EnemyMagmaSlug ("Magma Slug 3", startX+2, startZ, futureState, "rp", 5));
 					waveNum++;
 				}
 				else if (waveNum == 1){
@@ -116,7 +116,7 @@ public class EnemyManager{
 		for (int i = 0; i < enemy.Count; i++){
 			Enemy newEnemy = enemy[i];
 			
-			newEnemy.GetGameObject().renderer.material.mainTexture = newEnemy.GetAnimate(newEnemy.GetCurTex());
+			//newEnemy.GetGameObject().renderer.material.mainTexture = newEnemy.GetAnimate(newEnemy.GetCurTex());
 			if (newEnemy.GetAnimHelper() + checkTime < Time.time){
 				newEnemy.IncCurTex();
 				newEnemy.SetAnimHelper(Time.time);
@@ -128,6 +128,7 @@ public class EnemyManager{
 				if (checkpt != null){
 					float cpX = checkpt.transform.position.x;
 					float cpZ = checkpt.transform.position.z;
+					newEnemy.AutoRotate(checkpt);
 					
 					if (curX > cpX){
 						if (curX - newEnemy.GetMoveSpeed() < cpX){

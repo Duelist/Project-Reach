@@ -49,6 +49,7 @@ public class EnemyBlueJelly : Enemy {
 		cubeObject.transform.localScale = new Vector3(1f,1f,1f);
 		cubeObject.tag = "enemy";
 		
+		
 		animHelper = Time.time;
 	}
 }

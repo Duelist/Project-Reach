@@ -139,6 +139,10 @@ public class Enemy{
 		bonus = bon;
 	}
 	
+	public void AutoRotate (GameObject cp){
+		cubeObject.transform.LookAt(cp.transform);
+	}
+	
 	// ArrayList getters and Modifiers
 	
 	// -- TimeZone -- //

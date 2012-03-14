@@ -112,4 +112,8 @@ public class GameManager : MonoBehaviour{
 			sObj.renderer.enabled = true;
 		}
 	}
+	
+	public static void InstantiateModel(GameObject obj, Vector3 pos){
+		Instantiate(obj, pos, Quaternion.identity);
+	}
 }
