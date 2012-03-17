@@ -21,6 +21,7 @@ public class InfoWindow {
 		windowTex = TextureFactory.GetWindowTexture();
 		desc = "Nothing Selected";
 		textStyle = new GUIStyle ();
+		textStyle.fontSize = 10;
 	}
 	
 	public void DrawGUI () {

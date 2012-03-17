@@ -210,6 +210,7 @@ public class EnemyManager{
 							newEnemy.SetCurHP((int)(newEnemy.GetCurHP() - newEff.GetDamage()));
 							Debug.Log(newEnemy.GetName() + " DAMAGED for " + newEff.GetDamage());
 							if (newEnemy.GetCurHP() <= 0){
+								player.GetPlayerObj().animation.Play ("SmallHop");
 								Debug.Log(newEnemy.GetName() + " has been Destroyed! You absorbed " + newEnemy.GetBonus() + " Mana!");
 								player.IncMana(newEnemy.GetBonus());
 								newEnemy.Clean();
@@ -237,7 +238,7 @@ public class EnemyManager{
 			GameManager.SetLevel(GameManager.GetLevel () + 1);
 			GameManager.ShowSelectors();
 			player.SetFaceTexture(TextureFactory.GetFaceTexture());
-			player.GetPlayerObj().animation.Play ("Jump");
+			player.GetPlayerObj().animation.Play ("FlipJump");
 		}
 	}
 }

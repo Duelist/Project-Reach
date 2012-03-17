@@ -13,6 +13,7 @@ public class Tower {
 	private int direct;
 	private bool pastState;
 	private Effect effect;
+	private string towerName;
 	private GameObject towerObj;
 	private bool active;
 	private float animHelper;
@@ -39,22 +40,26 @@ public class Tower {
 		this.pastState = pastState;
 		
 		if (effect == Effect.EffectType.Fire){
-			towerObj.name = "Single Fire Tower";
+			towerName = "Single Fire Tower";
 			if (pastState == true){
 				SetTextureTower(TextureFactory.GetFireTowerPast());
+				towerObj.name = towerName; //+ " (Past)";
 			}
 			else {
 				SetTextureTower(TextureFactory.GetFireTowerFuture());
+				towerObj.name = towerName; //+ " (Future)";
 			}
 		}
 		
 		if (effect == Effect.EffectType.Ice){
-			towerObj.name = "Area of Effect Tower";
+			towerName = "Area of Effect Tower";
 			if (pastState == true){
 				SetTextureTower(TextureFactory.GetIceTowerPast());
+				towerObj.name = towerName; //+ " (Past)";
 			}
 			else {
 				SetTextureTower(TextureFactory.GetIceTowerFuture());
+				towerObj.name = towerName; //+ " (Future)";
 			}
 		}
 		CreateZone();
@@ -180,9 +185,11 @@ public class Tower {
 	public void FlipTime (){
 		if (pastState == true){
 			pastState = false;
+			towerObj.name = towerName; //+ " (Future)";
 		}
 		else {
 			pastState = true;
+			towerObj.name = towerName; // + " (Past)";
 		}
 		SetTextureTower(GetTowerTexture());
 		this.zone.FlipTime();
@@ -205,6 +212,13 @@ public class Tower {
 		}
 		
 		return towerTex;
+	}
+	
+	public string GetFormattedState(){
+		if (pastState){
+			return "Past";
+		}
+		return "Future";
 	}
 
 	/* public Zone getWall() {

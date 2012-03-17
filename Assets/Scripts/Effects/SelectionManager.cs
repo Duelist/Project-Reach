@@ -6,7 +6,6 @@ public class SelectionManager : MonoBehaviour
 	private RaycastHit hit;
 	bool mouseDown = false;
 	bool selectorHit = false;
-	private RadialMenu radial;
 	private Selector hitselector;
 	Vector3 hitPos;
 	Vector2 hitSize;
@@ -15,7 +14,6 @@ public class SelectionManager : MonoBehaviour
 	//private Ray ray;
 	//ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 	void Awake (){
-		radial = new RadialMenu ();
 		gmRef = ((GameManager)(GameObject.Find("GameManager").GetComponent("GameManager")));
 		hitPos =  new Vector3 (-1, 0, -1);
 	}
@@ -41,7 +39,6 @@ public class SelectionManager : MonoBehaviour
 						hitPos = ConvertObjectToScreenPos(hit.transform.position, hit.transform.localScale);
 						hitSize = ConvertObjectToScreenSize(hit.transform.position, hit.transform.localScale);
 						hitselector = hit.transform.gameObject.GetComponent<Selector>();
-						CreateRadial((int)hit.transform.position.x,(int)hit.transform.position.z, radial);
 					}
 				}
 				
@@ -53,8 +50,7 @@ public class SelectionManager : MonoBehaviour
 				// Tower Selection
 				if (hit.transform.gameObject.tag == "tower"){
 					Tower towerSelected = (Tower)(gmRef.GetTowerList()["T" + (int)hit.transform.position.x + "," + (int)hit.transform.position.z]);
-					infoMsg += "\n Type: " + towerSelected.GetEffect().GetFormattedEffectType();
-					infoMsg += "\n Damage: " + towerSelected.GetZone().GetEffect().GetDamage();
+					infoMsg += UpdateTowerInfo(towerSelected);
 				}
 				
 				// Info Window Changes
@@ -62,52 +58,68 @@ public class SelectionManager : MonoBehaviour
 				gmRef.GetGuiManager().GetInfoWindow().SetDesc(infoMsg);
 			}
 		}
+		// on mouse up for game objects
 		if (Input.GetMouseButtonUp(0)){
 			RaycastHit hit;
+			
 			if (Physics.Raycast (ray, out hit, 100000)) {
-				if (hit.transform.gameObject.tag == "tower") {
+				string infoMsg = "";
+				infoMsg += hit.transform.gameObject.name;
+				// Tower Selection
+				if (hit.transform.gameObject.tag == "tower"){
 					Tower towerSelected = (Tower)(gmRef.GetTowerList()["T" + (int)hit.transform.position.x + "," + (int)hit.transform.position.z]);
 					towerSelected.FlipTime();
+					infoMsg += UpdateTowerInfo(towerSelected);
 				}
-				if (selectorHit){
-					if (hit.transform.gameObject.name == "createSingle") {
-						if (manaCheck(10)){
-							CreateTower(radial.selectorX,radial.selectorY, Effect.EffectType.Fire, hitselector.direction);
-							gmRef.GetCurrentPlayer().GetPlayerObj().animation.Play("Spin");
-						}	
-					}
-					else if (hit.transform.gameObject.name == "createMulti"){
-						if (manaCheck(20)){
-							CreateTower(radial.selectorX,radial.selectorY, Effect.EffectType.Ice, hitselector.direction);
-							gmRef.GetCurrentPlayer().GetPlayerObj().animation.Play("Jump");
-						}
-					}
-					else {
-						Debug.Log ("No Tower Type Selected");
-					}
-				}
+				// Info Window Changes
+				gmRef.GetGuiManager().GetInfoWindow().SetTex(hit.transform.gameObject.renderer.material.mainTexture);
+				gmRef.GetGuiManager().GetInfoWindow().SetDesc(infoMsg);
 			}
-			selectorHit = false;
-			mouseDown = false;
-			radial.HideRadial();
 		}
 	}
 	
 	void OnGUI (){
 		if (selectorHit){
-			radial.ShowRadialMenu(hitPos, hitSize);
+			RadialMenu.ShowRadialMenu(hitPos, hitSize);
+			if (Input.GetMouseButtonUp(0)){
+				Vector3 fireButtonPos = new Vector3 (hitPos.x, hitPos.y - hitSize.y, hitPos.z);
+				Vector3 iceButtonPos = new Vector3 (hitPos.x, hitPos.y + hitSize.y, hitPos.z);
+				Debug.Log(fireButtonPos.x + ":" + fireButtonPos.y + " | " + Input.mousePosition.x + ":" + Input.mousePosition.y + " | " + hitSize.x + ":" + hitSize.y);
+				if (MouseUpAt (fireButtonPos,hitSize)){
+					if (manaCheck(10)){
+						CreateTower((int)hitObject.transform.position.x,(int)hitObject.transform.position.z, Effect.EffectType.Fire, hitselector.direction);
+						gmRef.GetCurrentPlayer().GetPlayerObj().animation.Play("Spin");
+					}
+				}
+				else if (MouseUpAt (iceButtonPos,hitSize)){
+					if (manaCheck(20)){
+						CreateTower((int)hitObject.transform.position.x,(int)hitObject.transform.position.z, Effect.EffectType.Ice, hitselector.direction);
+						gmRef.GetCurrentPlayer().GetPlayerObj().animation.Play("Jump");
+					}
+				}
+				else {
+					Debug.Log ("No Tower Type Selected");
+				}
+				selectorHit = false;
+				mouseDown = false;
+			}
 		}
+	}
+					
+	private bool MouseUpAt (Vector3 objPos, Vector2 objSize){
+		if (Input.mousePosition.x > objPos.x 
+			&& Input.mousePosition.x < objPos.x + objSize.x
+			&& Screen.height - Input.mousePosition.y > objPos.y
+			&& Screen.height - Input.mousePosition.y < objPos.y + objSize.y){
+			return true;
+		}
+		return false;
 	}
 	
 	private void CreateTower(int tilex, int tiley, Effect.EffectType effect, int dir){
 		Tower tower = new Tower (tilex, tiley, effect, false, dir);
 		gmRef.AddTowerToList(tower);
 		Debug.Log ("Tower Created");
-	}
-	
-	private void CreateRadial(int tilex, int tiley, RadialMenu rad){
-		rad.SetPosition(tilex, tiley);
-		rad.ShowRadial();
 	}
 	
 	private bool manaCheck(int manaCost) {
@@ -135,5 +147,13 @@ public class SelectionManager : MonoBehaviour
 		Vector3 conV2 = camera.WorldToScreenPoint(new Vector3 (v3.x + sv3.x, v3.y, v3.z + sv3.z));
 		Vector2 conSize = new Vector2 (Mathf.Abs(conV1.x - conV2.x), Mathf.Abs(conV1.y - conV2.y));
 		return conSize;
+	}
+	
+	private string UpdateTowerInfo (Tower towerSelected){
+		string infoMsg = "";
+		infoMsg += "\n State: " + towerSelected.GetFormattedState();
+		infoMsg += "\n Type: " + towerSelected.GetEffect().GetFormattedEffectType();
+		infoMsg += "\n Damage: " + towerSelected.GetZone().GetEffect().GetDamage();
+		return infoMsg;
 	}
 }
