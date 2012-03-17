@@ -73,11 +73,13 @@ public class SelectionManager : MonoBehaviour
 					if (hit.transform.gameObject.name == "createSingle") {
 						if (manaCheck(10)){
 							CreateTower(radial.selectorX,radial.selectorY, Effect.EffectType.Fire, hitselector.direction);
+							gmRef.GetCurrentPlayer().GetPlayerObj().animation.Play("Spin");
 						}	
 					}
 					else if (hit.transform.gameObject.name == "createMulti"){
 						if (manaCheck(20)){
 							CreateTower(radial.selectorX,radial.selectorY, Effect.EffectType.Ice, hitselector.direction);
+							gmRef.GetCurrentPlayer().GetPlayerObj().animation.Play("Jump");
 						}
 					}
 					else {

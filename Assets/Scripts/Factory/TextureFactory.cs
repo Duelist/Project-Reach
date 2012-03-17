@@ -27,6 +27,9 @@ public class TextureFactory{
 	private static Texture gearTexture;
 	private static Texture windowTexture;
 	
+	private static Texture faceTexture;
+	private static Texture face2Texture;
+	
 	public TextureFactory(){
 	}
 	
@@ -169,5 +172,20 @@ public class TextureFactory{
 			windowTexture = Resources.Load("GUI/Rolling Menu Textures/InfoWindow") as Texture;
 		}
 		return windowTexture;
+	}
+	
+	// Player Unit Textures
+	public static Texture GetFaceTexture(){
+		if (faceTexture == null){
+			faceTexture = Resources.Load("Player/FaceTexture") as Texture;
+		}
+		return faceTexture;
+	}
+	
+	public static Texture GetFace2Texture(){
+		if (face2Texture == null){
+			face2Texture = Resources.Load("Player/Face2Texture") as Texture;
+		}
+		return face2Texture;
 	}
 }

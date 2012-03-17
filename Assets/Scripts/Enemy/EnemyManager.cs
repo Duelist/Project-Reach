@@ -68,7 +68,7 @@ public class EnemyManager{
 		Spawn ();
 		MobMovement(towerList, player);
 		MobDamage(towerList, player);
-		LevelEndCheck ();
+		LevelEndCheck (player);
 	}
 	
 	public void Spawn (){
@@ -230,12 +230,14 @@ public class EnemyManager{
 		Debug.Log(player.GetName() + " has been hit for " + newEnemy.GetDamage() + " damage");
 	}
 	
-	private void LevelEndCheck (){
+	private void LevelEndCheck (Player player){
 		if (waveNum == numWaves && enemy.Count == 0){
 			GameManager.SetGameState(0);
 			waveNum = 0;
 			GameManager.SetLevel(GameManager.GetLevel () + 1);
 			GameManager.ShowSelectors();
+			player.SetFaceTexture(TextureFactory.GetFaceTexture());
+			player.GetPlayerObj().animation.Play ("Jump");
 		}
 	}
 }

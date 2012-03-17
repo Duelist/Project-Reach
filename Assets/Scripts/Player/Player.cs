@@ -6,12 +6,18 @@ public class Player{
 	private int health;
 	private int mana;
 	private int maxMana;
+	private GameObject player;
 	
-	public Player (string n){
+	public Player (string n, int x, int z){
 		name = n;
 		health = 100;
 		mana = 100;
 		maxMana = 100;
+		GameObject playerPrefab = (GameObject)Resources.Load("Player/SusePrefab",typeof(GameObject));
+		GameManager.InstantiateModel(playerPrefab, new Vector3(x,0,z));
+		player = GameObject.Find("SusePrefab(Clone)");
+		player.name = name;
+		player.transform.Rotate(0,180,0);
 	}
 	
 	public string GetName (){
@@ -44,6 +50,8 @@ public class Player{
 	
 	public void DecHealth (int damage){
 		health = health - damage;
+		SetFaceTexture(TextureFactory.GetFace2Texture());
+		player.animation.Play ("FallOver");
 	}
 	
 	public void DecMana (int cost){
@@ -57,5 +65,14 @@ public class Player{
 		else {
 			mana = maxMana;
 		}
+	}
+	
+	public void SetFaceTexture (Texture ft){
+		GameObject pface = player.transform.Find("Face").gameObject;
+		pface.renderer.material.mainTexture = ft;
+	}
+	
+	public GameObject GetPlayerObj (){
+		return player;
 	}
 }

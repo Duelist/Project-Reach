@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour{
 	private Hashtable towerList;
 	
 	void Start (){
-		player1 = new Player ("Player 1");
+		player1 = new Player ("Player 1", 14, 14);
 		//map = new Map();
 		//map.GenerateLevel1();
 		guiManager = new GUIManager (map, player1);
