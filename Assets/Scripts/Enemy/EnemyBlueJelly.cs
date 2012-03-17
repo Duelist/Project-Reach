@@ -18,37 +18,12 @@ public class EnemyBlueJelly : Enemy {
 		pastState = state;
 		debuffList = new ArrayList ();
 		
-		// Enemy 1: Blue Jelly Initialization
-		maxTex = 5;
-		pBlueJellyTex = new Texture [maxTex];
-		for (int i = 0; i < maxTex; i++){
-			pBlueJellyTex[i] = Resources.Load ("Enemy/Blue Jelly/Past Blue Jelly "+i) as Texture;
-		}
-		
-		fBlueJellyTex = new Texture [maxTex];
-		for (int i = 0; i < maxTex; i++){
-			fBlueJellyTex[i] = Resources.Load ("Enemy/Blue Jelly/Future Blue Jelly "+i) as Texture;
-		}
-		
-		if (pastState){
-			animate = pBlueJellyTex;
-		} else {
-			animate = fBlueJellyTex;
-		}
-		
-		eSize = 50;
-		curTex = 0;
-		
-		//path = new ArrayList(pa);
+		// Enemy 2: Blue Jelly Initialization
 		clist = new CheckpointList (cpTag, cpPoints);
-		
-		cubeObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		GameObject bluePrefab = (GameObject)Resources.Load("Enemy/Blue Jelly/BlueJellyPrefab",typeof(GameObject));
+		GameManager.InstantiateModel(bluePrefab, new Vector3(x,0,z));
+		cubeObject = GameObject.Find("BlueJellyPrefab(Clone)");
 		cubeObject.name = ename;
-		cubeObject.transform.Rotate(0,0,180);
-		cubeObject.transform.position = new Vector3(x, 0, z);
-		cubeObject.transform.localScale = new Vector3(1f,1f,1f);
-		cubeObject.tag = "enemy";
-		
 		
 		animHelper = Time.time;
 	}
