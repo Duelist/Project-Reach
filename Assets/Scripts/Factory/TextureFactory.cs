@@ -30,6 +30,9 @@ public class TextureFactory{
 	private static Texture faceTexture;
 	private static Texture face2Texture;
 	
+	private static Texture jellyFutureTexture;
+	private static Texture magmaFutureTexture;
+	
 	public TextureFactory(){
 	}
 	
@@ -187,5 +190,20 @@ public class TextureFactory{
 			face2Texture = Resources.Load("Player/Face2Texture") as Texture;
 		}
 		return face2Texture;
+	}
+	
+	// Enemy Unit Textures
+	public static Texture GetJellyFutureTexture(){
+		if (jellyFutureTexture == null){
+			jellyFutureTexture = Resources.Load("Enemy/Blue Jelly/BlueJellyTexFuture") as Texture;
+		}
+		return jellyFutureTexture;
+	}
+	
+	public static Texture GetMagmaFutureTexture(){
+		if (magmaFutureTexture == null){
+			magmaFutureTexture = Resources.Load("Enemy/Magma Slug/MagmaSlugFuture") as Texture;
+		}
+		return magmaFutureTexture;
 	}
 }

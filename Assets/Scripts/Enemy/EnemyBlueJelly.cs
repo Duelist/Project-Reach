@@ -2,9 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class EnemyBlueJelly : Enemy {
-	// Enemy 1: Blue Jelly
-	private Texture [] pBlueJellyTex;
-	private Texture [] fBlueJellyTex;
+	// Enemy 2: Blue Jelly
 	
 	public EnemyBlueJelly (string n, int x, int z, bool state, string cpTag, int cpPoints){
 		ename = n;
@@ -24,6 +22,12 @@ public class EnemyBlueJelly : Enemy {
 		GameManager.InstantiateModel(bluePrefab, new Vector3(x,0,z));
 		cubeObject = GameObject.Find("BlueJellyPrefab(Clone)");
 		cubeObject.name = ename;
+		
+		if (!pastState){
+			GameObject cubeBody = cubeObject.transform.Find("Body").gameObject;
+			cubeBody.renderer.material.color = Color.white;
+			cubeBody.renderer.material.mainTexture = TextureFactory.GetJellyFutureTexture();
+		}
 		
 		animHelper = Time.time;
 	}

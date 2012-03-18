@@ -88,13 +88,13 @@ public class EnemyManager{
 			//if (GameManager.GetLevel() == 0){
 				if (waveNum == 0){
 					enemy.Add(new EnemyMagmaSlug ("Magma Slug 1", startX, startZ, futureState, "lp", 5));
-					enemy.Add(new EnemyMagmaSlug ("Magma Slug 2", startX+1, startZ, futureState, "cp", 5));
+					enemy.Add(new EnemyMagmaSlug ("Magma Slug 2", startX+1, startZ, pastState, "cp", 5));
 					enemy.Add(new EnemyMagmaSlug ("Magma Slug 3", startX+2, startZ, futureState, "rp", 5));
 					waveNum++;
 				}
 				else if (waveNum == 1){
 					enemy.Add(new EnemyBlueJelly ("Blue Jelly 4", startX, startZ, pastState, "lp", 5));
-					enemy.Add(new EnemyBlueJelly ("Blue Jelly 5", startX+1, startZ, pastState, "cp", 5));
+					enemy.Add(new EnemyBlueJelly ("Blue Jelly 5", startX+1, startZ, futureState, "cp", 5));
 					enemy.Add(new EnemyBlueJelly ("Blue Jelly 6", startX+2, startZ, pastState, "rp", 5));
 					waveNum++;
 				}

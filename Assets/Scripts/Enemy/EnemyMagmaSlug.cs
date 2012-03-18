@@ -2,9 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class EnemyMagmaSlug : Enemy {
-	// Enemy 2: MagmaSlug
-	private Texture [] pBlueJellyTex;
-	private Texture [] fBlueJellyTex;
+	// Enemy 3: MagmaSlug
 	
 	public EnemyMagmaSlug (string n, int x, int z, bool state, string cpTag, int cpPoints){
 		ename = n;
@@ -24,6 +22,12 @@ public class EnemyMagmaSlug : Enemy {
 		GameManager.InstantiateModel(magmaPrefab, new Vector3(x,0,z));
 		cubeObject = GameObject.Find("Slug(Clone)");
 		cubeObject.name = ename;
+		
+		if (!pastState){
+			GameObject cubeBody = cubeObject.transform.Find("Body").gameObject;
+			cubeBody.renderer.material.color = Color.white;
+			cubeBody.renderer.material.mainTexture = TextureFactory.GetMagmaFutureTexture();
+		}
 		
 		animHelper = Time.time;
 	}
