@@ -100,7 +100,7 @@ public class EnemyManager{
 				}
 				else if (waveNum == 2){
 					enemy.Add(new EnemyBlueJelly ("Blue Jelly 7", startX, startZ, pastState, "lp", 5));
-					enemy.Add(new Enemy ("Merupi", startX+1, startZ, 50, 0.5f, 0, 5, 50, futureState, merupiTex, 50, maxTex2, "cp", 5));
+					enemy.Add(new EnemyMerupi ("Merupi", startX+1, startZ, futureState, "cp", 5));
 					enemy.Add(new EnemyBlueJelly ("Blue Jelly 9", startX+2, startZ, pastState, "rp", 5));
 					waveNum++;
 				}
