@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour{
 		// gameState = GameState.Paused;
 		// gameState = GameState.Stopped;
 		level = 0;
+		
+		//new LightBall ("LightTest", new Vector3 (0,0,0), player1.GetPlayerPos(), 5f);
 	}
 	
 	public void HandleGameLogic (){

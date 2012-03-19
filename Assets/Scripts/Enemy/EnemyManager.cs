@@ -210,6 +210,7 @@ public class EnemyManager{
 							newEnemy.SetCurHP((int)(newEnemy.GetCurHP() - newEff.GetDamage()));
 							Debug.Log(newEnemy.GetName() + " DAMAGED for " + newEff.GetDamage());
 							if (newEnemy.GetCurHP() <= 0){
+								new LightBall ("EnemyManaBall", newEnemy.GetGameObject().transform.position, player.GetPlayerPos(), 2);
 								player.GetPlayerObj().animation.Play ("SmallHop");
 								Debug.Log(newEnemy.GetName() + " has been Destroyed! You absorbed " + newEnemy.GetBonus() + " Mana!");
 								player.IncMana(newEnemy.GetBonus());

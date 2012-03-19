@@ -75,4 +75,8 @@ public class Player{
 	public GameObject GetPlayerObj (){
 		return player;
 	}
+	
+	public Vector3 GetPlayerPos (){
+		return player.transform.position;
+	}
 }

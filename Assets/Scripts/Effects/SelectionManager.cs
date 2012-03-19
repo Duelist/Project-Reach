@@ -87,12 +87,14 @@ public class SelectionManager : MonoBehaviour
 				Debug.Log(fireButtonPos.x + ":" + fireButtonPos.y + " | " + Input.mousePosition.x + ":" + Input.mousePosition.y + " | " + hitSize.x + ":" + hitSize.y);
 				if (MouseUpAt (fireButtonPos,hitSize)){
 					if (manaCheck(10)){
+						new LightBall ("PlayerManaBall", gmRef.GetCurrentPlayer().GetPlayerPos(), hitObject.transform.position, 2);
 						CreateTower((int)hitObject.transform.position.x,(int)hitObject.transform.position.z, Effect.EffectType.Fire, hitselector.direction);
 						gmRef.GetCurrentPlayer().GetPlayerObj().animation.Play("Spin");
 					}
 				}
 				else if (MouseUpAt (iceButtonPos,hitSize)){
 					if (manaCheck(20)){
+						new LightBall ("PlayerManaBall", gmRef.GetCurrentPlayer().GetPlayerPos(), hitObject.transform.position, 2);
 						CreateTower((int)hitObject.transform.position.x,(int)hitObject.transform.position.z, Effect.EffectType.Ice, hitselector.direction);
 						gmRef.GetCurrentPlayer().GetPlayerObj().animation.Play("Jump");
 					}
