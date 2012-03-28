@@ -75,30 +75,30 @@ public class Tower {
 	
 	private void CreateZone() {
 		if (this.direct == 1) {
-			this.createZone(this.towerXPos - 2, this.towerZPos - 2);
+			this.createZone(this.towerXPos - 2, this.towerZPos - 2, false);
 		} else if (this.direct == 2) {
-			this.createZone(this.towerXPos, this.towerZPos - 2);
+			this.createZone(this.towerXPos, this.towerZPos - 2, false);
 		} else if (this.direct == 3) {
-			this.createZone(this.towerXPos + 2, this.towerZPos - 2);
+			this.createZone(this.towerXPos + 2, this.towerZPos - 2, false);
 		} else if (this.direct == 4) {
-			this.createZone(this.towerXPos - 2, this.towerZPos);
+			this.createZone(this.towerXPos - 2, this.towerZPos, false);
 		} else if (this.direct == 5) {
-			this.createZone(this.towerXPos, this.towerZPos);
+			this.createZone(this.towerXPos, this.towerZPos, false);
 		} else if (this.direct == 6) {
-			this.createZone(this.towerXPos + 2, this.towerZPos);
+			this.createZone(this.towerXPos + 2, this.towerZPos, true);
 		} else if (this.direct == 7) {
-			this.createZone(this.towerXPos - 2, this.towerZPos + 2);
+			this.createZone(this.towerXPos - 2, this.towerZPos + 2, true);
 		} else if (this.direct == 8) {
-			this.createZone(this.towerXPos, this.towerZPos + 2);
-		}else if (this.direct == 9) {
-			this.createZone(this.towerXPos + 2, this.towerZPos + 2);
+			this.createZone(this.towerXPos, this.towerZPos + 2, true);
+		} else if (this.direct == 9) {
+			this.createZone(this.towerXPos + 2, this.towerZPos + 2, true);
 		}
 	}
 	
-	public void createZone(int newXPos, int newZPos) {
+	public void createZone(int newXPos, int newZPos, bool reverse) {
 		int xPos = newXPos;
 		int zPos = newZPos;
-		zone = new Zone (effect, new Vector2(xPos, zPos), 3, 3, pastState);
+		zone = new Zone (effect, new Vector2(xPos, zPos), 3, 3, pastState, reverse);
 	}
 	
 	// Physically/visually create a wall

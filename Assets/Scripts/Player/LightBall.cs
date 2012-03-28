@@ -10,7 +10,7 @@ public class LightBall{
 		endPos = ePos;
 		lifeTime = lTime;
 		
-		GameObject lightPrefab = (GameObject)Resources.Load("Player/LightBall",typeof(GameObject));
+		GameObject lightPrefab = PrefabFactory.GetLightBallPrefab();
 		GameManager.InstantiateModel(lightPrefab, sPos);
 		lightBall = GameObject.Find("LightBall(Clone)");
 		lightBall.name = name;

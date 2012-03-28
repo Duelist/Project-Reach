@@ -18,7 +18,7 @@ public class EnemyMagmaSlug : Enemy {
 		
 		// Enemy 3: Magma Slug Initialization
 		clist = new CheckpointList (cpTag, cpPoints);
-		GameObject magmaPrefab = (GameObject)Resources.Load("Enemy/Magma Slug/Slug",typeof(GameObject));
+		GameObject magmaPrefab = PrefabFactory.GetMagmaSlugPrefab();
 		GameManager.InstantiateModel(magmaPrefab, new Vector3(x,0,z));
 		cubeObject = GameObject.Find("Slug(Clone)");
 		cubeObject.name = ename;

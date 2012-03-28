@@ -18,7 +18,7 @@ public class EnemyBlueJelly : Enemy {
 		
 		// Enemy 2: Blue Jelly Initialization
 		clist = new CheckpointList (cpTag, cpPoints);
-		GameObject bluePrefab = (GameObject)Resources.Load("Enemy/Blue Jelly/BlueJellyPrefab",typeof(GameObject));
+		GameObject bluePrefab = PrefabFactory.GetBlueJellyPrefab();
 		GameManager.InstantiateModel(bluePrefab, new Vector3(x,0,z));
 		cubeObject = GameObject.Find("BlueJellyPrefab(Clone)");
 		cubeObject.name = ename;

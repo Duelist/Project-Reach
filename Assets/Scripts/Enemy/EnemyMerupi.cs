@@ -19,7 +19,7 @@ public class EnemyMerupi : Enemy {
 		// Original: enemy.Add(new EnemyMerupi ("Merupi", startX+1, startZ, 50, 0.5f, 0, 5, 50, futureState, merupiTex, 50, maxTex2, "cp", 5));
 		// Enemy 1: Merupi Initialization
 		clist = new CheckpointList (cpTag, cpPoints);
-		GameObject merupiPrefab = (GameObject)Resources.Load("Mascot/MerupiPrefab",typeof(GameObject));
+		GameObject merupiPrefab = PrefabFactory.GetMerupiPrefab();
 		GameManager.InstantiateModel(merupiPrefab, new Vector3(x,0,z));
 		cubeObject = GameObject.Find("MerupiPrefab(Clone)");
 		cubeObject.name = ename;
