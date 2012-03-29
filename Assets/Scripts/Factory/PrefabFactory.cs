@@ -12,8 +12,11 @@ public class PrefabFactory {
 	//Player
 	private static GameObject suzePrefab;
 	
-	//Zone
+	//Selector, Tower, and Zone
+	private static GameObject selectorPrefab;
+	private static GameObject towerPrefab;
 	private static GameObject zonePrefab;
+	
 	
 	public PrefabFactory () {
 	}
@@ -53,10 +56,26 @@ public class PrefabFactory {
 		return suzePrefab;
 	}
 	
+	public static GameObject GetSelectorPrefab(){
+		if (selectorPrefab == null){
+			selectorPrefab = (GameObject)Resources.Load("Tower/SelectorPrefab",typeof(GameObject));
+		}
+		return selectorPrefab;
+	}
+	
+	public static GameObject GetTowerPrefab(){
+		if (towerPrefab == null){
+			towerPrefab = (GameObject)Resources.Load("Tower/TowerPrefab",typeof(GameObject));
+		}
+		return towerPrefab;
+	}
+	
 	public static GameObject GetZonePrefab(){
 		if (zonePrefab == null){
 			zonePrefab = (GameObject)Resources.Load("WallZone/ZonePrefab",typeof(GameObject));
 		}
 		return zonePrefab;
 	}
+	
+	
 }

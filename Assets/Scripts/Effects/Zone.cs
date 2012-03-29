@@ -36,7 +36,7 @@ public class Zone {
 		if (eff.GetEffectType() == Effect.EffectType.Fire){
 			// Change lighting to Red
 			GameObject effectLight = zoneObj.transform.Find("EffectLight").gameObject;
-			effectLight.light.color = Color.red;
+			effectLight.light.color = ColorFactory.GetLightRed();
 			
 			// Remove Snow Particle Effect
 			GameObject snowEffect = zoneObj.transform.Find("SnowEffect").gameObject;
@@ -112,7 +112,7 @@ public class Zone {
 		}
 		else {
 			pastState = true;
-			SetZoneObjColor(Color.gray);
+			SetZoneObjColor(ColorFactory.GetDarkGray());
 		}
 	}
 	

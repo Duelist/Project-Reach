@@ -14,9 +14,13 @@ public class Tower {
 	private bool pastState;
 	private Effect effect;
 	private string towerName;
-	private GameObject towerObj;
 	private bool active;
 	private float animHelper;
+	
+	private GameObject towerObj;
+	private GameObject crystal;
+	private GameObject upperRing;
+	private GameObject lowerRing;
 	
 	//Constructor
 	public Tower (int x, int z, Effect.EffectType effect, bool pastState, int direction) {
@@ -29,37 +33,50 @@ public class Tower {
 		active = true;
 		
 		animHelper = 0;
-	
-		towerObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+				
+		/*towerObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		towerObj.renderer.enabled = true;
 		towerObj.transform.position = new Vector3(towerXPos, 0, towerZPos);
 		towerObj.transform.localScale = new Vector3(1f,0.5f,1f);
 		towerObj.transform.Rotate(0,0,180);
+		towerObj.transform.tag = "tower";*/
+		
+		// New Model Initialization
+		GameObject towerPrefab = PrefabFactory.GetTowerPrefab();
+		GameManager.InstantiateModel(towerPrefab, new Vector3(x,0,z));
+		towerObj = GameObject.Find("TowerPrefab(Clone)");
 		towerObj.transform.tag = "tower";
+		
+		crystal = towerObj.transform.Find("Sphere").gameObject;
+		upperRing = towerObj.transform.Find("UpperRing").gameObject;
+		lowerRing = towerObj.transform.Find("LowerRing").gameObject;
+
 		
 		this.pastState = pastState;
 		
 		if (effect == Effect.EffectType.Fire){
-			towerName = "Single Fire Tower";
+			towerName = "Single Fire Tower ["+x+","+z+"]";
 			if (pastState == true){
-				SetTextureTower(TextureFactory.GetFireTowerPast());
+				//SetTextureTower(TextureFactory.GetFireTowerPast());
 				towerObj.name = towerName; //+ " (Past)";
 			}
 			else {
-				SetTextureTower(TextureFactory.GetFireTowerFuture());
+				//SetTextureTower(TextureFactory.GetFireTowerFuture());
 				towerObj.name = towerName; //+ " (Future)";
+				SetTowerObjColor(ColorFactory.GetLightRed());
 			}
 		}
 		
 		if (effect == Effect.EffectType.Ice){
-			towerName = "Area of Effect Tower";
+			towerName = "Area of Effect Tower ["+x+","+z+"]";
 			if (pastState == true){
-				SetTextureTower(TextureFactory.GetIceTowerPast());
+				//SetTextureTower(TextureFactory.GetIceTowerPast());
 				towerObj.name = towerName; //+ " (Past)";
 			}
 			else {
-				SetTextureTower(TextureFactory.GetIceTowerFuture());
+				//SetTextureTower(TextureFactory.GetIceTowerFuture());
 				towerObj.name = towerName; //+ " (Future)";
+				SetTowerObjColor(ColorFactory.GetLightBlue());
 			}
 		}
 		CreateZone();
@@ -186,12 +203,26 @@ public class Tower {
 		if (pastState == true){
 			pastState = false;
 			towerObj.name = towerName; //+ " (Future)";
+			
+			if (effect.GetEffectType() == Effect.EffectType.Fire){
+				SetTowerObjColor(ColorFactory.GetLightRed());
+			}
+			else if (effect.GetEffectType() == Effect.EffectType.Ice){
+				SetTowerObjColor(ColorFactory.GetLightBlue());
+			}
 		}
 		else {
 			pastState = true;
 			towerObj.name = towerName; // + " (Past)";
+			
+			if (effect.GetEffectType() == Effect.EffectType.Fire){
+				SetTowerObjColor(Color.red);
+			}
+			else if (effect.GetEffectType() == Effect.EffectType.Ice){
+				SetTowerObjColor(Color.blue);
+			}
 		}
-		SetTextureTower(GetTowerTexture());
+		//SetTextureTower(GetTowerTexture());
 		this.zone.FlipTime();
 	}
 	
@@ -219,6 +250,12 @@ public class Tower {
 			return "Past";
 		}
 		return "Future";
+	}
+	
+	public void SetTowerObjColor (Color c){
+		crystal.renderer.material.color = c;
+		upperRing.renderer.material.color = c;
+		lowerRing.renderer.material.color = c;
 	}
 
 	/* public Zone getWall() {

@@ -102,16 +102,26 @@ public class GameManager : MonoBehaviour{
 	}
 	
 	public static void HideSelectors (){
+		selectors = GameObject.FindGameObjectsWithTag ("selector");
 		foreach (GameObject sObj in selectors){
 			Debug.Log ("Hiding Selector");
-			sObj.renderer.enabled = false;
+			foreach (Transform child in sObj.transform){
+				if (child.gameObject.renderer != null){
+					child.gameObject.renderer.enabled = false;
+				}
+			}
 		}
 	}
 	
 	public static void ShowSelectors(){
+		selectors = GameObject.FindGameObjectsWithTag ("selector");
 		foreach (GameObject sObj in selectors){
 			Debug.Log ("Showing Selector");
-			sObj.renderer.enabled = true;
+			foreach (Transform child in sObj.transform){
+				if (child.gameObject.renderer != null){
+					child.gameObject.renderer.enabled = true;
+				}
+			}
 		}
 	}
 	

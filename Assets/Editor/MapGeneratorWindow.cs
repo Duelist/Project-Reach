@@ -99,7 +99,7 @@ public class MapGeneratorWindow : EditorWindow
                 foreach (string token in data)
                 {
                     if (token.Trim() != "0") {
-						GameObject selector = GameObject.CreatePrimitive(PrimitiveType.Cube);
+						/*GameObject selector = GameObject.CreatePrimitive(PrimitiveType.Cube);
 						Selector selectorComponent = selector.AddComponent<Selector>(); 
 						selectorComponent.direction = System.Convert.ToInt32(token.Trim());
 						selectorComponent.name = "selector";
@@ -108,7 +108,18 @@ public class MapGeneratorWindow : EditorWindow
 						selector.transform.parent = tiles[id].transform;
 						selector.transform.position = new Vector3((float)x,0,(float)y);
 						selector.transform.localScale = new Vector3(1.0f,1.1f,1.0f);
-						selector.renderer.material.mainTexture = TextureFactory.GetGearTexture();
+						selector.renderer.material.mainTexture = TextureFactory.GetGearTexture();*/
+						
+						// The Model Initialization
+						GameObject selectorPrefab = PrefabFactory.GetSelectorPrefab();
+						GameManager.InstantiateModel(selectorPrefab, new Vector3(x,0,y));
+						GameObject selector = GameObject.Find("SelectorPrefab(Clone)");
+						Selector selectorComponent = selector.AddComponent<Selector>(); 
+						selectorComponent.direction = System.Convert.ToInt32(token.Trim());
+						selectorComponent.name = "selector [" + x + "," + y + "]";
+						selector.name = selectorComponent.name;
+						selector.tag = "selector";
+						selector.transform.parent = tiles[id].transform;
 					}
 					//tile.renderer.material.mainTexture = (Texture2D) tile_tex_table[tileComponent.id];
                     //tile.renderer.material.mainTextureScale = new Vector2(-1.0f,-1.0f);
