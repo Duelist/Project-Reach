@@ -7,7 +7,7 @@ public class Player{
 	private int mana;
 	private int maxMana;
 	private GameObject player;
-	private GameObject aura;
+	private ParticleSystem aura;
 	
 	public Player (string n, int x, int z){
 		name = n;
@@ -19,8 +19,9 @@ public class Player{
 		player = GameObject.Find("SusePrefab(Clone)");
 		player.name = name;
 		player.transform.Rotate(0,180,0);
-		aura = player.transform.Find("Aura").gameObject;
-		aura.renderer.enabled = false;
+		GameObject auraObj = player.transform.Find("Aura").gameObject;
+		aura = auraObj.GetComponent<ParticleSystem>();
+		aura.Play();
 	}
 	
 	public string GetName (){
@@ -81,6 +82,10 @@ public class Player{
 	
 	public Vector3 GetPlayerPos (){
 		return player.transform.position;
+	}
+	
+	public ParticleSystem GetAuraObj (){
+		return aura;
 	}
 	
 	public bool IsDead() {

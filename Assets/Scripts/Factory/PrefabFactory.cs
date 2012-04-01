@@ -3,6 +3,9 @@ using System.Collections;
 
 public class PrefabFactory {
 	private static GameObject lightBallPrefab;
+	private static GameObject lightBallBluePrefab;
+	private static GameObject lightBallRedPrefab;
+	private static GameObject lightBallDarkPrefab;
 	
 	//Enemies
 	private static GameObject magmaSlugPrefab;
@@ -23,9 +26,30 @@ public class PrefabFactory {
 	
 	public static GameObject GetLightBallPrefab (){
 		if (lightBallPrefab == null){
-			lightBallPrefab = (GameObject)Resources.Load("Player/LightBall",typeof(GameObject));
+			lightBallPrefab = (GameObject)Resources.Load("LightBall/LightBall",typeof(GameObject));
 		}
 		return lightBallPrefab;
+	}
+	
+	public static GameObject GetLightBallBluePrefab (){
+		if (lightBallBluePrefab == null){
+			lightBallBluePrefab = (GameObject)Resources.Load("LightBall/LightBallBlue",typeof(GameObject));
+		}
+		return lightBallBluePrefab;
+	}
+	
+	public static GameObject GetLightBallRedPrefab (){
+		if (lightBallRedPrefab == null){
+			lightBallRedPrefab = (GameObject)Resources.Load("LightBall/LightBallRed",typeof(GameObject));
+		}
+		return lightBallRedPrefab;
+	}
+	
+	public static GameObject GetLightBallDarkPrefab (){
+		if (lightBallDarkPrefab == null){
+			lightBallDarkPrefab = (GameObject)Resources.Load("LightBall/LightBallDark",typeof(GameObject));
+		}
+		return lightBallDarkPrefab;
 	}
 	
 	public static GameObject GetMagmaSlugPrefab (){
