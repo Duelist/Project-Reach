@@ -13,7 +13,8 @@ public class EnemyManager{
 	int numEnemies;
 	int enemiesOnDeck;
 	int numWaves;
-	int waveNum;
+	// Wave num will be pushed out later.
+	public int waveNum;
 	Vector3 offset;
 
 	//float animationSpeed;
@@ -230,6 +231,10 @@ public class EnemyManager{
 	private void PlayerDamage (Player player, Enemy newEnemy){
 		player.DecHealth(newEnemy.GetDamage());
 		Debug.Log(player.GetName() + " has been hit for " + newEnemy.GetDamage() + " damage");
+		if (player.IsDead()){
+			GameManager.SetGameState(3); // Game stopped
+			player.GetPlayerObj().animation.Play ("Dead");
+		}
 	}
 	
 	private void LevelEndCheck (Player player){

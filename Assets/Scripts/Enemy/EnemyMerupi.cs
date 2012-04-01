@@ -11,7 +11,7 @@ public class EnemyMerupi : Enemy {
 		curHP = 50;
 		moveSpeed = 0.5f;
 		armour = 0;
-		damage = 5;
+		damage = 100;
 		bonus = 50;
 		pastState = state;
 		debuffList = new ArrayList ();

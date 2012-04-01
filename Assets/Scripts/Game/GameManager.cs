@@ -63,6 +63,9 @@ public class GameManager : MonoBehaviour{
 			guiManager.DrawPlayGUI(player1);
 			enemyManager.DrawEnemy(towerList, player1, level);
 		}
+		else if (gameState == GameState.Stopped){
+			guiManager.DrawStoppedGUI(player1);
+		}
 	}
 	
 	public GUIManager GetGuiManager() {

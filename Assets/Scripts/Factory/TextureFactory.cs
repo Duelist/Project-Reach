@@ -33,6 +33,8 @@ public class TextureFactory{
 	private static Texture jellyFutureTexture;
 	private static Texture magmaFutureTexture;
 	
+	private static Texture playerLoseTexture;
+	
 	public TextureFactory(){
 	}
 	
@@ -206,4 +208,12 @@ public class TextureFactory{
 		}
 		return magmaFutureTexture;
 	}
+	
+	public static Texture GetPlayerLoseTexture(){
+		if (playerLoseTexture == null){
+			playerLoseTexture = Resources.Load("Player/PlayerLoseMsg") as Texture;
+		}
+		return playerLoseTexture;
+	}
+	
 }
