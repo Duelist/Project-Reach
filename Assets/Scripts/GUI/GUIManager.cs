@@ -47,7 +47,7 @@ public class GUIManager
 	public void DrawPlayGUI () {
 		manaInvasion.DrawGUI(GameStorage.player);
 		castSpell.DrawGUI();
-		player.GetHealth ();
+		GameStorage.player.GetHealth ();
 	}
 	
 	public void DrawBuildGUI (){
@@ -56,9 +56,9 @@ public class GUIManager
 		infoWindow.DrawGUI();
 	}
 	
-	public void DrawStoppedGUI (Player player){
-		if (player.IsDead()){
-			DrawDefeatedMsg(player);
+	public void DrawStoppedGUI (){
+		if (GameStorage.player.IsDead()){
+			DrawDefeatedMsg();
 		}
 	}
 	
@@ -66,12 +66,10 @@ public class GUIManager
 		return infoWindow;
 	}
 	
-	public void DrawDefeatedMsg (Player player){
+	public void DrawDefeatedMsg (){
 		GUI.DrawTexture(new Rect (Screen.width/sizeDivisor*2f,Screen.height/sizeDivisor*2f, Screen.width/sizeDivisor*2f, Screen.height/sizeDivisor*2f), TextureFactory.GetPlayerLoseTexture());
 		if (GUI.Button (new Rect (Screen.width/sizeDivisor*2.5f, Screen.height/sizeDivisor*4.5f, Screen.width/sizeDivisor, Screen.height/sizeDivisor),"Try again")){
-			GameManager.SetGameState(0);
-			player.SetHealth(100);
-			player.GetPlayerObj().animation.Play("WakeUp");
+			GameManager.ResetGame();
 		}
 	}
 }

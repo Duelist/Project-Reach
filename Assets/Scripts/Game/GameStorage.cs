@@ -1,9 +1,12 @@
 using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public static class GameStorage
 {
 	public static Player player;
-	public static Enemy[] enemies;
+	public static List<Enemy> enemies;
 	
 	public enum GameState {Building, Playing, Paused, Stopped};
 	public static GameState gameState;

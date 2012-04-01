@@ -13,21 +13,13 @@ public class EnemyManager{
 	int numEnemies;
 	int enemiesOnDeck;
 	int numWaves;
-	// Wave num will be pushed out later.
-	public int waveNum;
 	Vector3 offset;
 
 	//float animationSpeed;
 	
 	float moveHelper;
 	int move;
-	
-	// Enemy 2: Merupi
-	private Texture [] merupiTex;
-	int maxTex2;
-	
-	// Stores a list of enemy references
-	private List<Enemy> enemy;
+
 	// Store a list of enemy paths
 	ArrayList path;
 	ArrayList path2;
@@ -39,20 +31,6 @@ public class EnemyManager{
 		spawnInterval = 5.0f;
 		numEnemies = 10;
 		enemiesOnDeck = 0;
-		numWaves = 3;
-		waveNum = 0;
-		
-		//animationSpeed = 0.2f; // change texture once per (animationSpeed) second;
-		
-		// Enemy 2: Merupi Initialization
-		maxTex2 = 9;
-		merupiTex = new Texture [maxTex2];
-		for (int i = 0; i < maxTex2; i++){
-			merupiTex[i] = Resources.Load ("Mascot/Merupi "+i) as Texture;
-		}
-		
-		enemy = new List<Enemy> ();
-		
 		spawnTimer = Time.time;
 	}
 	
@@ -61,7 +39,6 @@ public class EnemyManager{
 		Spawn();
 		MobMovement(towerList, GameStorage.player);
 		MobDamage(towerList, GameStorage.player);
-		LevelEndCheck(GameStorage.player);
 	}
 	
 	public void Spawn(){
@@ -79,23 +56,23 @@ public class EnemyManager{
 			// Level 0
 			// Add if statement when we have more levels
 			//if (GameManager.GetLevel() == 0){
-				if (waveNum == 0){
-					enemy.Add(new EnemyMagmaSlug ("Magma Slug 1", startX, startZ, futureState, "lp", 5));
-					enemy.Add(new EnemyMagmaSlug ("Magma Slug 2", startX+1, startZ, pastState, "cp", 5));
-					enemy.Add(new EnemyMagmaSlug ("Magma Slug 3", startX+2, startZ, futureState, "rp", 5));
-					waveNum++;
+				if (GameStorage.currentWave == 0){
+					GameStorage.enemies.Add(new EnemyMagmaSlug ("Magma Slug 1", startX, startZ, futureState, "lp", 5));
+					GameStorage.enemies.Add(new EnemyMagmaSlug ("Magma Slug 2", startX+1, startZ, pastState, "cp", 5));
+					GameStorage.enemies.Add(new EnemyMagmaSlug ("Magma Slug 3", startX+2, startZ, futureState, "rp", 5));
+					GameStorage.currentWave++;
 				}
-				else if (waveNum == 1){
-					enemy.Add(new EnemyBlueJelly ("Blue Jelly 4", startX, startZ, pastState, "lp", 5));
-					enemy.Add(new EnemyBlueJelly ("Blue Jelly 5", startX+1, startZ, futureState, "cp", 5));
-					enemy.Add(new EnemyBlueJelly ("Blue Jelly 6", startX+2, startZ, pastState, "rp", 5));
-					waveNum++;
+				else if (GameStorage.currentWave == 1){
+					GameStorage.enemies.Add(new EnemyBlueJelly ("Blue Jelly 4", startX, startZ, pastState, "lp", 5));
+					GameStorage.enemies.Add(new EnemyBlueJelly ("Blue Jelly 5", startX+1, startZ, futureState, "cp", 5));
+					GameStorage.enemies.Add(new EnemyBlueJelly ("Blue Jelly 6", startX+2, startZ, pastState, "rp", 5));
+					GameStorage.currentWave++;
 				}
-				else if (waveNum == 2){
-					enemy.Add(new EnemyBlueJelly ("Blue Jelly 7", startX, startZ, pastState, "lp", 5));
-					enemy.Add(new EnemyMerupi ("Merupi", startX+1, startZ, futureState, "cp", 5));
-					enemy.Add(new EnemyBlueJelly ("Blue Jelly 9", startX+2, startZ, pastState, "rp", 5));
-					waveNum++;
+				else if (GameStorage.currentWave == 2){
+					GameStorage.enemies.Add(new EnemyBlueJelly ("Blue Jelly 7", startX, startZ, pastState, "lp", 5));
+					GameStorage.enemies.Add(new EnemyMerupi ("Merupi", startX+1, startZ, futureState, "cp", 5));
+					GameStorage.enemies.Add(new EnemyBlueJelly ("Blue Jelly 9", startX+2, startZ, pastState, "rp", 5));
+					GameStorage.currentWave++;
 				}
 			//}
 			
@@ -106,8 +83,8 @@ public class EnemyManager{
 	// Waypoint array is a list of Waypoints that contain the position of waypoints and the direction to move.
 	private void MobMovement (Hashtable towerList, Player player){
 		float checkTime = 0.2f; // This is now the animation speed
-		for (int i = 0; i < enemy.Count; i++){
-			Enemy newEnemy = enemy[i];
+		for (int i = 0; i < GameStorage.enemies.Count; i++){
+			Enemy newEnemy = GameStorage.enemies[i];
 			
 			//newEnemy.GetGameObject().renderer.material.mainTexture = newEnemy.GetAnimate(newEnemy.GetCurTex());
 			if (newEnemy.GetAnimHelper() + checkTime < Time.time){
@@ -167,7 +144,7 @@ public class EnemyManager{
 				else{ // Enemy Has reached the goal!
 					PlayerDamage(player, newEnemy);
 					newEnemy.Clean();
-					enemy.Remove(newEnemy);
+					GameStorage.enemies.Remove(newEnemy);
 				}
 			}
 		}
@@ -188,8 +165,8 @@ public class EnemyManager{
 				tower.SetAnimHelper(Time.time);
 				Zone newZone = tower.GetZone();
 				Vector2 zonePos = newZone.GetPosition();
-				for (int i = 0; i < enemy.Count; i++){
-					Enemy newEnemy = enemy[i];
+				for (int i = 0; i < GameStorage.enemies.Count; i++){
+					Enemy newEnemy = GameStorage.enemies[i];
 					Vector3 enemyPos = newEnemy.GetPosition();
 					// if the enemy is within a zone
 					if (zonePos.x - enemyPos.x <= 1 
@@ -208,7 +185,7 @@ public class EnemyManager{
 								Debug.Log(newEnemy.GetName() + " has been Destroyed! You absorbed " + newEnemy.GetBonus() + " Mana!");
 								player.IncMana(newEnemy.GetBonus());
 								newEnemy.Clean();
-								enemy.Remove(newEnemy);
+								GameStorage.enemies.Remove(newEnemy);
 							}
 							if (!areaAtk){
 								break;
@@ -224,15 +201,15 @@ public class EnemyManager{
 		player.DecHealth(newEnemy.GetDamage());
 		Debug.Log(player.GetName() + " has been hit for " + newEnemy.GetDamage() + " damage");
 		if (player.IsDead()){
-			GameManager.SetGameState(3); // Game stopped
+			GameStorage.gameState = GameStorage.GameState.Stopped; // Game stopped
 			player.GetPlayerObj().animation.Play ("Dead");
 		}
 	}
 	
 	private void LevelEndCheck (Player player){
-		if (waveNum == numWaves && enemy.Count == 0){
+		if (GameStorage.currentWave == GameStorage.waveTotal && GameStorage.enemies.Count == 0){
 			GameStorage.gameState = 0;
-			waveNum = 0;
+			GameStorage.currentWave = 0;
 			GameStorage.level = GameStorage.level + 1;
 			GameManager.ShowSelectors();
 			player.SetFaceTexture(TextureFactory.GetFaceTexture());

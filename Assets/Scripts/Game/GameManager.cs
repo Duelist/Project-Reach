@@ -24,6 +24,10 @@ public class GameManager : MonoBehaviour
 
 		GameStorage.gameState = GameStorage.GameState.Building;
 		GameStorage.level = 0;
+		GameStorage.currentWave = 0;
+		GameStorage.waveTotal = 3;
+		
+		GameStorage.enemies = new System.Collections.Generic.List<Enemy> ();
 	}
 	
 	public void HandleGameLogic()
@@ -47,8 +51,8 @@ public class GameManager : MonoBehaviour
 			guiManager.DrawPlayGUI();
 			enemyManager.DrawEnemy(towerList);
 		}
-		else if (gameState == GameState.Stopped){
-			guiManager.DrawStoppedGUI(player1);
+		else if (GameStorage.gameState == GameStorage.GameState.Stopped){
+			guiManager.DrawStoppedGUI();
 		}
 	}
 	
@@ -78,6 +82,7 @@ public class GameManager : MonoBehaviour
 	}
 	
 	public static void HideSelectors (){
+		selectors = GameObject.FindGameObjectsWithTag ("selector");
 		foreach (GameObject sObj in selectors){
 			Debug.Log ("Hiding Selector");
 			foreach (Transform child in sObj.transform){
@@ -90,6 +95,7 @@ public class GameManager : MonoBehaviour
 	
 	public static void ShowSelectors()
 	{
+		selectors = GameObject.FindGameObjectsWithTag ("selector");
 		foreach (GameObject sObj in selectors)
 		{
 			Debug.Log ("Showing Selector");
@@ -98,6 +104,22 @@ public class GameManager : MonoBehaviour
 					child.gameObject.renderer.enabled = true;
 				}
 			}
+		}
+	}
+	
+	public static void ResetGame (){
+		GameStorage.gameState = GameStorage.GameState.Building;
+		GameStorage.level = 0;
+		GameStorage.currentWave = 0;
+		GameStorage.waveTotal = 3;
+		
+		GameStorage.player.SetHealth(100);
+		GameStorage.player.GetPlayerObj().animation.Play("WakeUp");
+		
+		while (GameStorage.enemies.Count > 0){
+			Enemy remainingEnemy = GameStorage.enemies[0];
+			remainingEnemy.Clean();
+			GameStorage.enemies.Remove(remainingEnemy);
 		}
 	}
 	
