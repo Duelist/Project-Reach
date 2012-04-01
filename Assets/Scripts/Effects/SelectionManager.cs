@@ -11,6 +11,7 @@ public class SelectionManager : MonoBehaviour
 	Vector2 hitSize;
 	private GameObject hitObject;
 	private GameManager gmRef;
+	private int lightBallLifeTime = 2;
 	//private Ray ray;
 	//ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 	void Awake (){
@@ -54,7 +55,7 @@ public class SelectionManager : MonoBehaviour
 				}
 				
 				// Info Window Changes
-				gmRef.GetGuiManager().GetInfoWindow().SetTex(hit.transform.gameObject.renderer.material.mainTexture);
+				//gmRef.GetGuiManager().GetInfoWindow().SetTex(hit.transform.gameObject.renderer.material.mainTexture);
 				gmRef.GetGuiManager().GetInfoWindow().SetDesc(infoMsg);
 			}
 		}
@@ -72,7 +73,7 @@ public class SelectionManager : MonoBehaviour
 					infoMsg += UpdateTowerInfo(towerSelected);
 				}
 				// Info Window Changes
-				gmRef.GetGuiManager().GetInfoWindow().SetTex(hit.transform.gameObject.renderer.material.mainTexture);
+				//gmRef.GetGuiManager().GetInfoWindow().SetTex(hit.transform.gameObject.renderer.material.mainTexture);
 				gmRef.GetGuiManager().GetInfoWindow().SetDesc(infoMsg);
 			}
 		}
@@ -87,16 +88,18 @@ public class SelectionManager : MonoBehaviour
 				Debug.Log(fireButtonPos.x + ":" + fireButtonPos.y + " | " + Input.mousePosition.x + ":" + Input.mousePosition.y + " | " + hitSize.x + ":" + hitSize.y);
 				if (MouseUpAt (fireButtonPos,hitSize)){
 					if (manaCheck(10)){
-						new LightBall ("PlayerManaBall", gmRef.GetCurrentPlayer().GetPlayerPos(), hitObject.transform.position, 2);
+						new LightBall ("PlayerManaBall", gmRef.GetCurrentPlayer().GetPlayerPos(), hitObject.transform.position, lightBallLifeTime);
 						CreateTower((int)hitObject.transform.position.x,(int)hitObject.transform.position.z, Effect.EffectType.Fire, hitselector.direction);
 						gmRef.GetCurrentPlayer().GetPlayerObj().animation.Play("Spin");
+						GameManager.DestroyObject(hitObject);
 					}
 				}
 				else if (MouseUpAt (iceButtonPos,hitSize)){
 					if (manaCheck(20)){
-						new LightBall ("PlayerManaBall", gmRef.GetCurrentPlayer().GetPlayerPos(), hitObject.transform.position, 2);
+						new LightBall ("PlayerManaBall", gmRef.GetCurrentPlayer().GetPlayerPos(), hitObject.transform.position, lightBallLifeTime);
 						CreateTower((int)hitObject.transform.position.x,(int)hitObject.transform.position.z, Effect.EffectType.Ice, hitselector.direction);
 						gmRef.GetCurrentPlayer().GetPlayerObj().animation.Play("Jump");
+						GameManager.DestroyObject(hitObject);
 					}
 				}
 				else {

@@ -47,6 +47,9 @@ public class GameManager : MonoBehaviour
 			guiManager.DrawPlayGUI();
 			enemyManager.DrawEnemy(towerList);
 		}
+		else if (gameState == GameState.Stopped){
+			guiManager.DrawStoppedGUI(player1);
+		}
 	}
 	
 	public GUIManager GetGuiManager()
@@ -74,12 +77,14 @@ public class GameManager : MonoBehaviour
 		Destroy(go);
 	}
 	
-	public static void HideSelectors()
-	{
-		foreach (GameObject sObj in selectors)
-		{
+	public static void HideSelectors (){
+		foreach (GameObject sObj in selectors){
 			Debug.Log ("Hiding Selector");
-			sObj.renderer.enabled = false;
+			foreach (Transform child in sObj.transform){
+				if (child.gameObject.renderer != null){
+					child.gameObject.renderer.enabled = false;
+				}
+			}
 		}
 	}
 	
@@ -88,7 +93,11 @@ public class GameManager : MonoBehaviour
 		foreach (GameObject sObj in selectors)
 		{
 			Debug.Log ("Showing Selector");
-			sObj.renderer.enabled = true;
+			foreach (Transform child in sObj.transform){
+				if (child.gameObject.renderer != null){
+					child.gameObject.renderer.enabled = true;
+				}
+			}
 		}
 	}
 	

@@ -192,7 +192,7 @@ public class SelectorOverlay {
 		int tableKey = GenerateKey(hashKeyX, hashKeyY);
 		
 		if (player.GetMana() >= 10){
-			Zone zone = new Zone (new Effect(Effect.EffectType.Fire), new Vector2(hashKeyX, hashKeyY), 3, 3, false);
+			Zone zone = new Zone (new Effect(Effect.EffectType.Fire), new Vector2(hashKeyX, hashKeyY), 3, 3, false, true);
 			player.DecMana(10);
 		}
 		else {

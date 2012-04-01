@@ -7,17 +7,20 @@ public class Player{
 	private int mana;
 	private int maxMana;
 	private GameObject player;
+	private GameObject aura;
 	
 	public Player (string n, int x, int z){
 		name = n;
 		health = 100;
 		mana = 100;
 		maxMana = 100;
-		GameObject playerPrefab = (GameObject)Resources.Load("Player/SusePrefab",typeof(GameObject));
+		GameObject playerPrefab = PrefabFactory.GetSuzePrefab();
 		GameManager.InstantiateModel(playerPrefab, new Vector3(x,0,z));
 		player = GameObject.Find("SusePrefab(Clone)");
 		player.name = name;
 		player.transform.Rotate(0,180,0);
+		aura = player.transform.Find("Aura").gameObject;
+		aura.renderer.enabled = false;
 	}
 	
 	public string GetName (){
@@ -78,5 +81,12 @@ public class Player{
 	
 	public Vector3 GetPlayerPos (){
 		return player.transform.position;
+	}
+	
+	public bool IsDead() {
+		if (health <= 0){
+			return true;
+		}
+		return false;
 	}
 }

@@ -9,27 +9,44 @@ public class Zone {
 	// private ArrayList effectList;
 	private Effect effect;
 	private bool pastState;
+	private bool reverseZone;
 	
 	private GameObject zoneObj;
+	private GameObject bar1;
+	private GameObject bar2;
+	private GameObject bar3;
+	private GameObject circle;
 	
-	public Zone (Effect eff, Vector2 pos, int w, int l, bool t) {
+	public Zone (Effect eff, Vector2 pos, int w, int l, bool t, bool rz) {
 		width  = w;
 		length = l;
 		effect = eff;
 		pastState = t;
 		position = pos;
+		reverseZone = rz;
 		
-		zoneObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		zoneObj.transform.position = new Vector3(position.x, 0, position.y);
-		zoneObj.transform.localScale = new Vector3(width,0.5f,length);
-		zoneObj.renderer.enabled = true;
+		GameObject zonePrefab = PrefabFactory.GetZonePrefab();
+		GameManager.InstantiateModel(zonePrefab, new Vector3(pos.x, 0, pos.y));
+		zoneObj = GameObject.Find("ZonePrefab(Clone)");
 		zoneObj.name = "Zone of Effect";
 		
-		Texture fireZone = Resources.Load ("WallZone/FireZonePast") as Texture;
-		if (pastState == false){
-			fireZone = Resources.Load ("WallZone/FireZoneFuture") as Texture;
+		if (reverseZone){
+			zoneObj.transform.Rotate(0,180,0);
 		}
-		zoneObj.renderer.material.mainTexture = fireZone;
+		if (eff.GetEffectType() == Effect.EffectType.Fire){
+			// Change lighting to Red
+			GameObject effectLight = zoneObj.transform.Find("EffectLight").gameObject;
+			effectLight.light.color = ColorFactory.GetLightRed();
+			
+			// Remove Snow Particle Effect
+			GameObject snowEffect = zoneObj.transform.Find("SnowEffect").gameObject;
+			GameManager.DestroyObject(snowEffect);
+		}
+		
+		bar1 = zoneObj.transform.Find("CircleBar1").gameObject;
+		bar2 = zoneObj.transform.Find("CircleBar2").gameObject;
+		bar3 = zoneObj.transform.Find("CircleBar3").gameObject;
+		circle = zoneObj.transform.Find("CircleOut").gameObject;
 	}
 	
 	/* Setters and Getters */
@@ -89,14 +106,20 @@ public class Zone {
 	}
 	
 	public void FlipTime (){
-		Texture fireZone = TextureFactory.GetFireZonePast();
 		if (pastState == true){
 			pastState = false;
-			fireZone = TextureFactory.GetFireZoneFuture();
+			SetZoneObjColor(Color.white);
 		}
 		else {
 			pastState = true;
+			SetZoneObjColor(ColorFactory.GetDarkGray());
 		}
-		zoneObj.renderer.material.mainTexture = fireZone;
+	}
+	
+	private void SetZoneObjColor (Color c){
+		bar1.renderer.material.color = c;
+		bar2.renderer.material.color = c;
+		bar3.renderer.material.color = c;
+		circle.renderer.material.color = c;
 	}
 }

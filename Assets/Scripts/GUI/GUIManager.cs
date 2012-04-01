@@ -10,12 +10,13 @@ public class GUIManager
 	CastSpell castSpell;
 	ReadyButton readyButton;
 	InfoWindow infoWindow;
+	private int sizeDivisor;
 	
 	// Use this for initialization
 	public GUIManager()
 	{
 		// Going to make the layout of the screen in 6s
-		int sizeDivisor = 6;
+		sizeDivisor = 6;
 		
 		manaInvasion = new ManaInvasion (Screen.width - Screen.width/sizeDivisor, 0, Screen.width/sizeDivisor,Screen.height/sizeDivisor);
 		
@@ -46,7 +47,7 @@ public class GUIManager
 	public void DrawPlayGUI () {
 		manaInvasion.DrawGUI(GameStorage.player);
 		castSpell.DrawGUI();
-		infoWindow.DrawGUI();
+		player.GetHealth ();
 	}
 	
 	public void DrawBuildGUI (){
@@ -55,7 +56,22 @@ public class GUIManager
 		infoWindow.DrawGUI();
 	}
 	
+	public void DrawStoppedGUI (Player player){
+		if (player.IsDead()){
+			DrawDefeatedMsg(player);
+		}
+	}
+	
 	public InfoWindow GetInfoWindow (){
 		return infoWindow;
+	}
+	
+	public void DrawDefeatedMsg (Player player){
+		GUI.DrawTexture(new Rect (Screen.width/sizeDivisor*2f,Screen.height/sizeDivisor*2f, Screen.width/sizeDivisor*2f, Screen.height/sizeDivisor*2f), TextureFactory.GetPlayerLoseTexture());
+		if (GUI.Button (new Rect (Screen.width/sizeDivisor*2.5f, Screen.height/sizeDivisor*4.5f, Screen.width/sizeDivisor, Screen.height/sizeDivisor),"Try again")){
+			GameManager.SetGameState(0);
+			player.SetHealth(100);
+			player.GetPlayerObj().animation.Play("WakeUp");
+		}
 	}
 }
