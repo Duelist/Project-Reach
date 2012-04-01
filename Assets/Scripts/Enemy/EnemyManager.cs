@@ -33,7 +33,7 @@ public class EnemyManager{
 	ArrayList path3;
 	
 	// Use this for initialization
-	public EnemyManager (Map map) {		
+	public EnemyManager() {		
 		spawnTimer = 0.0f;
 		spawnInterval = 5.0f;
 		numEnemies = 10;
@@ -50,28 +50,20 @@ public class EnemyManager{
 			merupiTex[i] = Resources.Load ("Mascot/Merupi "+i) as Texture;
 		}
 		
-                /*
-		Debug.Log("Path 1");
-		path = AStar.Search (map.tiles[1,0], map.tiles[11,14], map, 1.0f);
-		Debug.Log("Path 2");
-		path2 = AStar.Search (map.tiles[2,0], map.tiles[12,14], map, 1.0f);
-		Debug.Log("Path 3");
-		path3 = AStar.Search (map.tiles[3,0], map.tiles[13,14], map, 1.0f);
-                */
 		enemy = new List<Enemy> ();
 		
 		spawnTimer = Time.time;
 	}
 	
 	// Update Method
-	public void DrawEnemy (Hashtable towerList, Player player, int level) {
-		Spawn ();
-		MobMovement(towerList, player);
-		MobDamage(towerList, player);
-		LevelEndCheck (player);
+	public void DrawEnemy(Hashtable towerList) {
+		Spawn();
+		MobMovement(towerList, GameStorage.player);
+		MobDamage(towerList, GameStorage.player);
+		LevelEndCheck(GameStorage.player);
 	}
 	
-	public void Spawn (){
+	public void Spawn(){
 		if (spawnTimer <= Time.time){
 			
 			// Enemy Initialization parameters: string n, int x, int z, int hp, int ms, int arm, int dam, int bon. ArrayList imList, ArrayList tZone, Texture [] anim, int s, int maxT, string cpTag, int cpPoints		
@@ -234,9 +226,9 @@ public class EnemyManager{
 	
 	private void LevelEndCheck (Player player){
 		if (waveNum == numWaves && enemy.Count == 0){
-			GameManager.SetGameState(0);
+			GameStorage.gameState = 0;
 			waveNum = 0;
-			GameManager.SetLevel(GameManager.GetLevel () + 1);
+			GameStorage.level = GameStorage.level + 1;
 			GameManager.ShowSelectors();
 			player.SetFaceTexture(TextureFactory.GetFaceTexture());
 			player.GetPlayerObj().animation.Play ("FlipJump");

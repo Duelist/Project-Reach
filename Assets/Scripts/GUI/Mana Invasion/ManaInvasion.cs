@@ -16,7 +16,7 @@ public class ManaInvasion {
 	
 	// Use this for initialization
 	public ManaInvasion (int x, int y, int w, int h) {
-		invCount = GameManager.GetLevel();
+		invCount = GameStorage.level;
 		this.x = x;
 		this.y = y;
 		width = w;
@@ -39,7 +39,7 @@ public class ManaInvasion {
 	}
 	
 	public void DrawGUI(Player player){
-		invCount = GameManager.GetLevel();
+		invCount = GameStorage.level;
 		
 		
 		if (hpOrb != null){

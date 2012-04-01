@@ -18,11 +18,9 @@ public class SelectorOverlay {
 	public int meny;
 	private Vector3 mouseDownPos;
 	
-	private Map mapStore;
-	
 	Camera camera;
 	
-	public SelectorOverlay(Map map){
+	public SelectorOverlay(){
 		camera = Camera.main;
                 /*
 		if (map.tiles.GetUpperBound(0) > 1){
@@ -35,8 +33,6 @@ public class SelectorOverlay {
                 */
 		//firstTilePos = new Vector2 ((camera.WorldToScreenPoint(map.tiles[0,0].tileObject.transform.position)).x - (buttonSize/2), (camera.WorldToScreenPoint(map.tiles[0,0].tileObject.transform.position)).y - (buttonSize/2));
 		//lastTilePos = new Vector2 ((camera.WorldToScreenPoint(map.tiles[map.mapSizeX-1,map.mapSizeY-1].tileObject.transform.position)).x + (buttonSize/2), (camera.WorldToScreenPoint(map.tiles[map.mapSizeX-1,map.mapSizeY-1].tileObject.transform.position)).y + (buttonSize/2));
-		mapStore = map;
-		
 		ResetButtonStates();
 		
 		mouseDownPos = new Vector3 (-1,-1, 0);

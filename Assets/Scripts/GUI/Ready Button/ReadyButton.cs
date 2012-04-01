@@ -13,7 +13,7 @@ public class ReadyButton {
 	
 	public void DrawGUI () {
 		if (GUI.Button (new Rect(x, y, w, h),"Ready!")){
-			GameManager.SetGameState(1);
+			GameStorage.gameState = GameStorage.GameState.Playing;
 			GameManager.HideSelectors();
 		}
 	}

@@ -33,7 +33,7 @@ public class SelectionManager : MonoBehaviour
 				
 				// Selector Events
 				if (hit.transform.gameObject.tag == "selector") {
-					if (GameManager.GetGameState() == 0){
+					if (GameStorage.gameState == 0){
 						selectorHit = true;
 						hitObject = hit.transform.gameObject;
 						hitPos = ConvertObjectToScreenPos(hit.transform.position, hit.transform.localScale);
