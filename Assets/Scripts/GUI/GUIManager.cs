@@ -48,6 +48,7 @@ public class GUIManager
 		manaInvasion.DrawGUI(GameStorage.player);
 		castSpell.DrawGUI();
 		GameStorage.player.GetHealth ();
+		infoWindow.DrawGUI();
 	}
 	
 	public void DrawBuildGUI (){

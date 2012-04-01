@@ -50,7 +50,7 @@ public class SelectionManager : MonoBehaviour
 				
 				// Tower Selection
 				if (hit.transform.gameObject.tag == "tower"){
-					Tower towerSelected = (Tower)(gmRef.GetTowerList()["T" + (int)hit.transform.position.x + "," + (int)hit.transform.position.z]);
+					Tower towerSelected = (Tower)(GameStorage.towerList["T" + (int)hit.transform.position.x + "," + (int)hit.transform.position.z]);
 					infoMsg += UpdateTowerInfo(towerSelected);
 				}
 				
@@ -68,7 +68,7 @@ public class SelectionManager : MonoBehaviour
 				infoMsg += hit.transform.gameObject.name;
 				// Tower Selection
 				if (hit.transform.gameObject.tag == "tower"){
-					Tower towerSelected = (Tower)(gmRef.GetTowerList()["T" + (int)hit.transform.position.x + "," + (int)hit.transform.position.z]);
+					Tower towerSelected = (Tower)(GameStorage.towerList["T" + (int)hit.transform.position.x + "," + (int)hit.transform.position.z]);
 					towerSelected.FlipTime();
 					infoMsg += UpdateTowerInfo(towerSelected);
 				}
@@ -88,18 +88,20 @@ public class SelectionManager : MonoBehaviour
 				Debug.Log(fireButtonPos.x + ":" + fireButtonPos.y + " | " + Input.mousePosition.x + ":" + Input.mousePosition.y + " | " + hitSize.x + ":" + hitSize.y);
 				if (MouseUpAt (fireButtonPos,hitSize)){
 					if (manaCheck(10)){
-						new LightBall ("PlayerManaBall", gmRef.GetCurrentPlayer().GetPlayerPos(), hitObject.transform.position, lightBallLifeTime);
+						GameStorage.player.DecMana (10);
+						new LightBall ("PlayerManaBall", gmRef.GetCurrentPlayer().GetPlayerPos(), hitObject.transform.position, lightBallLifeTime, Color.red);
 						CreateTower((int)hitObject.transform.position.x,(int)hitObject.transform.position.z, Effect.EffectType.Fire, hitselector.direction);
 						gmRef.GetCurrentPlayer().GetPlayerObj().animation.Play("Spin");
-						GameManager.DestroyObject(hitObject);
+						RemoveSelector (hitObject);
 					}
 				}
 				else if (MouseUpAt (iceButtonPos,hitSize)){
 					if (manaCheck(20)){
-						new LightBall ("PlayerManaBall", gmRef.GetCurrentPlayer().GetPlayerPos(), hitObject.transform.position, lightBallLifeTime);
+						GameStorage.player.DecMana (20);
+						new LightBall ("PlayerManaBall", gmRef.GetCurrentPlayer().GetPlayerPos(), hitObject.transform.position, lightBallLifeTime, Color.blue);
 						CreateTower((int)hitObject.transform.position.x,(int)hitObject.transform.position.z, Effect.EffectType.Ice, hitselector.direction);
 						gmRef.GetCurrentPlayer().GetPlayerObj().animation.Play("Jump");
-						GameManager.DestroyObject(hitObject);
+						RemoveSelector (hitObject);
 					}
 				}
 				else {
@@ -123,15 +125,12 @@ public class SelectionManager : MonoBehaviour
 	
 	private void CreateTower(int tilex, int tiley, Effect.EffectType effect, int dir){
 		Tower tower = new Tower (tilex, tiley, effect, false, dir);
-		gmRef.AddTowerToList(tower);
+		GameManager.AddTowerToList(tower);
 		Debug.Log ("Tower Created");
 	}
 	
 	private bool manaCheck(int manaCost) {
-		Player p1 = gmRef.GetCurrentPlayer();
-		if (p1.GetMana() >= manaCost){
-			p1.DecMana (manaCost);
-			hitObject.name = "selector (used)";
+		if (GameStorage.player.GetMana() >= manaCost){
 			return true;
 		}
 		else {
@@ -160,5 +159,10 @@ public class SelectionManager : MonoBehaviour
 		infoMsg += "\n Type: " + towerSelected.GetEffect().GetFormattedEffectType();
 		infoMsg += "\n Damage: " + towerSelected.GetZone().GetEffect().GetDamage();
 		return infoMsg;
+	}
+	
+	private void RemoveSelector (GameObject selector){
+		selector.tag = "selector (used)";
+		selector.collider.enabled = false;
 	}
 }

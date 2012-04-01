@@ -16,4 +16,5 @@ public static class GameStorage
 	public static int waveTotal;
 	
 	public static Map map;
+	public static Hashtable towerList;
 }

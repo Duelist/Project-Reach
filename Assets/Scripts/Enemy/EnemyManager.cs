@@ -35,10 +35,10 @@ public class EnemyManager{
 	}
 	
 	// Update Method
-	public void DrawEnemy(Hashtable towerList) {
+	public void DrawEnemy() {
 		Spawn();
-		MobMovement(towerList, GameStorage.player);
-		MobDamage(towerList, GameStorage.player);
+		MobMovement(GameStorage.towerList, GameStorage.player);
+		MobDamage(GameStorage.towerList, GameStorage.player);
 	}
 	
 	public void Spawn(){

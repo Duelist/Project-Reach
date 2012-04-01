@@ -9,8 +9,6 @@ public class GameManager : MonoBehaviour
 	private float timeKeeper;
 	private static GameObject[] selectors;
 	
-	private Hashtable towerList;
-	
 	void Start()
 	{
 		
@@ -19,7 +17,7 @@ public class GameManager : MonoBehaviour
 		enemyManager = new EnemyManager();
 		timeKeeper = Time.time;
 		
-		towerList = new Hashtable ();
+		GameStorage.towerList = new Hashtable ();
 		selectors = GameObject.FindGameObjectsWithTag ("selector");
 
 		GameStorage.gameState = GameStorage.GameState.Building;
@@ -49,7 +47,7 @@ public class GameManager : MonoBehaviour
 		{
 			HandleGameLogic();
 			guiManager.DrawPlayGUI();
-			enemyManager.DrawEnemy(towerList);
+			enemyManager.DrawEnemy();
 		}
 		else if (GameStorage.gameState == GameStorage.GameState.Stopped){
 			guiManager.DrawStoppedGUI();
@@ -66,14 +64,9 @@ public class GameManager : MonoBehaviour
 		return GameStorage.player;
 	}
 	
-	public Hashtable GetTowerList()
+	public static void AddTowerToList(Tower tower)
 	{
-		return towerList;
-	}
-	
-	public void AddTowerToList(Tower tower)
-	{
-		towerList.Add("T" + tower.getXPos() + "," + tower.getZPos(),tower);
+		GameStorage.towerList.Add("T" + tower.getXPos() + "," + tower.getZPos(),tower);
 	}
 	
 	public static void DestroyObject(GameObject go)
@@ -120,6 +113,26 @@ public class GameManager : MonoBehaviour
 			Enemy remainingEnemy = GameStorage.enemies[0];
 			remainingEnemy.Clean();
 			GameStorage.enemies.Remove(remainingEnemy);
+		}
+		
+		foreach (Tower t in GameStorage.towerList.Values){
+			DestroyObject(t.GetZone().GetZoneObj()); // Removing zones from map
+			DestroyObject (t.GetTowerObj()); // Removing towers from map
+		}
+		GameStorage.towerList = new Hashtable ();
+		
+		// Need to recreate all selectors destroyed.
+		ResetSelectors ();
+		ShowSelectors ();
+	}
+	
+	private static void ResetSelectors(){
+		GameObject[] usedSelectors = GameObject.FindGameObjectsWithTag ("selector (used)");
+		foreach (GameObject sObj in usedSelectors)
+		{
+			Debug.Log ("Enabling Selector");
+			sObj.tag = ("selector");
+			sObj.collider.enabled = true;
 		}
 	}
 	

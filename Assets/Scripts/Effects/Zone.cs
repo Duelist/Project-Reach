@@ -122,4 +122,8 @@ public class Zone {
 		bar3.renderer.material.color = c;
 		circle.renderer.material.color = c;
 	}
+	
+	public GameObject GetZoneObj () {
+		return zoneObj;
+	}
 }
