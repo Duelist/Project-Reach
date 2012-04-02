@@ -28,15 +28,6 @@ public class GameManager : MonoBehaviour
 		GameStorage.enemies = new System.Collections.Generic.List<Enemy> ();
 	}
 	
-	public void HandleGameLogic()
-	{
-		// Increments player's mana pool and updates time
-		if (timeKeeper + 1 < Time.time)
-		{
-			timeKeeper = Time.time;
-		}
-	}
-	
 	void OnGUI()
 	{
 		if (GameStorage.gameState == GameStorage.GameState.Building)
@@ -107,6 +98,7 @@ public class GameManager : MonoBehaviour
 		GameStorage.waveTotal = 3;
 		
 		GameStorage.player.SetHealth(100);
+		GameStorage.player.SetMana(GameStorage.player.GetMaxMana());
 		GameStorage.player.GetPlayerObj().animation.Play("WakeUp");
 		
 		while (GameStorage.enemies.Count > 0){
@@ -139,5 +131,26 @@ public class GameManager : MonoBehaviour
 	public static void InstantiateModel(GameObject obj, Vector3 pos)
 	{
 		Instantiate(obj, pos, Quaternion.identity);
+	}
+	
+	public void HandleGameLogic()
+	{
+		// Increments player's mana pool and updates time
+		if (timeKeeper + 1 < Time.time)
+		{
+			timeKeeper = Time.time;
+		}
+		LevelEndCheck ();
+	}
+	
+	private void LevelEndCheck (){
+		if (GameStorage.currentWave == GameStorage.waveTotal && GameStorage.enemies.Count == 0){
+			GameStorage.gameState = 0;
+			GameStorage.currentWave = 0;
+			GameStorage.level = GameStorage.level + 1;
+			ShowSelectors();
+			GameStorage.player.SetFaceTexture(TextureFactory.GetFaceTexture());
+			GameStorage.player.GetPlayerObj().animation.Play ("FlipJump");
+		}
 	}
 }

@@ -168,5 +168,10 @@ public class SelectionManager : MonoBehaviour
 	private void RemoveSelector (GameObject selector){
 		selector.tag = "selector (used)";
 		selector.collider.enabled = false;
+		foreach (Transform child in selector.transform){
+			if (child.gameObject.renderer != null){
+				child.gameObject.renderer.enabled = false;
+			}
+		}
 	}
 }

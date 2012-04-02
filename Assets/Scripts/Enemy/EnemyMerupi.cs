@@ -7,8 +7,8 @@ public class EnemyMerupi : Enemy {
 	public EnemyMerupi (string n, int x, int z, bool state, string cpTag, int cpPoints){
 		ename = n;
 		position = new Vector3 (x,0,z);
-		maxHP = 50;
-		curHP = 50;
+		maxHP = 25;
+		curHP = 25;
 		moveSpeed = 0.5f;
 		armour = 0;
 		damage = 100;

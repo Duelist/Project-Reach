@@ -205,15 +205,4 @@ public class EnemyManager{
 			player.GetPlayerObj().animation.Play ("Dead");
 		}
 	}
-	
-	private void LevelEndCheck (Player player){
-		if (GameStorage.currentWave == GameStorage.waveTotal && GameStorage.enemies.Count == 0){
-			GameStorage.gameState = 0;
-			GameStorage.currentWave = 0;
-			GameStorage.level = GameStorage.level + 1;
-			GameManager.ShowSelectors();
-			player.SetFaceTexture(TextureFactory.GetFaceTexture());
-			player.GetPlayerObj().animation.Play ("FlipJump");
-		}
-	}
 }
