@@ -165,36 +165,74 @@ public class EnemyManager{
 				tower.SetAnimHelper(Time.time);
 				Zone newZone = tower.GetZone();
 				Vector2 zonePos = newZone.GetPosition();
-				for (int i = 0; i < GameStorage.enemies.Count; i++){
-					Enemy newEnemy = GameStorage.enemies[i];
-					Vector3 enemyPos = newEnemy.GetPosition();
-					// if the enemy is within a zone
-					if (zonePos.x - enemyPos.x <= 1 
-						&& zonePos.x - enemyPos.x >= -1
-						&& zonePos.y - enemyPos.z <= 1
-						&& zonePos.y - enemyPos.z >= -1){
+				bool broken = false;
+				for (int j = 0; !broken && j < newZone.getZoneWidth(); j++){
+					for (int i = 0; i < GameStorage.enemies.Count; i++){
+						Enemy newEnemy = GameStorage.enemies[i];
+						Vector3 enemyPos = newEnemy.GetPosition();
 						
-						// if the timezone is correct "past"/"future"
-						if (newEnemy.GetPastState() == newZone.GetTime()){
-							Effect newEff = newZone.GetEffect();
-							newEnemy.SetCurHP((int)(newEnemy.GetCurHP() - newEff.GetDamage()));
-							Debug.Log(newEnemy.GetName() + " DAMAGED for " + newEff.GetDamage());
-							if (newEnemy.GetCurHP() <= 0){
-								new LightBall ("EnemyManaBall", newEnemy.GetGameObject().transform.position, player.GetPlayerObj().transform, 2);
-								player.GetPlayerObj().animation.Play ("SmallHop");
-								Debug.Log(newEnemy.GetName() + " has been Destroyed! You absorbed " + newEnemy.GetBonus() + " Mana!");
-								player.IncMana(newEnemy.GetBonus());
-								newEnemy.Clean();
-								GameStorage.enemies.Remove(newEnemy);
-							}
-							if (!areaAtk){
-								break;
+						// if the enemy is within a zone
+						if (EnemyIsInZone(zonePos, enemyPos, tower.GetEnemyEntry(), newZone.getZoneWidth(), j)){
+							// if the timezone is correct "past"/"future"
+							if (newEnemy.GetPastState() == newZone.GetTime()){
+								Effect newEff = newZone.GetEffect();
+								newEnemy.SetCurHP((int)(newEnemy.GetCurHP() - newEff.GetDamage()));
+								Debug.Log(newEnemy.GetName() + " DAMAGED for " + newEff.GetDamage());
+								if (newEnemy.GetCurHP() <= 0){
+									new LightBall ("EnemyManaBall", newEnemy.GetGameObject().transform.position, player.GetPlayerObj().transform, 2);
+									player.GetPlayerObj().animation.Play ("SmallHop");
+									Debug.Log(newEnemy.GetName() + " has been Destroyed! You absorbed " + newEnemy.GetBonus() + " Mana!");
+									player.IncMana(newEnemy.GetBonus());
+									newEnemy.Clean();
+									GameStorage.enemies.Remove(newEnemy);
+								}
+								if (!areaAtk){
+									broken = true;
+									break;
+								}
 							}
 						}
 					}
 				}
 			}
 		}
+	}
+	
+	private bool EnemyIsInZone (Vector2 zonePos, Vector3 enemyPos, int enemyEntry, int zoneWidth, int iter){
+		bool enemyInZone = false;
+		if (enemyEntry == 2){
+			if (zonePos.x - enemyPos.x <= ((int)(zoneWidth/2)+0.5)
+					&& zonePos.x - enemyPos.x >= -((int)(zoneWidth/2)+0.5)
+					&& zonePos.y - enemyPos.z <= iter-0.5
+					&& zonePos.y - enemyPos.z >= iter-1.5){
+				enemyInZone = true;
+			}
+		}
+		else if (enemyEntry == 4){
+			if (zonePos.x - enemyPos.x <= iter-0.5
+					&& zonePos.x - enemyPos.x >= iter-1.5
+					&& zonePos.y - enemyPos.z <= ((int)(zoneWidth/2)+0.5)
+					&& zonePos.y - enemyPos.z >= -((int)(zoneWidth/2)+0.5)){
+				enemyInZone = true;
+			}
+		}
+		else if (enemyEntry == 6){
+			if (zonePos.x - enemyPos.x <= ((int)(zoneWidth/2)+0.5) - iter 
+					&& zonePos.x - enemyPos.x >= ((int)(zoneWidth/2)+0.5) - (iter+1)
+					&& zonePos.y - enemyPos.z <= ((int)(zoneWidth/2)+0.5)
+					&& zonePos.y - enemyPos.z >= -((int)(zoneWidth/2)+0.5)){
+				enemyInZone = true;
+			}
+		}
+		else if (enemyEntry == 8){
+			if (zonePos.x - enemyPos.x <= ((int)(zoneWidth/2)+0.5)
+					&& zonePos.x - enemyPos.x >= -((int)(zoneWidth/2)+0.5)
+					&& zonePos.y - enemyPos.z <= ((int)(zoneWidth/2)+0.5) - iter
+					&& zonePos.y - enemyPos.z >= ((int)(zoneWidth/2)+0.5) - (iter+1)){
+				enemyInZone = true;
+			}
+		}
+		return enemyInZone;
 	}
 	
 	private void PlayerDamage (Player player, Enemy newEnemy){

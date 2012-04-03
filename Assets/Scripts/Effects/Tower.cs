@@ -11,6 +11,7 @@ public class Tower {
 	private int towerZPos;
 	private Zone zone;
 	private int direct;
+	private int enemyEntry;
 	private bool pastState;
 	private Effect effect;
 	private string towerName;
@@ -23,11 +24,13 @@ public class Tower {
 	private GameObject lowerRing;
 	
 	//Constructor
-	public Tower (int x, int z, Effect.EffectType effect, bool pastState, int direction) {
+	public Tower (int x, int z, Effect.EffectType effect, bool pastState, int direction, int eEntry) {
 		towerXPos = x;
 		towerZPos = z;
 		this.effect = new Effect (effect);
 		direct = direction;
+		Debug.Log (direction + " " + eEntry);
+		enemyEntry = eEntry;
 		
 		//direct = dir;
 		active = true;
@@ -185,6 +188,10 @@ public class Tower {
 	
 	public Zone GetZone() {
 		return this.zone;
+	}
+	
+	public int GetEnemyEntry(){
+		return enemyEntry;
 	}
 	
 	public bool GetActive(){

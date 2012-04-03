@@ -90,7 +90,7 @@ public class SelectionManager : MonoBehaviour
 					if (manaCheck(10)){
 						GameStorage.player.DecMana (10);
 						new LightBall ("PlayerManaBall", gmRef.GetCurrentPlayer().GetPlayerPos(), hitObject.transform, lightBallLifeTime, Color.red);
-						CreateTower((int)hitObject.transform.position.x,(int)hitObject.transform.position.z, Effect.EffectType.Fire, hitselector.direction);
+						CreateTower((int)hitObject.transform.position.x,(int)hitObject.transform.position.z, Effect.EffectType.Fire, hitselector.direction, hitselector.enemyEntry);
 						GameStorage.player.GetPlayerObj().transform.LookAt(hitObject.transform);
 						GameStorage.player.GetPlayerObj().animation.Play("Spin");
 						GameStorage.player.GetAuraObj().Play();
@@ -101,7 +101,7 @@ public class SelectionManager : MonoBehaviour
 					if (manaCheck(20)){
 						GameStorage.player.DecMana (20);
 						new LightBall ("PlayerManaBall", gmRef.GetCurrentPlayer().GetPlayerPos(), hitObject.transform, lightBallLifeTime, Color.blue);
-						CreateTower((int)hitObject.transform.position.x,(int)hitObject.transform.position.z, Effect.EffectType.Ice, hitselector.direction);
+						CreateTower((int)hitObject.transform.position.x,(int)hitObject.transform.position.z, Effect.EffectType.Ice, hitselector.direction, hitselector.enemyEntry);
 						GameStorage.player.GetPlayerObj().transform.LookAt(hitObject.transform);
 						GameStorage.player.GetPlayerObj().animation.Play("Jump");
 						GameStorage.player.GetAuraObj().Play();
@@ -127,8 +127,8 @@ public class SelectionManager : MonoBehaviour
 		return false;
 	}
 	
-	private void CreateTower(int tilex, int tiley, Effect.EffectType effect, int dir){
-		Tower tower = new Tower (tilex, tiley, effect, false, dir);
+	private void CreateTower(int tilex, int tiley, Effect.EffectType effect, int dir, int eEntry){
+		Tower tower = new Tower (tilex, tiley, effect, false, dir, eEntry);
 		GameManager.AddTowerToList(tower);
 		Debug.Log ("Tower Created");
 	}

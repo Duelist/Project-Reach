@@ -115,7 +115,8 @@ public class MapGeneratorWindow : EditorWindow
 						GameManager.InstantiateModel(selectorPrefab, new Vector3(x,0,y));
 						GameObject selector = GameObject.Find("SelectorPrefab(Clone)");
 						Selector selectorComponent = selector.AddComponent<Selector>(); 
-						selectorComponent.direction = System.Convert.ToInt32(token.Trim());
+						selectorComponent.direction = (int)(System.Convert.ToInt32(token)/10);
+						selectorComponent.enemyEntry = System.Convert.ToInt32(token)%10;
 						selectorComponent.name = "selector [" + x + "," + y + "]";
 						selector.name = selectorComponent.name;
 						selector.tag = "selector";

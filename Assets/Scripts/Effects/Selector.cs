@@ -5,6 +5,7 @@ public class Selector : MonoBehaviour{
 	
 	public string name;
 	public int direction;
+	public int enemyEntry;
 	
 	public int getDirection() {
 		return direction;
