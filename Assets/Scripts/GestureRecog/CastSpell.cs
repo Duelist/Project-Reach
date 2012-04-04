@@ -9,7 +9,6 @@ public class TrailSection {
 
 public class CastSpell {
 
-	static GameObject mainscene;
 	GestureTemplates templates;
 	ArrayList points;
 	
@@ -34,7 +33,6 @@ public class CastSpell {
 	public CastSpell () {
 		
 		templates = new GestureTemplates();
-		mainscene = GameObject.Find ("Scenes/MainScene");
 		
 		points = new ArrayList();
 		go = GameObject.Find("Draw");
@@ -43,17 +41,9 @@ public class CastSpell {
 	
 	public void DrawGUI () {
 		if (GUI.Button (new Rect(Screen.width - Screen.width/sizeDivisor, Screen.height-Screen.height/sizeDivisor,Screen.width/sizeDivisor,Screen.height/sizeDivisor),"Cast Spell")){
-			//Debug.Log ("spell cast");
 			castwindow = true;
-			//Vector3 screenSpace = Camera.main.WorldToScreenPoint(mainscene.transform.position);
-		    //Vector3 curScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenSpace.z);
-		    //Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenSpace); 
-		    //mainscene.transform.position = curPosition;
-			
-			//GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);			
-			//drawtex = new Texture2D(texwidth, texheight);
-			//plane.renderer.material.mainTexture = drawtex;
 		}
+		
 		if (castwindow) {
 			//GUI.color = Color.white;
 			//textwin = GUI.Window(0,textwin,DoMyWindow,"Spell Window");
@@ -67,39 +57,14 @@ public class CastSpell {
 		Event e = Event.current;
 		if (e.type == EventType.MouseDown) {
 			mousedown = true;
-			//EraseDrawing(drawtex);
-			//brush = new Color[brushwidth * brushheight];
-			//for (int i = 0; i < brush.Length; i++) {
-			//	brush[i] = Color.black;
-   			//}
+
 			dw.DrawOrNot();
 		}
 		
 		if (mousedown) {
-			Vector2 curr = new Vector2(Input.mousePosition.x , Input.mousePosition.z);
+			Vector2 curr = new Vector2(Input.mousePosition.x , Input.mousePosition.y);
 		    points.Add(curr);
-		    //StartCoroutine("ScreenCoordinates");
-			//ScreenCoordinates();	
-			//Vector3 screenSpace = Camera.main.WorldToScreenPoint(mainscene.transform.position);
-		   	//Vector3 curScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenSpace.z);
-		   	//Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenSpace); 
-		    //mainscene.transform.position = curPosition;
-			//RaycastHit hit; 
-   
-  			//Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition); 
-    
-  			//if (Physics.Raycast(camRay, hit) && Input.GetMouseButton(0)) { 
-		    // 	int x = hit.textureCoord.x * texwidth; 
-	      	//	int y = hit.textureCoord.y * texheight; 
-       
-	      	//	if ((x != oldX) || (y != oldY)) { 
-		    //    	transTex.SetPixels(x, y, brushwidth, brushheight, brush); 
-		    //     	transTex.Apply(); 
-		    //     	oldx = x; 
-		    //     	oldy = y; 
-	        //	} 
-   			//}
-		
+			//ScreenCoordinates ();		
 		}
 		
 		if (e.type == EventType.MouseUp) {
@@ -113,15 +78,16 @@ public class CastSpell {
 	
 	IEnumerator ScreenCoordinates () {
 	    // fix world coordinate to the viewport coordinate
-	    Vector3 screenSpace = Camera.main.WorldToScreenPoint(mainscene.transform.position);
+	    Vector3 screenSpace = Camera.main.WorldToScreenPoint(go.transform.position);
     	
-	    while (Input.GetMouseButton(1))
-	    {
+	    //while (Input.GetMouseButton(0))
+	    //{
 		    Vector3 curScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenSpace.z);
 		    Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenSpace); 
-		    mainscene.transform.position = curPosition;
-		    yield return 0;
-	    }
+		    go.transform.position = curPosition;
+		    //yield return 0;
+	    //}
+		yield return 0;
     }
 	
 	public void DoMyWindow(int windowID) {

@@ -45,10 +45,28 @@ public class Drawing : MonoBehaviour{
         triangles = new int[(sectionCount - 1) * 2 * 3];
     }
 	
-    public void LateUpdate(){
+	IEnumerator ScreenCoordinates () {
+	    // fix world coordinate to the viewport coordinate
+	    Vector3 screenSpace = Camera.main.WorldToScreenPoint(transform.position);
+    	
+	    while (Input.GetMouseButton(0))
+	    {
+		    Vector3 curScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenSpace.z);
+		    Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenSpace); 
+		    transform.position = curPosition;
+		    yield return 0;
+	    }
+    }
+	
+	public void LateUpdate(){
+		if (candraw) {
+			transform.position = new Vector3(Input.mousePosition.x,Input.mousePosition.y,1);
+			//StartCoroutine(ScreenCoordinates());
+		}
+			
 		Vector3 pos = transform.position;
         ticker += Time.deltaTime;
-        if (ticker > time){
+    	if (ticker > time){
             ticker -= time;
  
             sections[head].point = transform.position;
