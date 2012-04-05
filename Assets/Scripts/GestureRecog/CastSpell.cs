@@ -26,6 +26,7 @@ public class CastSpell {
 	private Color[] brush;
 	int oldx;
 	int oldy;
+	string zone = "none";
 	
 	Drawing dw;	
 	GameObject go;
@@ -70,9 +71,11 @@ public class CastSpell {
 		if (e.type == EventType.MouseUp) {
 			mousedown = false;
 			dw.DrawOrNot();
-			Debug.Log (points.Count);
-			GestureRecognizer.startRecognizer(points);
+			zone = GestureRecognizer.startRecognizer(points);
 			points.Clear();
+			if (zone != "none") {
+				castwindow = false;
+			}
 		}
 	}
 	
@@ -82,9 +85,9 @@ public class CastSpell {
     	
 	    //while (Input.GetMouseButton(0))
 	    //{
-		    Vector3 curScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenSpace.z);
+		    Vector3 curScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 20);
 		    Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenSpace); 
-		    go.transform.position = curPosition;
+		    go.transform.position = curScreenSpace;
 		    //yield return 0;
 	    //}
 		yield return 0;

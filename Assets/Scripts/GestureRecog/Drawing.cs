@@ -12,13 +12,14 @@ public class Drawing : MonoBehaviour{
  
     public Color startColor = Color.white;
     public Color endColor = new Color(1.0f, 1.0f, 1.0f, 0);
- 
+ 	int x =0;
+		int y = 0;
     private int head = 0;
     private float ticker = 0;
  
     private class TronTrailSection{
-        public Vector3 point = new Vector3(0,0,0);
-        public Vector3 upDir = new Vector3(0,1.0f,0);
+        public Vector3 point;
+        public Vector3 upDir;
     }
  
     private TronTrailSection[] sections;
@@ -51,7 +52,7 @@ public class Drawing : MonoBehaviour{
     	
 	    while (Input.GetMouseButton(0))
 	    {
-		    Vector3 curScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenSpace.z);
+		    Vector3 curScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 20);
 		    Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenSpace); 
 		    transform.position = curPosition;
 		    yield return 0;
@@ -60,21 +61,17 @@ public class Drawing : MonoBehaviour{
 	
 	public void LateUpdate(){
 		if (candraw) {
-			transform.position = new Vector3(Input.mousePosition.x,Input.mousePosition.y,1);
-			//StartCoroutine(ScreenCoordinates());
+			//transform.position = new Vector3(Input.mousePosition.x,Input.mousePosition.y,20);
+			StartCoroutine(ScreenCoordinates());
 		}
-			
-		Vector3 pos = transform.position;
         ticker += Time.deltaTime;
     	if (ticker > time){
             ticker -= time;
- 
             sections[head].point = transform.position;
- 
             if (alwaysUp)
-                sections[head].upDir = Vector3.up;
+                sections[head].upDir = Vector3.left;
             else
-                sections[head].upDir = transform.TransformDirection(Vector3.up);
+                sections[head].upDir = transform.TransformDirection(Vector3.left);
  
             head++;
             if (head >= sectionCount){

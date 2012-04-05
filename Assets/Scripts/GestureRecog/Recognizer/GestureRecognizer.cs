@@ -13,7 +13,7 @@ public class GestureRecognizer
     public static string stringToEdit = "Enter a Template name";
     public static ArrayList newTemplateArr;
     
-    public static void startRecognizer (ArrayList pointArray)
+    public static string startRecognizer (ArrayList pointArray)
     {
 	    // main recognizer function
 	    pointArray = optimizeGesture(pointArray, maxPoints);
@@ -23,7 +23,8 @@ public class GestureRecognizer
 	    pointArray = RotateGesture(pointArray, -radians, center);
 	    pointArray = ScaleGesture(pointArray, sizeOfScaleRect);
 	    pointArray = TranslateGestureToOrigin(pointArray);
-	    gestureMatch(pointArray); 
+	    string match = gestureMatch(pointArray); 
+		return match;
     }
 
     public static void recordTemplate (ArrayList pointArray)
@@ -172,7 +173,7 @@ public class GestureRecognizer
     // --------------------------------  		     GESTURE OPTIMIZING DONE   		----------------------------------------------------------------
     // -------------------------------- 		START OF THE MATCHING PROCESS	----------------------------------------------------------------
 
-    static void gestureMatch(ArrayList pointArray) 
+    static string gestureMatch(ArrayList pointArray) 
     {
 	    float tempDistance = Mathf.Infinity;
 	    int count = 0;
@@ -195,12 +196,14 @@ public class GestureRecognizer
     	
 	    if (score < 0.6f)
         {
-		    Debug.Log("NO MATCH " + score );
+		   //Debug.Log("NO MATCH " + score );
 //		    Gesture.GuiText.guiText.text = "RESULT: NO MATCH " +  "\n" + "SCORE: " + Mathf.Round(100 * score) +"%";
+			return "none";
 	    } else {
-		    Debug.Log("RESULT: " + GestureTemplates.TemplateNames[count] + " SCORE: " + score);
+		    //Debug.Log("RESULT: " + GestureTemplates.TemplateNames[count] + " SCORE: " + score);
 //		    Gesture.GuiText.guiText.text = "RESULT: " + GestureTemplates.TemplateNames[count] + "\n" + "SCORE: " + Mathf.Round(100 * score) +"%";
-	    }
+			return (string)(GestureTemplates.TemplateNames[count]);
+	    }    
 
     }
 
