@@ -75,6 +75,13 @@ public class SelectionManager : MonoBehaviour
 				// Info Window Changes
 				//gmRef.GetGuiManager().GetInfoWindow().SetTex(hit.transform.gameObject.renderer.material.mainTexture);
 				gmRef.GetGuiManager().GetInfoWindow().SetDesc(infoMsg);
+				
+				// Merupi Comet Code :)
+				Vector3 cometStart = hit.transform.position;
+				cometStart.x += 3;
+				cometStart.y += 5;
+				cometStart.z += 3;
+				new Comet("MerupiComet", cometStart , hit.transform, 2);
 			}
 		}
 	}
@@ -87,7 +94,7 @@ public class SelectionManager : MonoBehaviour
 				Vector3 iceButtonPos = new Vector3 (hitPos.x, hitPos.y + hitSize.y, hitPos.z);
 				Debug.Log(fireButtonPos.x + ":" + fireButtonPos.y + " | " + Input.mousePosition.x + ":" + Input.mousePosition.y + " | " + hitSize.x + ":" + hitSize.y);
 				if (MouseUpAt (fireButtonPos,hitSize)){
-					if (manaCheck(10)){
+					if (ManaCheck(10)){
 						GameStorage.player.DecMana (10);
 						new LightBall ("PlayerManaBall", gmRef.GetCurrentPlayer().GetPlayerPos(), hitObject.transform, lightBallLifeTime, Color.red);
 						CreateTower((int)hitObject.transform.position.x,(int)hitObject.transform.position.z, Effect.EffectType.Fire, hitselector.direction, hitselector.enemyEntry);
@@ -98,7 +105,7 @@ public class SelectionManager : MonoBehaviour
 					}
 				}
 				else if (MouseUpAt (iceButtonPos,hitSize)){
-					if (manaCheck(20)){
+					if (ManaCheck(20)){
 						GameStorage.player.DecMana (20);
 						new LightBall ("PlayerManaBall", gmRef.GetCurrentPlayer().GetPlayerPos(), hitObject.transform, lightBallLifeTime, Color.blue);
 						CreateTower((int)hitObject.transform.position.x,(int)hitObject.transform.position.z, Effect.EffectType.Ice, hitselector.direction, hitselector.enemyEntry);
@@ -133,7 +140,7 @@ public class SelectionManager : MonoBehaviour
 		Debug.Log ("Tower Created");
 	}
 	
-	private bool manaCheck(int manaCost) {
+	private bool ManaCheck(int manaCost) {
 		if (GameStorage.player.GetMana() >= manaCost){
 			return true;
 		}

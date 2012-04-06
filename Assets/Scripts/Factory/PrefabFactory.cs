@@ -20,6 +20,9 @@ public class PrefabFactory {
 	private static GameObject towerPrefab;
 	private static GameObject zonePrefab;
 	
+	//Spells
+	private static GameObject cometPrefab;
+	
 	
 	public PrefabFactory () {
 	}
@@ -101,5 +104,10 @@ public class PrefabFactory {
 		return zonePrefab;
 	}
 	
-	
+	public static GameObject GetCometPrefab (){
+		if (cometPrefab == null){
+			cometPrefab = (GameObject)Resources.Load("Mascot/MerupiCometPrefab",typeof(GameObject));
+		}
+		return cometPrefab;
+	}
 }

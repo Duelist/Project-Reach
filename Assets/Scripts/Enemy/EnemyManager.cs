@@ -243,4 +243,26 @@ public class EnemyManager{
 			player.GetPlayerObj().animation.Play ("Dead");
 		}
 	}
+	
+	// Comes with the comet commit
+	public static void DamageEnemyInTile (Vector3 tilePos, int damage){
+		for (int i = 0; i < GameStorage.enemies.Count; i++){
+			Enemy e = GameStorage.enemies[i];
+			if (tilePos.x - e.GetPositionX() < 0.5
+				&& tilePos.x - e.GetPositionX() >= -0.5
+				&& tilePos.z - e.GetPositionZ() < 0.5
+				&& tilePos.z - e.GetPositionZ() >= -0.5){
+				e.SetCurHP((int)(e.GetCurHP() - damage));
+				Debug.Log(e.GetName() + " DAMAGED for " + damage);
+				if (e.GetCurHP() <= 0){
+					new LightBall ("EnemyManaBall", e.GetGameObject().transform.position, GameStorage.player.GetPlayerObj().transform, 2);
+					GameStorage.player.GetPlayerObj().animation.Play ("SmallHop");
+					Debug.Log(e.GetName() + " has been Destroyed! You absorbed " + e.GetBonus() + " Mana!");
+					GameStorage.player.IncMana(e.GetBonus());
+					e.Clean();
+					GameStorage.enemies.Remove(e);
+				}
+			}
+		}
+	}
 }
