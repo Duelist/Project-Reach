@@ -11,7 +11,7 @@ public class SelectionManager : MonoBehaviour
 	Vector2 hitSize;
 	private GameObject hitObject;
 	private GameManager gmRef;
-	private int lightBallLifeTime = 2;
+	private int lightBallLifeTime = 2; // need to change selectorAnim if we change this var
 	//private Ray ray;
 	//ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 	void Awake (){
@@ -40,6 +40,7 @@ public class SelectionManager : MonoBehaviour
 						hitPos = ConvertObjectToScreenPos(hit.transform.position, hit.transform.localScale);
 						hitSize = ConvertObjectToScreenSize(hit.transform.position, hit.transform.localScale);
 						hitselector = hit.transform.gameObject.GetComponent<Selector>();
+						hitselector.animation.Play("SelectorUnpack");
 					}
 				}
 				
@@ -117,6 +118,7 @@ public class SelectionManager : MonoBehaviour
 				}
 				else {
 					Debug.Log ("No Tower Type Selected");
+					hitselector.animation.Play("SelectorPack");
 				}
 				selectorHit = false;
 				mouseDown = false;
