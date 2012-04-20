@@ -26,6 +26,7 @@ public class CometMove : MonoBehaviour {
 			this.transform.position = new Vector3(startPos.x + x,startPos.y + y,startPos.z + z);
 		}
 		else{
+			new Explosion("Explosion", endPos , this.transform, 2);
 			EnemyManager.DamageEnemyInTile(endPos, 10);
 			GameManager.DestroyObject(this.gameObject);
 		}
