@@ -1,0 +1,17 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Effects\Explosion\Explosion.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Effects\Explosion\ExplosionMove.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Effects\Comet\Comet.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Effects\Comet\CometMove.cs" Line="29" Column="37" />
+      <File FileName="Assets\Scripts\Effects\Explosion\Explosion.cs" Line="11" Column="16" />
+      <File FileName="Assets\Scripts\Factory\PrefabFactory.cs" Line="117" Column="75" />
+      <File FileName="Assets\Scripts\Effects\SelectionManager.cs" Line="85" Column="5" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
