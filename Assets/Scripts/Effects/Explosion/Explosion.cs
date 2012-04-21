@@ -8,7 +8,7 @@ public class Explosion {
 	
 	public Explosion (string name, Vector3 sPos, Transform eObj, float lTime){
 		
-		sPos.y += 1f;
+		sPos.y += 1.5f;
 		endPos = sPos;
 		lifeTime = lTime;
 		
