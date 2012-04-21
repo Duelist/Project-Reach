@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+	<ProductVersion>10.0.20506</ProductVersion>
+	<SchemaVersion>2.0</SchemaVersion>
+	<ProjectGuid>{FA1C3272-07D4-B484-782F-228F4B331E34}</ProjectGuid>
+	<OutputType>Library</OutputType>
+	<AppDesignerFolder>Properties</AppDesignerFolder>
+	<RootNamespace></RootNamespace>
+	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	<FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	<DebugSymbols>true</DebugSymbols>
+	<DebugType>full</DebugType>
+	<Optimize>false</Optimize>
+	<OutputPath>Temp\bin\Debug\</OutputPath>
+	<DefineConstants>DEBUG;TRACE;UNITY_3_5_1;UNITY_3_5;UNITY_EDITOR;ENABLE_PROFILER;UNITY_STANDALONE_WIN;ENABLE_GENERICS;ENABLE_DUCK_TYPING;ENABLE_TERRAIN;ENABLE_MOVIES;ENABLE_WEBCAM;ENABLE_MICROPHONE;ENABLE_NETWORK;ENABLE_CLOTH;ENABLE_WWW;ENABLE_SUBSTANCE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	<DebugType>pdbonly</DebugType>
+	<Optimize>true</Optimize>
+	<OutputPath>Temp\bin\Release\</OutputPath>
+	<DefineConstants>TRACE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+	<Reference Include="System" />
+    <Reference Include="System.XML" />
+	<Reference Include="System.Core" />
+	<Reference Include="UnityEngine">
+	  <HintPath>D:/Unity Mobile/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	</Reference>
+	<Reference Include="UnityEditor">
+	  <HintPath>D:/Unity Mobile/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	</Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\Scripts\Dialogic\Actor.cs" />
+     <Compile Include="Assets\Scripts\Dialogic\Dialog.cs" />
+     <Compile Include="Assets\Scripts\Dialogic\DialogBox.cs" />
+     <Compile Include="Assets\Scripts\Dialogic\DialogicManager.cs" />
+     <Compile Include="Assets\Scripts\Dialogic\Trigger.cs" />
+     <Compile Include="Assets\Scripts\Effects\Comet\Comet.cs" />
+     <Compile Include="Assets\Scripts\Effects\Comet\CometMove.cs" />
+     <Compile Include="Assets\Scripts\Effects\Effects.cs" />
+     <Compile Include="Assets\Scripts\Effects\Explosion\Explosion.cs" />
+     <Compile Include="Assets\Scripts\Effects\Explosion\ExplosionMove.cs" />
+     <Compile Include="Assets\Scripts\Effects\SelectionManager.cs" />
+     <Compile Include="Assets\Scripts\Effects\Selector.cs" />
+     <Compile Include="Assets\Scripts\Effects\Tower.cs" />
+     <Compile Include="Assets\Scripts\Effects\Wall.cs" />
+     <Compile Include="Assets\Scripts\Effects\Zone.cs" />
+     <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
+     <Compile Include="Assets\Scripts\Enemy\EnemyBlueJelly.cs" />
+     <Compile Include="Assets\Scripts\Enemy\EnemyMagmaSlug.cs" />
+     <Compile Include="Assets\Scripts\Enemy\EnemyManager.cs" />
+     <Compile Include="Assets\Scripts\Enemy\EnemyMerupi.cs" />
+     <Compile Include="Assets\Scripts\Factory\ColorFactory.cs" />
+     <Compile Include="Assets\Scripts\Factory\GUISkinFactory.cs" />
+     <Compile Include="Assets\Scripts\Factory\PrefabFactory.cs" />
+     <Compile Include="Assets\Scripts\Factory\TextureFactory.cs" />
+     <Compile Include="Assets\Scripts\GUI\Future-Past Button\FutureButton.cs" />
+     <Compile Include="Assets\Scripts\GUI\GUIManager.cs" />
+     <Compile Include="Assets\Scripts\GUI\Info Window\InfoWindow.cs" />
+     <Compile Include="Assets\Scripts\GUI\Mana Invasion\ManaInvasion.cs" />
+     <Compile Include="Assets\Scripts\GUI\Ready Button\ReadyButton.cs" />
+     <Compile Include="Assets\Scripts\GUI\Rolling Menu\RollingButton.cs" />
+     <Compile Include="Assets\Scripts\GUI\Selector Overlay\RadialMenu.cs" />
+     <Compile Include="Assets\Scripts\GUI\Selector Overlay\SelectorOverlay.cs" />
+     <Compile Include="Assets\Scripts\Game\GameManager.cs" />
+     <Compile Include="Assets\Scripts\Game\GameState.cs" />
+     <Compile Include="Assets\Scripts\Game\GameStorage.cs" />
+     <Compile Include="Assets\Scripts\GestureRecog\CastSpell.cs" />
+     <Compile Include="Assets\Scripts\GestureRecog\Drawing.cs" />
+     <Compile Include="Assets\Scripts\GestureRecog\Recognizer\GestureRecognizer.cs" />
+     <Compile Include="Assets\Scripts\GestureRecog\Recognizer\GestureTemplates.cs" />
+     <Compile Include="Assets\Scripts\Map\Map.cs" />
+     <Compile Include="Assets\Scripts\Map\Tile.cs" />
+     <Compile Include="Assets\Scripts\MenuSystem\MainMenu.cs" />
+     <Compile Include="Assets\Scripts\MenuSystem\MenuManager.cs" />
+     <Compile Include="Assets\Scripts\Pathfinding\AStar.cs" />
+     <Compile Include="Assets\Scripts\Pathfinding\CheckpointList.cs" />
+     <Compile Include="Assets\Scripts\Player\LightBall.cs" />
+     <Compile Include="Assets\Scripts\Player\LightBallMove.cs" />
+     <Compile Include="Assets\Scripts\Player\Player.cs" />
+     <None Include="Assets\Resources\Maps\selectormap.txt" />
+     <None Include="Assets\Resources\Maps\test.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	   Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>
