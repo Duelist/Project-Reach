@@ -6,14 +6,14 @@ public class DialogicManager : MonoBehaviour
 	public List<Actor> actors;
 	public List<Dialog> dialogs;
 	
-	private int dialogSpeed;
-	private int startDialogId;
+	private Dialog currentDialog;
 	private GUISkin dialogSkin;
 	
 	public DialogicManager()
 	{
 		actors = new List<Actor>();
 		dialogs = new List<Dialog>();
+		currentDialog = null;
 	}
 	
 	void Start()
@@ -22,13 +22,16 @@ public class DialogicManager : MonoBehaviour
 
 	void OnGUI()
 	{
-		if (CheckAllTriggers() != null)
+		currentDialog = GetActiveDialog();
+		
+		if (currentDialog != null)
 		{
 			GameStorage.gameState = GameStorage.GameState.Paused;
+			DialogBox dialogBox = new DialogBox();
 		}
 	}
 	
-	public Dialog CheckAllTriggers()
+	public Dialog GetActiveDialog()
 	{
 		Dialog dialog = null;
 		
