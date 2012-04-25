@@ -7,6 +7,13 @@ public class Dialog
 	public int parent;
 	public Trigger trigger;
 
+	public Dialog(int id, string text)
+	{
+		this.id = id;
+		this.text = text;
+		this.parent = -1;
+	}
+
 	public Dialog(int id, string text, int parent)
 	{
 		this.id = id;
@@ -14,8 +21,8 @@ public class Dialog
 		this.parent = parent;
 	}
 	
-	public bool CheckTriggers()
+	public bool CheckTrigger()
 	{
-		return false;
+		return this.trigger.Check();
 	}
 }

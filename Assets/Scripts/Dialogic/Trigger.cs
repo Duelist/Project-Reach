@@ -13,7 +13,7 @@ public class Trigger
 		this.modifier = new List<int>();
 	}
 	
-	public bool CheckTrigger()
+	public bool Check()
 	{
 		for (int i = 0; i < type.Count; i++)
 		{
