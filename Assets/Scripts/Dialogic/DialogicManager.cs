@@ -27,7 +27,7 @@ public class DialogicManager : MonoBehaviour
 		if (currentDialog != null)
 		{
 			GameStorage.gameState = GameStorage.GameState.Paused;
-			DialogBox dialogBox = new DialogBox();
+			DialogBox dialogBox = new DialogBox(currentDialog);
 		}
 	}
 	

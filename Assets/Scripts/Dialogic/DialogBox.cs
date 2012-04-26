@@ -39,7 +39,7 @@ public class DialogBox : MonoBehaviour {
 		TypeText();
 	}
 
-	public void TypeText()
+	IEnumerator TypeText()
 	{
 		for (int i = 0; i < this.currentDialog.text.Length; i++)
 		{
