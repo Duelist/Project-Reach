@@ -37,4 +37,19 @@ public class Trigger
 				return false;
 		return true;
 	}
+
+	public String TypeText(Type type)
+	{
+		if (type == Type.player_health_gt)
+			return "Player health is greater than";
+		else if (type == Type.player_health_lt)
+			return "Player health is less than";
+		else if (type == Type.wave_number_eq)
+			return "Wave number is equal to";
+		else if (type == Type.victory)
+			return "Player is victorious";
+		else if (type == Type.wave_number_eq)
+			return "Player is defeated";
+		return "Type not found"
+	}
 }

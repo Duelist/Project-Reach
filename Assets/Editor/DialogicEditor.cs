@@ -75,6 +75,11 @@ public class DialogicEditor : Editor
 				dm.dialogs.RemoveAt(i);
 			}
 			EditorGUILayout.EndHorizontal();
+			EditorGUILayout.Foldout(false,"Triggers");
+			if (false)
+			{
+				
+			}
 		}
 		
 		if (GUILayout.Button("Add Dialog"))
