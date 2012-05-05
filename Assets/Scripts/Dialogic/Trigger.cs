@@ -38,7 +38,7 @@ public class Trigger
 		return true;
 	}
 
-	public String TypeText(Type type)
+	public string TypeText(Type type)
 	{
 		if (type == Type.player_health_gt)
 			return "Player health is greater than";
@@ -50,6 +50,6 @@ public class Trigger
 			return "Player is victorious";
 		else if (type == Type.wave_number_eq)
 			return "Player is defeated";
-		return "Type not found"
+		return "Type not found";
 	}
 }
