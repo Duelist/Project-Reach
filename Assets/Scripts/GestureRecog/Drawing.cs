@@ -4,16 +4,16 @@ using System.Collections;
 [RequireComponent(typeof(MeshFilter))]
 
 public class Drawing : MonoBehaviour{
-    public float height = 2.0f;
-    public float time = 0.1f;
+    public float height = 0.5f;
+    public float time = 0.05f;
     public int sectionCount = 50;
-    public bool alwaysUp = false;
+    public bool alwaysUp = true;
     public float minDistance = 0.1f;
  
     public Color startColor = Color.white;
     public Color endColor = new Color(1.0f, 1.0f, 1.0f, 0);
  	int x =0;
-		int y = 0;
+	int y = 0;
     private int head = 0;
     private float ticker = 0;
  
@@ -52,7 +52,7 @@ public class Drawing : MonoBehaviour{
     	
 	    while (Input.GetMouseButton(0))
 	    {
-		    Vector3 curScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 20);
+		    Vector3 curScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z+5);
 		    Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenSpace); 
 		    transform.position = curPosition;
 		    yield return 0;
